@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>MyFS</title>
+    <link href="/2023/08/28/MyFS/"/>
+    <url>/2023/08/28/MyFS/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Fuse介绍"><a href="#Fuse介绍" class="headerlink" title="Fuse介绍"></a>Fuse介绍</h1><p>Fuse，全称为Filesystem in Userspace，即运行在用户空间上的文件系统。Fuse file-system deamon指的就是基于Fuse<br>library开发的文件系统驱动，它将我们的目录挂载到&#x2F;dev&#x2F;fuse。之后，我们就可以通过目录挂载点的方式来访问这个文件系统。<br><del>说人话就是</del>&emsp;<strong>我们也许只需要一个c语言文件和一个h类函数文件，或者甚至只需要一个c语言文件就能完成一个自己设计的文件系统。</strong></p><h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><ol><li>安装ninja以及meson，从github下载libfuse。<strong>clone的时候卡住了有可能是因为文件数过多导致的？</strong><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">sudo apt-get install python3 python3-pip ninja-build  <br>pip3 install --<span class="hljs-keyword">user</span> <span class="hljs-title">meson</span>  <br>Git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://github.com/libfuse/libfuse.git  <br></code></pre></td></tr></table></figure></li><li>在libfuse下新建文件夹build，切换到build文件夹，运行meson。<br>&emsp;<strong>meson ..命令和ninja命令组合起来会生成一堆相关的构建产物</strong>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> build; <span class="hljs-built_in">cd</span> build  <br>meson ..  <br></code></pre></td></tr></table></figure></li><li>接着我们使用ninja安装libfuse<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">ninja</span>  <br></code></pre></td></tr></table></figure></li><li>进入<strong>build下面的</strong>example文件夹，<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> mountTest **创建临时文件夹用来测试**<br><span class="hljs-built_in">ls</span> -al moutTest **展示文件夹的相关详细信息** <br>./hello mountTest **将hello文件系统安装到mountTest**<br><span class="hljs-built_in">ls</span> -al mountTest <br><span class="hljs-built_in">cat</span> mountTest/hello **输出Hello World!**  <br></code></pre></td></tr></table></figure></li><li><strong>经过上面的测试，可以初步了解Fuse，同时可以参照hello.c来编写自己的文件系统</strong></li></ol><h1 id="中间可能遇到的问题"><a href="#中间可能遇到的问题" class="headerlink" title="中间可能遇到的问题"></a>中间可能遇到的问题</h1><ol><li>问题如下  <img src="/2023/08/28/MyFS/bug1.png" class="" title="fuse3&#x2F;fush.h not found">  <strong>解决方案：</strong><code>sudo apt install libfuse3-dev</code></li></ol><h1 id="开工"><a href="#开工" class="headerlink" title="开工"></a>开工</h1><ol><li>文件系统布局如下：  <img src="/2023/08/28/MyFS/pic1.png" class=""></li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul><li>[1] <a href="https://zhuanlan.zhihu.com/p/621112625">知乎文章</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+      <category>FS</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>FS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>文件系统知识复习</title>
+    <link href="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/"/>
+    <url>/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="文件系统结构"><a href="#文件系统结构" class="headerlink" title="文件系统结构"></a>文件系统结构</h1><h2 id="连续结构"><a href="#连续结构" class="headerlink" title="连续结构"></a>连续结构</h2><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/constant.png" class="">  <h2 id="链接结构"><a href="#链接结构" class="headerlink" title="链接结构"></a>链接结构</h2><p><strong>1. 链表分配</strong>  </p><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/list.png" class="">   <p><strong>2. 内存表分配</strong>&emsp;文件的起始块号从文件目录(FCB)中得到  </p><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/memo.png" class="" title="文件分配表(FAT)">  <h2 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h2><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/index.png" class="" title="文件系统知识复习">  <p><strong>多级索引</strong>：块大小4KB，索引指针大小为4B，则二级索引支持最大文件为1K * 1K * 4KB  </p><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/muti_index.png" class="" title="多级索引结构">  <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul><li>[1] <a href="http://t.csdn.cn/SC8OR">CSDN博客</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+      <category>FS</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>FS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Git手册</title>
+    <link href="/2023/08/24/Git%E6%89%8B%E5%86%8C/"/>
+    <url>/2023/08/24/Git%E6%89%8B%E5%86%8C/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Git命令分类整理"><a href="#Git命令分类整理" class="headerlink" title="Git命令分类整理"></a>Git命令分类整理</h1><h2 id="全局设置"><a href="#全局设置" class="headerlink" title="全局设置"></a>全局设置</h2><p>&emsp;1.<code>git config --global user.name xxx</code>:设置全局用户名，信息记录在<code>~/.gitconfig</code>文件中<br>&emsp;2.<code>git config --global user.email xxx@xxx.com</code>:设置全局邮箱地址，信息记录在<code>~/.gitconfig</code>文件中<br>&emsp;3.<code>git init</code>:将当前目录配置成git仓库，信息记录在隐藏的.git文件夹中  </p><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>&emsp;1.<code>git add xx</code>:将xx文件添加到暂存区（staged区）&emsp;<code>git add .</code>:表示把工作区的所有文件添加到暂存区<br>&emsp;2.<code>git commit -m &quot;备注信息&quot;</code>:将暂存区的内容提交到HEAD所指的下一个位置，并将HEAD移到新创建的位置<br>&emsp;3.<code>git status</code>:查看仓库状态<br>&emsp;4.<code>git log</code>:查看当前分支的所有版本&emsp;<code>git reflog</code>:查看HEAD指针的移动历史<br>&emsp;5.<code>git push -u(只有第一次需要-u)</code>:将当前分支推送到远程仓库<br>&emsp;6.<code>git clone git@exmaple.com:xxx/xxx.git</code>:将远程仓库下载到当前目录，会自动创建新的文件夹<br>&emsp;7.<code>git branch</code>:查看所有分支和当前所处的分支<br>&emsp;8.<code>git pull</code>:将远程仓库的当前分支与本地仓库的当前分支合并<br>&emsp;9.<code>git restore --staged xx</code>:将xx从暂存区里移除<br>&emsp;10.<code>git restore xx</code>:将xx文件尚未加入暂存区的修改全部撤销<br>&emsp;11.<code>git reset --hard HEAD^</code>:将代码库回滚到上一个版本 hard参数会将暂存区与工作区回到上一次版本&emsp;<strong>如果使用wsl，注意在cmd窗口中，^需要用双引号括起来才可以使用</strong><br>&emsp;12.<code>git reset --hard HEAD^3</code>:回滚3个版本<br>&emsp;13.<code>git reset --hard 版本号</code>:回滚到某一个特定版本</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Git</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
