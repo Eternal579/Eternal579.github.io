@@ -16,20 +16,21 @@
   <meta name="author" content="BugEater">
   <meta name="keywords" content="">
   
-    <meta name="description" content="文件系统结构连续结构   链接结构1. 链表分配       2. 内存表分配&amp;emsp;文件的起始块号从文件目录(FCB)中得到      索引结构   多级索引：块大小4KB，索引指针大小为4B，则二级索引支持最大文件为1K * 1K * 4KB       参考 [1] CSDN博客">
+    <meta name="description" content="文件系统结构连续结构   链接结构1. 链表分配       2. 内存表分配&amp;emsp;文件的起始块号从文件目录(FCB)中得到      索引结构   多级索引：块大小4KB，索引指针大小为4B，则二级索引支持最大文件为1K * 1K * 4KB      文件权限第一个字符代表这个文件时目录、文件或链接文件等    Linux命令实现Linux手册页节 Section 1：用户命令（User">
 <meta property="og:type" content="article">
 <meta property="og:title" content="文件系统知识复习">
 <meta property="og:url" content="http://eternal579.github.io/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/index.html">
 <meta property="og:site_name" content="BugEater">
-<meta property="og:description" content="文件系统结构连续结构   链接结构1. 链表分配       2. 内存表分配&amp;emsp;文件的起始块号从文件目录(FCB)中得到      索引结构   多级索引：块大小4KB，索引指针大小为4B，则二级索引支持最大文件为1K * 1K * 4KB       参考 [1] CSDN博客">
+<meta property="og:description" content="文件系统结构连续结构   链接结构1. 链表分配       2. 内存表分配&amp;emsp;文件的起始块号从文件目录(FCB)中得到      索引结构   多级索引：块大小4KB，索引指针大小为4B，则二级索引支持最大文件为1K * 1K * 4KB      文件权限第一个字符代表这个文件时目录、文件或链接文件等    Linux命令实现Linux手册页节 Section 1：用户命令（User">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://eternal579.github.io/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/constant.png">
 <meta property="og:image" content="http://eternal579.github.io/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/list.png">
 <meta property="og:image" content="http://eternal579.github.io/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/memo.png">
 <meta property="og:image" content="http://eternal579.github.io/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/index.png">
 <meta property="og:image" content="http://eternal579.github.io/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/muti_index.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic1.jpg">
 <meta property="article:published_time" content="2023-08-28T01:15:36.000Z">
-<meta property="article:modified_time" content="2023-08-28T13:34:20.282Z">
+<meta property="article:modified_time" content="2023-09-03T07:38:32.008Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="FS">
 <meta name="twitter:card" content="summary_large_image">
@@ -243,7 +244,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          111 words
+          568 words
         
       </span>
     
@@ -254,7 +255,7 @@
         
         
         
-          1 mins
+          5 mins
         
       </span>
     
@@ -313,9 +314,20 @@
 <h2 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h2><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/index.png" srcset="/img/loading.gif" lazyload class="" title="文件系统知识复习">  
 <p><strong>多级索引</strong>：块大小4KB，索引指针大小为4B，则二级索引支持最大文件为1K * 1K * 4KB  </p>
 <img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/muti_index.png" srcset="/img/loading.gif" lazyload class="" title="多级索引结构">  
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<h1 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h1><p>第一个字符代表这个文件时目录、文件或链接文件等</p>
+<img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic1.jpg" srcset="/img/loading.gif" lazyload class="" title="文件类型与权限">  
+<h1 id="Linux命令实现"><a href="#Linux命令实现" class="headerlink" title="Linux命令实现"></a>Linux命令实现</h1><h2 id="Linux手册页节"><a href="#Linux手册页节" class="headerlink" title="Linux手册页节"></a>Linux手册页节</h2><ol>
+<li>Section 1：用户命令（User Commands）：包括常见的用户可执行命令，如ls、mkdir、grep等。</li>
+<li>Section 2：系统调用（System Calls）：包括操作系统提供的底层系统调用接口，如fork、open、read等。</li>
+<li>Section 3：C库函数（Library Functions）：包括C语言库函数，如printf、malloc、strlen等。</li>
+<li>Section 4：设备和特殊文件（Devices and Special Files）：包括设备驱动程序和特殊文件的手册页。</li>
+<li>Section 5：文件格式（File Formats）：包括常见文件格式的描述，如passwd文件、man页格式等。</li>
+<li>Section 6：游戏和演示（Games and Demos）：包括一些游戏和演示程序的手册页。</li>
+<li>Section 7：其他（Miscellaneous）：包括一些其他类型的手册页，如宏包、协议等。</li>
+</ol>
+<h2 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li>[1] <a target="_blank" rel="noopener" href="http://t.csdn.cn/SC8OR">CSDN博客</a></li>
+<li>[2] [鸟哥的Linux私房菜]</li>
 </ul>
 
                 
