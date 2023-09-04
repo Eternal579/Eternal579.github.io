@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://eternal579.github.io/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/muti_index.png">
 <meta property="og:image" content="http://eternal579.github.io/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic1.jpg">
 <meta property="article:published_time" content="2023-08-28T01:15:36.000Z">
-<meta property="article:modified_time" content="2023-09-03T07:38:32.008Z">
+<meta property="article:modified_time" content="2023-09-03T12:44:58.403Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="FS">
 <meta name="twitter:card" content="summary_large_image">
@@ -244,7 +244,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          568 words
+          779 words
         
       </span>
     
@@ -255,7 +255,7 @@
         
         
         
-          5 mins
+          7 mins
         
       </span>
     
@@ -325,9 +325,22 @@
 <li>Section 6：游戏和演示（Games and Demos）：包括一些游戏和演示程序的手册页。</li>
 <li>Section 7：其他（Miscellaneous）：包括一些其他类型的手册页，如宏包、协议等。</li>
 </ol>
-<h2 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<h1 id="硬链接与符号链接"><a href="#硬链接与符号链接" class="headerlink" title="硬链接与符号链接"></a>硬链接与符号链接</h1><ol>
+<li><strong>符号链接：</strong>类似Windows的快捷方式功能的文件，可以块链接到目标文件（目录）  </li>
+<li><strong>硬链接：</strong>通过文件系统的inode链接来产生新文件名，即<strong>多个文件名对应同一个inode号</strong></li>
+<li><strong>不允许硬链接到目录的原因：</strong>允许目录的硬链接可能会打破文件系统目录的有向无环图结构，可能创建目录循环，这可能会导致fsck以及其他一些遍历文件树的软件出错。  </li>
+<li><strong>inode的链接数的增减时机：</strong><ul>
+<li>创建文件</li>
+<li>创建硬链接</li>
+<li>创建符号链接</li>
+<li>删除文件或硬链接</li>
+</ul>
+</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li>[1] <a target="_blank" rel="noopener" href="http://t.csdn.cn/SC8OR">CSDN博客</a></li>
 <li>[2] [鸟哥的Linux私房菜]</li>
+<li>[3] <a target="_blank" rel="noopener" href="http://t.csdn.cn/peCrK">CSDN博客</a></li>
 </ul>
 
                 
