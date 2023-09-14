@@ -4,6 +4,39 @@
   
   
   <entry>
+    <title>HTML+CSS+JS</title>
+    <link href="/2023/09/13/HTML-CSS-JS/"/>
+    <url>/2023/09/13/HTML-CSS-JS/</url>
+    
+    <content type="html"><![CDATA[<h1 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h1><h2 id="表格标记"><a href="#表格标记" class="headerlink" title="表格标记"></a>表格标记</h2><h3 id="定义表格中的行，定义单元格"><a href="#定义表格中的行，定义单元格" class="headerlink" title="定义表格中的行，定义单元格"></a><tr></tr>定义表格中的行，<td></td>定义单元格</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span><br></code></pre></td></tr></table></figure><h2 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;地址&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;提交方式&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;表单名称&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure><h3 id="action指定表单提交的地址，method设置表单数据的提交方式，可为GET或POST，GET为默认值，提交的数据会显示在浏览器的地址栏中，开发中常用POST"><a href="#action指定表单提交的地址，method设置表单数据的提交方式，可为GET或POST，GET为默认值，提交的数据会显示在浏览器的地址栏中，开发中常用POST" class="headerlink" title="action指定表单提交的地址，method设置表单数据的提交方式，可为GET或POST，GET为默认值，提交的数据会显示在浏览器的地址栏中，开发中常用POST"></a>action指定表单提交的地址，method设置表单数据的提交方式，可为GET或POST，GET为默认值，提交的数据会显示在浏览器的地址栏中，开发中常用POST</h3><h3 id="表单控件"><a href="#表单控件" class="headerlink" title="表单控件"></a>表单控件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;控件类型&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;balabala&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure><h3 id="fieldset将表单内的元素分组，legend则为fieldset定义标题"><a href="#fieldset将表单内的元素分组，legend则为fieldset定义标题" class="headerlink" title="fieldset将表单内的元素分组，legend则为fieldset定义标题"></a>fieldset将表单内的元素分组，legend则为fieldset定义标题</h3><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!--注释内容--&gt;</span><br></code></pre></td></tr></table></figure><h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;disc&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br></code></pre></td></tr></table></figure><h2 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h2><h3 id="用来定义超链接，href用于指定链接指向的页面的URL，target常用”-self”和”-blank”分别表示原窗口打开和新窗口打开"><a href="#用来定义超链接，href用于指定链接指向的页面的URL，target常用”-self”和”-blank”分别表示原窗口打开和新窗口打开" class="headerlink" title="用来定义超链接，href用于指定链接指向的页面的URL，target常用”_self”和”_blank”分别表示原窗口打开和新窗口打开"></a><a>用来定义超链接，href用于指定链接指向的页面的URL，target常用”_self”和”_blank”分别表示原窗口打开和新窗口打开</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://eternal579.github.io/&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>我<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br></code></pre></td></tr></table></figure><h1 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+      <category>Web开发</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>HTML</tag>
+      
+      <tag>CSS</tag>
+      
+      <tag>JS</tag>
+      
+      <tag>Web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Linux编程实践Day4</title>
     <link href="/2023/09/12/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day4/"/>
     <url>/2023/09/12/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day4/</url>
