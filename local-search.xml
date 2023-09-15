@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>A*算法学习</title>
+    <link href="/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/"/>
+    <url>/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><h3 id="本篇博客的目的是为了加深对A-算法的理解，参考了以下大佬的文章"><a href="#本篇博客的目的是为了加深对A-算法的理解，参考了以下大佬的文章" class="headerlink" title="本篇博客的目的是为了加深对A*算法的理解，参考了以下大佬的文章"></a>本篇博客的目的是为了加深对A*算法的理解，参考了以下大佬的文章</h3><ul><li>[1] <a href="https://zhuanlan.zhihu.com/p/385733813">知乎</a></li></ul><h1 id="A-算法"><a href="#A-算法" class="headerlink" title="A*算法"></a>A*算法</h1><img src="/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/pic1.png" class=""><p>如果我们能在每次移动前做一个评估，就可以减少误入歧途的次数。通过评估来找到合适路径的算法我们称之为启发式算法。</p><h2 id="估价函数"><a href="#估价函数" class="headerlink" title="估价函数"></a>估价函数</h2><p>&emsp;<code>f(n) = g(n) + h(n)</code><br>&emsp;<code>g(n)</code>指的是从起始格子到格子n的实际代价，而<code>h(n)</code>指的是从n到终点格子的估计代价</p><img src="/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/pic2.png" class="">  <ol><li>格子1： g(1) &#x3D; 1, h(1) &#x3D; 6  </li><li>格子2： g(2) &#x3D; 1, h(2) &#x3D; 4  </li><li>格子3： g(3) &#x3D; $\sqrt(2)$, h(1) &#x3D; $\sqrt(17)$<br>&emsp;此例中<code>h(n)</code>指的是欧几里得距离，<code>h(n)</code>永远小于等于格子n到终点的最短实际距离</li></ol><h2 id="曼哈顿距离就是只准水平或垂直移动的最短距离"><a href="#曼哈顿距离就是只准水平或垂直移动的最短距离" class="headerlink" title="曼哈顿距离就是只准水平或垂直移动的最短距离"></a>曼哈顿距离就是<strong>只准水平或垂直移动</strong>的最短距离</h2><p>&emsp;在考虑障碍物的情况中，<strong>曼哈顿距离肯定大于等于格子n到终点的距离</strong>  </p><h2 id="对角线距离指的是根据水平方向差值与竖直方向的差值中较小的那个，计算出对角线，然后再平移"><a href="#对角线距离指的是根据水平方向差值与竖直方向的差值中较小的那个，计算出对角线，然后再平移" class="headerlink" title="对角线距离指的是根据水平方向差值与竖直方向的差值中较小的那个，计算出对角线，然后再平移"></a>对角线距离指的是根据水平方向差值与竖直方向的差值中较小的那个，计算出对角线，然后再平移</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+      <category>algorithm</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>algorithm</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>HTML+CSS+JS</title>
     <link href="/2023/09/13/HTML-CSS-JS/"/>
     <url>/2023/09/13/HTML-CSS-JS/</url>
