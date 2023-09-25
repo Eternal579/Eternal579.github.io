@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic1.png">
 <meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png">
 <meta property="article:published_time" content="2023-09-25T00:41:20.000Z">
-<meta property="article:modified_time" content="2023-09-25T01:46:55.994Z">
+<meta property="article:modified_time" content="2023-09-25T03:39:35.062Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="Web">
 <meta property="article:tag" content="Servlet">
@@ -241,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          379 words
+          735 words
         
       </span>
     
@@ -252,7 +252,7 @@
         
         
         
-          4 mins
+          7 mins
         
       </span>
     
@@ -309,13 +309,18 @@
 <li>web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在</li>
 <li>如果存在，则直接调用此Servlet对象的Service方法（间接调用doPost方法和doGet方法），并将“请求和响应”对象作为参数传递</li>
 <li>如果不存在，容器负责加载Servlet类，创建Servlet对象并实例化，然后调用Servlet的init方法进行初始化，之后调用Servlet方法。</li>
-<li>在Service方法中，通过请求对象获取客户端提交的数据并处理，然后通过响应对象将处理结果返回客户端  <img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png" srcset="/img/loading.gif" lazyload class=""></li>
+<li>在Service方法中，通过请求对象获取客户端提交的数据并处理，然后通过响应对象将处理结果返回客户端  </li>
+<li><strong>Servlet生存期由javax.servlet.servlet接口的init,service和destory方法表达</strong><img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ol>
 <h3 id="创建一个Servlet"><a href="#创建一个Servlet" class="headerlink" title="创建一个Servlet"></a>创建一个Servlet</h3><ol>
 <li>通过实现Servlet接口</li>
 <li>通过拓展GenericServlet类</li>
 <li>通过拓展HttpServlet类</li>
 </ol>
+<h4 id="HttpServlet类"><a href="#HttpServlet类" class="headerlink" title="HttpServlet类"></a>HttpServlet类</h4><p>它拓展了GenericServlet类，增加了一新的service（）方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">service</span> <span class="hljs-params">(HttpServletRequest, HttpServletResponse)</span> <span class="hljs-keyword">throws</span> ServletException, IOException<br></code></pre></td></tr></table></figure>
+<p>HttpServlet中针对不同的HTTP请求方法定义了不同的处理方法，如处理GET请求的doGet（）方法格式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span> <span class="hljs-params">(HttpServletRequest, HttpServletResponse)</span> <span class="hljs-keyword">throws</span> ServletException, IOException<br></code></pre></td></tr></table></figure>
 
                 
               </div>
