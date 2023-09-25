@@ -16,25 +16,24 @@
   <meta name="author" content="BugEater">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考本篇博客的目的是为了加深对A*算法的理解，参考了以下大佬的文章 [1] 知乎  A*算法 如果我们能在每次移动前做一个评估，就可以减少误入歧途的次数。通过评估来找到合适路径的算法我们称之为启发式算法。 估价函数&amp;emsp;f(n) &#x3D; g(n) + h(n)&amp;emsp;g(n)指的是从起始格子到格子n的实际代价，而h(n)指的是从n到终点格子的估计代价     格子1： g(1) &#x3D;">
+    <meta name="description" content="本章讲解了JavaWeb开发的一些基础技术，包括XML，HTTP和Tomcat服务器的使用XML举例123456789101112&lt;configuration&gt;  &lt;database&gt;    &lt;host&gt;localhost&lt;&#x2F;host&gt;    &lt;port&gt;3306&lt;&#x2F;port&gt;    &lt;username&gt;myuse">
 <meta property="og:type" content="article">
-<meta property="og:title" content="A*算法学习">
-<meta property="og:url" content="http://eternal579.github.io/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:title" content="Web基础技术">
+<meta property="og:url" content="http://eternal579.github.io/2023/09/18/Web%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/index.html">
 <meta property="og:site_name" content="BugEater">
-<meta property="og:description" content="参考本篇博客的目的是为了加深对A*算法的理解，参考了以下大佬的文章 [1] 知乎  A*算法 如果我们能在每次移动前做一个评估，就可以减少误入歧途的次数。通过评估来找到合适路径的算法我们称之为启发式算法。 估价函数&amp;emsp;f(n) &#x3D; g(n) + h(n)&amp;emsp;g(n)指的是从起始格子到格子n的实际代价，而h(n)指的是从n到终点格子的估计代价     格子1： g(1) &#x3D;">
+<meta property="og:description" content="本章讲解了JavaWeb开发的一些基础技术，包括XML，HTTP和Tomcat服务器的使用XML举例123456789101112&lt;configuration&gt;  &lt;database&gt;    &lt;host&gt;localhost&lt;&#x2F;host&gt;    &lt;port&gt;3306&lt;&#x2F;port&gt;    &lt;username&gt;myuse">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://eternal579.github.io/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/pic1.png">
-<meta property="og:image" content="http://eternal579.github.io/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/pic2.png">
-<meta property="article:published_time" content="2023-09-15T12:48:36.000Z">
-<meta property="article:modified_time" content="2023-09-15T13:06:34.679Z">
+<meta property="og:image" content="http://eternal579.github.io/2023/09/18/Web%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/pic1.png">
+<meta property="article:published_time" content="2023-09-18T06:16:37.000Z">
+<meta property="article:modified_time" content="2023-09-25T00:39:58.019Z">
 <meta property="article:author" content="BugEater">
-<meta property="article:tag" content="algorithm">
+<meta property="article:tag" content="Web">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://eternal579.github.io/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/pic1.png">
+<meta name="twitter:image" content="http://eternal579.github.io/2023/09/18/Web%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/pic1.png">
   
   
   
-  <title>A*算法学习 - BugEater</title>
+  <title>Web基础技术 - BugEater</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -217,7 +216,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="A*算法学习"></span>
+            <span id="subtitle" data-typed-text="Web基础技术"></span>
           
         </div>
 
@@ -228,8 +227,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-15 20:48" pubdate>
-          September 15, 2023 pm
+        <time datetime="2023-09-18 14:16" pubdate>
+          September 18, 2023 pm
         </time>
       </span>
     
@@ -240,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          425 words
+          1.5k words
         
       </span>
     
@@ -251,7 +250,7 @@
         
         
         
-          4 mins
+          13 mins
         
       </span>
     
@@ -297,25 +296,44 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">A*算法学习</h1>
+            <h1 style="display: none">Web基础技术</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><h3 id="本篇博客的目的是为了加深对A-算法的理解，参考了以下大佬的文章"><a href="#本篇博客的目的是为了加深对A-算法的理解，参考了以下大佬的文章" class="headerlink" title="本篇博客的目的是为了加深对A*算法的理解，参考了以下大佬的文章"></a>本篇博客的目的是为了加深对A*算法的理解，参考了以下大佬的文章</h3><ul>
-<li>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/385733813">知乎</a></li>
+                <h1 id="本章讲解了JavaWeb开发的一些基础技术，包括XML，HTTP和Tomcat服务器的使用"><a href="#本章讲解了JavaWeb开发的一些基础技术，包括XML，HTTP和Tomcat服务器的使用" class="headerlink" title="本章讲解了JavaWeb开发的一些基础技术，包括XML，HTTP和Tomcat服务器的使用"></a>本章讲解了JavaWeb开发的一些基础技术，包括XML，HTTP和Tomcat服务器的使用</h1><h1 id="XML举例"><a href="#XML举例" class="headerlink" title="XML举例"></a>XML举例</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">database</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">host</span>&gt;</span>localhost<span class="hljs-tag">&lt;/<span class="hljs-name">host</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">port</span>&gt;</span>3306<span class="hljs-tag">&lt;/<span class="hljs-name">port</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">username</span>&gt;</span>myuser<span class="hljs-tag">&lt;/<span class="hljs-name">username</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">password</span>&gt;</span>mypassword<span class="hljs-tag">&lt;/<span class="hljs-name">password</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">database</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">logging</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">level</span>&gt;</span>debug<span class="hljs-tag">&lt;/<span class="hljs-name">level</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">file</span>&gt;</span>/var/log/myapp.log<span class="hljs-tag">&lt;/<span class="hljs-name">file</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">logging</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> xml.etree.ElementTree <span class="hljs-keyword">as</span> ET<br><br><span class="hljs-comment"># 解析XML配置文件</span><br>tree = ET.parse(<span class="hljs-string">&#x27;config.xml&#x27;</span>)<br>root = tree.getroot()<br><br><span class="hljs-comment"># 读取数据库配置</span><br>database = root.find(<span class="hljs-string">&#x27;database&#x27;</span>)<br>host = database.find(<span class="hljs-string">&#x27;host&#x27;</span>).text<br>port = database.find(<span class="hljs-string">&#x27;port&#x27;</span>).text<br>username = database.find(<span class="hljs-string">&#x27;username&#x27;</span>).text<br>password = database.find(<span class="hljs-string">&#x27;password&#x27;</span>).text<br><br><span class="hljs-comment"># 使用数据库配置建立连接</span><br>db.connect(host, port, username, password)<br></code></pre></td></tr></table></figure>
+<p>以上为xml在数据库配置的使用例子</p>
+<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p><strong>HTTP默认端口号为80</strong></p>
+<h3 id="HTTP工作原理"><a href="#HTTP工作原理" class="headerlink" title="HTTP工作原理"></a>HTTP工作原理</h3><ul>
+<li><strong>HTTP是无连接的：</strong>指限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间</li>
+<li><strong>HTTP是媒体独立的：</strong>指任何类型的数据，客户端和服务器都可以通过HTTP发送</li>
+<li><strong>HTTP是无状态的：</strong>指协议对于事务处理没有记忆能力</li>
 </ul>
-<h1 id="A-算法"><a href="#A-算法" class="headerlink" title="A*算法"></a>A*算法</h1><img src="/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/pic1.png" srcset="/img/loading.gif" lazyload class="">
-<p>如果我们能在每次移动前做一个评估，就可以减少误入歧途的次数。通过评估来找到合适路径的算法我们称之为启发式算法。</p>
-<h2 id="估价函数"><a href="#估价函数" class="headerlink" title="估价函数"></a>估价函数</h2><p>&emsp;<code>f(n) = g(n) + h(n)</code><br>&emsp;<code>g(n)</code>指的是从起始格子到格子n的实际代价，而<code>h(n)</code>指的是从n到终点格子的估计代价</p>
-<img src="/2023/09/15/A-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/pic2.png" srcset="/img/loading.gif" lazyload class="">  
-<ol>
-<li>格子1： g(1) &#x3D; 1, h(1) &#x3D; 6  </li>
-<li>格子2： g(2) &#x3D; 1, h(2) &#x3D; 4  </li>
-<li>格子3： g(3) &#x3D; $\sqrt(2)$, h(1) &#x3D; $\sqrt(17)$<br>&emsp;此例中<code>h(n)</code>指的是欧几里得距离，<code>h(n)</code>永远小于等于格子n到终点的最短实际距离</li>
+<h3 id="HTTP消息结构"><a href="#HTTP消息结构" class="headerlink" title="HTTP消息结构"></a>HTTP消息结构</h3><h4 id="客户端请求"><a href="#客户端请求" class="headerlink" title="客户端请求"></a>客户端请求</h4><ol>
+<li>请求行</li>
+<li>请求头部</li>
+<li>空行</li>
+<li>请求数据  <img src="/2023/09/18/Web%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/pic1.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ol>
-<h2 id="曼哈顿距离就是只准水平或垂直移动的最短距离"><a href="#曼哈顿距离就是只准水平或垂直移动的最短距离" class="headerlink" title="曼哈顿距离就是只准水平或垂直移动的最短距离"></a>曼哈顿距离就是<strong>只准水平或垂直移动</strong>的最短距离</h2><p>&emsp;在考虑障碍物的情况中，<strong>曼哈顿距离肯定大于等于格子n到终点的距离</strong>  </p>
-<h2 id="对角线距离指的是根据水平方向差值与竖直方向的差值中较小的那个，计算出对角线，然后再平移"><a href="#对角线距离指的是根据水平方向差值与竖直方向的差值中较小的那个，计算出对角线，然后再平移" class="headerlink" title="对角线距离指的是根据水平方向差值与竖直方向的差值中较小的那个，计算出对角线，然后再平移"></a>对角线距离指的是根据水平方向差值与竖直方向的差值中较小的那个，计算出对角线，然后再平移</h2><p>&emsp;考虑到</p>
+<h4 id="服务器响应消息"><a href="#服务器响应消息" class="headerlink" title="服务器响应消息"></a>服务器响应消息</h4><ol>
+<li>状态行</li>
+<li>消息报头</li>
+<li>空行</li>
+<li>响应正文<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">200</span> OK<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Wed, 18 Sep 2023 12:00:00 GMT<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>Apache/2.4.34 (Unix)<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>text/html; charset=utf-8<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>1234<br><br><span class="language-xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Example Page<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, World!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This is an example page.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="8种请求类型"><a href="#8种请求类型" class="headerlink" title="8种请求类型"></a>8种请求类型</h3><p><strong>只介绍两种</strong>  </p>
+<ol>
+<li>GET：向特定的资源发出请求</li>
+<li>POST：向指定资源提交数据进行处理请求<br>URL中，”?”后面的内容为参数信息，多个参数之间使用”&amp;”分隔<br><strong>POST比GET请求方式更安全</strong></li>
+</ol>
+<h3 id="HTTP状态码"><a href="#HTTP状态码" class="headerlink" title="HTTP状态码"></a>HTTP状态码</h3><p>第一个十进制数字定义了状态码的类型</p>
+<ul>
+<li>200 请求成功</li>
+<li>301 资源被永久转移到其它URL</li>
+<li>404 请求的资源不存在</li>
+<li>500 内部服务器错误</li>
+</ul>
 
                 
               </div>
@@ -339,7 +357,7 @@
   
     <span>></span>
     
-  <a href="/categories/Blog/algorithm/" class="category-chain-item">algorithm</a>
+  <a href="/categories/Blog/Web/" class="category-chain-item">Web</a>
   
   
 
@@ -356,7 +374,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/algorithm/">#algorithm</a>
+        <a href="/tags/Web/">#Web</a>
       
     </div>
   
@@ -368,8 +386,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>A*算法学习</div>
-      <div>http://eternal579.github.io/2023/09/15/A-算法学习/</div>
+      <div>Web基础技术</div>
+      <div>http://eternal579.github.io/2023/09/18/Web基础技术/</div>
     </div>
     <div class="license-meta">
       
@@ -381,7 +399,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>September 15, 2023</div>
+          <div>September 18, 2023</div>
         </div>
       
       
@@ -413,18 +431,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/16/CodeCraft/" title="CodeCraft">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CodeCraft</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/09/13/HTML-CSS-JS/" title="HTML+CSS+JS">
-                        <span class="hidden-mobile">HTML+CSS+JS</span>
+                      <a href="/2023/09/16/CodeCraft/" title="CodeCraft">
+                        <span class="hidden-mobile">CodeCraft</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
