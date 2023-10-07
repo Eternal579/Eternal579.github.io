@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>补全manpage</title>
+    <link href="/2023/10/07/%E8%A1%A5%E5%85%A8manpage/"/>
+    <url>/2023/10/07/%E8%A1%A5%E5%85%A8manpage/</url>
+    
+    <content type="html"><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>对于目前最新版本的Ubuntu<code>22.04.2LTS</code>，会经常出现<code>No manual entry for abracadabra</code>的问题</p><h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>由于manpage不全导致</p><h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ol><li><code>sudo apt-get update</code></li><li><code>sudo apt install manpages-dev glibc-doc manpages-posix manpages-posix-dev</code></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+      <category>Linux编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Servlet基础</title>
     <link href="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/"/>
     <url>/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/</url>
