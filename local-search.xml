@@ -4,27 +4,6 @@
   
   
   <entry>
-    <title>软件工程概论Chap4</title>
-    <link href="/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/"/>
-    <url>/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/</url>
-    
-    <content type="html"><![CDATA[<h1 id="4-结构化设计方法"><a href="#4-结构化设计方法" class="headerlink" title="4 结构化设计方法"></a>4 结构化设计方法</h1><h2 id="4-1-软件设计的概念以及原则"><a href="#4-1-软件设计的概念以及原则" class="headerlink" title="4.1 软件设计的概念以及原则"></a>4.1 软件设计的概念以及原则</h2><h3 id="耦合种类"><a href="#耦合种类" class="headerlink" title="耦合种类"></a>耦合种类</h3><ol><li>非直接耦合：指两个模块之间没有直接关系，它们之间的联系完全是通过主模块的控制和调用来建立的  <img src="/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/pic1.png" class=""></li><li>数据耦合：指两个模块访问是通过<strong>简单数据参数</strong>来交换信息的</li><li>特征耦合：模块通过参数表传递记录信息</li><li>控制耦合：一个模块通过传送开关等控制信息，显式选择另一模块的功能<img src="/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/pic2.png" class=""></li><li>公共耦合：如一组模块访问同一个公共数据环境（<strong>可以是全局数据结构，共享的通信区，内存的公共覆盖区</strong>），则为公共耦合。<img src="/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/pic3.png" class=""></li><li>内容耦合：直接访问另一个模块的内部数据<br>在设计中引入灵活性的方法有：</li></ol><ul><li>降低耦合并提高内聚（易于提高替换能力）</li><li>建立抽象（创建有多态操作的接口和父类）</li><li>不要将代码写死（消除代码中的常数）</li><li>抛出异常（由操作的调用者处理异常）</li><li>使用并创建可以复用的代码</li></ul><h2 id="4-2-结构化设计"><a href="#4-2-结构化设计" class="headerlink" title="4.2 结构化设计"></a>4.2 结构化设计</h2><h3 id="4-2-1-任务"><a href="#4-2-1-任务" class="headerlink" title="4.2.1 任务"></a>4.2.1 任务</h3><ol><li>从工程管理角度</li></ol><ul><li>概要设计阶段</li><li>详细设计阶段</li></ul><ol start="2"><li>从技术角度</li></ol><ul><li>体系结构设计</li><li>数据设计</li><li>接口设计</li><li>过程设计</li></ul><ol start="3"><li>面向对象方法</li></ol><ul><li>体系结构设计</li><li>类设计</li><li>接口设计</li><li>构件级设计</li></ul>]]></content>
-    
-    
-    <categories>
-      
-      <category>大三下复习</category>
-      
-      <category>软件工程</category>
-      
-    </categories>
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>Linux编程实践Day5</title>
     <link href="/2023/10/07/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day5/"/>
     <url>/2023/10/07/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day5/</url>
