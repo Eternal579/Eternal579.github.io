@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>人工智能导论Chap3</title>
+    <link href="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/"/>
+    <url>/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/</url>
+    
+    <content type="html"><![CDATA[<h2 id="代换与合一"><a href="#代换与合一" class="headerlink" title="代换与合一"></a>代换与合一</h2><h3 id="代换"><a href="#代换" class="headerlink" title="代换"></a>代换</h3><p><strong>切记不要弄反代换！！！</strong>  </p><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic1.jpg" class="">  <h3 id="θ°λ"><a href="#θ°λ" class="headerlink" title="θ°λ"></a><code>θ°λ</code></h3><p>有如下两种代换：<br><code>θ = &#123;t1/x1,t2/x2,...,tn/xn&#125;</code><br><code>λ = &#123;u1/y1,u2/y2,...,um/ym&#125;</code><br>则两个代换的复合表示为<code>θ°λ</code><br><strong>计算方法：</strong><br>首先得到<code>&#123;t1λ/x1,t2λ/x2,...,tnλ/xn,u1/y1,u2/y2,...,um/ym&#125;</code><br>其中，<code>tiλ</code>表示对<code>ti</code>运用<code>λ</code>代换<br>然后将形如:<code>tiλ/xi 当tiλ = xi时</code>与<code>ui/yi 当yi属于&#123;x1,x2,...,xn&#125;</code>的元素从中删除即可  </p><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic2.jpg" class="">  <h3 id="合一"><a href="#合一" class="headerlink" title="合一"></a>合一</h3><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic3.jpg" class="">  <h3 id="最一般合一"><a href="#最一般合一" class="headerlink" title="最一般合一"></a>最一般合一</h3><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic4.png" class="">  <h2 id="自然演绎推理"><a href="#自然演绎推理" class="headerlink" title="自然演绎推理"></a>自然演绎推理</h2><ol><li><strong>假言推理的一般形式：</strong><code>P, P -&gt; Q =&gt; Q</code>  </li><li><strong>拒取式推理一般形式：</strong><code>P -&gt; Q, 非Q =&gt; 非P</code></li></ol><h2 id="归结演绎推理"><a href="#归结演绎推理" class="headerlink" title="归结演绎推理"></a>归结演绎推理</h2><h3 id="子句集求法"><a href="#子句集求法" class="headerlink" title="子句集求法"></a>子句集求法</h3><ol><li><code>P -&gt; Q 等价于 非P 或 Q</code>  </li><li><code>P &lt;-&gt; Q 等价于 (P 且 Q) 或 (非P 且 非Q)</code></li></ol><h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic5.png" class="">  <p><strong>消去存在量词</strong>&emsp;若存在量词不出现在全称量词辖域内，则只要用一个新的个体常量替换即可，但存在量词位于一个或多个全称量词的辖域内时，则要用Skolem函数<code>f(x1,x2,...,xn)</code>来替换存在量词，其中<code>x1,x2,...xn</code>表示存在量词所在辖域的全称量词<br><strong>最后要记得对不同子句中的变元更名</strong></p><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic6.png" class="">  <h4 id="谓词公式F不可满足的充要条件为其标准形的子句集S不可满足"><a href="#谓词公式F不可满足的充要条件为其标准形的子句集S不可满足" class="headerlink" title="谓词公式F不可满足的充要条件为其标准形的子句集S不可满足"></a>谓词公式F不可满足的充要条件为其标准形的子句集S不可满足</h4><h4 id="海伯伦域"><a href="#海伯伦域" class="headerlink" title="海伯伦域"></a>海伯伦域</h4><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic7.jpg" class="">  <h3 id="鲁滨逊归结原理"><a href="#鲁滨逊归结原理" class="headerlink" title="鲁滨逊归结原理"></a>鲁滨逊归结原理</h3><h4 id="鲁滨逊归结原理又称消解原理：它的基本思想是检查子句集S中是否包含空子句。若包含，则S不可满足，若不包含，就在子句集中选择合适的子句进行归结，一旦通过归结便能推出空子句，则说明S是不可满足的"><a href="#鲁滨逊归结原理又称消解原理：它的基本思想是检查子句集S中是否包含空子句。若包含，则S不可满足，若不包含，就在子句集中选择合适的子句进行归结，一旦通过归结便能推出空子句，则说明S是不可满足的" class="headerlink" title="鲁滨逊归结原理又称消解原理：它的基本思想是检查子句集S中是否包含空子句。若包含，则S不可满足，若不包含，就在子句集中选择合适的子句进行归结，一旦通过归结便能推出空子句，则说明S是不可满足的"></a>鲁滨逊归结原理又称消解原理：它的基本思想是检查子句集S中是否包含空子句。若包含，则S不可满足，若不包含，就在子句集中选择合适的子句进行归结，一旦通过归结便能推出空子句，则说明S是不可满足的</h4><h4 id="命题逻辑中的归结原理"><a href="#命题逻辑中的归结原理" class="headerlink" title="命题逻辑中的归结原理"></a>命题逻辑中的归结原理</h4><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic8.jpg" class="">  <h4 id="谓词逻辑中的归结原理"><a href="#谓词逻辑中的归结原理" class="headerlink" title="谓词逻辑中的归结原理"></a>谓词逻辑中的归结原理</h4><p>在谓词逻辑中，由于子句中含有变元，所以不能像命题逻辑那样直接消去互补文字，而需要先用最一般合一对变元进行代换，然后才能归结</p><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic9.jpg" class=""><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic10.jpg" class="">    ]]></content>
+    
+    
+    <categories>
+      
+      <category>大三下复习</category>
+      
+      <category>人工智能导论</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Linux编程实践Day5</title>
     <link href="/2023/10/07/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day5/"/>
     <url>/2023/10/07/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day5/</url>
