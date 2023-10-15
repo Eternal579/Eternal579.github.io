@@ -16,27 +16,22 @@
   <meta name="author" content="BugEater">
   <meta name="keywords" content="">
   
-    <meta name="description" content="2021.2版IDEA快速创建Servlet   个人就是搞不懂，为什么这么大一个互联网上，都没人说这样创建最快。。。   Servlet工作原理狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。     web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在 如果存在，则直">
+    <meta name="description" content="命名pacakage命名包名称仅使用小写字母和数字（无下划线），连续的单词只是连接在一起。eg:com.example.deepspace   类命名使用UpperCamelCase风格   方法命名使用lowerCamelCase风格   常量命名常量名称使用UPPER_SNAKE_CASE：全部大写字母，每个单词与下一个单词之间用一个下划线分隔。   局部变量，函数参数命名均采用lowerCa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Servlet基础">
-<meta property="og:url" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:title" content="Google_Java_Style_Guide">
+<meta property="og:url" content="http://eternal579.github.io/2023/10/15/Google-Java-Style-Guide/index.html">
 <meta property="og:site_name" content="BugEaterのBlog">
-<meta property="og:description" content="2021.2版IDEA快速创建Servlet   个人就是搞不懂，为什么这么大一个互联网上，都没人说这样创建最快。。。   Servlet工作原理狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。     web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在 如果存在，则直">
+<meta property="og:description" content="命名pacakage命名包名称仅使用小写字母和数字（无下划线），连续的单词只是连接在一起。eg:com.example.deepspace   类命名使用UpperCamelCase风格   方法命名使用lowerCamelCase风格   常量命名常量名称使用UPPER_SNAKE_CASE：全部大写字母，每个单词与下一个单词之间用一个下划线分隔。   局部变量，函数参数命名均采用lowerCa">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic3.png">
-<meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic1.png">
-<meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png">
-<meta property="article:published_time" content="2023-09-25T08:41:41.000Z">
-<meta property="article:modified_time" content="2023-10-15T02:34:26.887Z">
+<meta property="article:published_time" content="2023-10-15T02:43:08.000Z">
+<meta property="article:modified_time" content="2023-10-15T02:52:38.959Z">
 <meta property="article:author" content="BugEater">
-<meta property="article:tag" content="Web">
-<meta property="article:tag" content="Servlet">
+<meta property="article:tag" content="Style">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic3.png">
   
   
   
-  <title>Servlet基础 - BugEaterのBlog</title>
+  <title>Google_Java_Style_Guide - BugEaterのBlog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -231,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Servlet基础"></span>
+            <span id="subtitle" data-typed-text="Google_Java_Style_Guide"></span>
           
         </div>
 
@@ -242,8 +237,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-25 16:41" pubdate>
-          September 25, 2023 pm
+        <time datetime="2023-10-15 10:43" pubdate>
+          October 15, 2023 am
         </time>
       </span>
     
@@ -254,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          802 words
+          254 words
         
       </span>
     
@@ -265,7 +260,7 @@
         
         
         
-          7 mins
+          3 mins
         
       </span>
     
@@ -310,29 +305,17 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Servlet基础</h1>
+            <h1 id="seo-header">Google_Java_Style_Guide</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="2021-2版IDEA快速创建Servlet"><a href="#2021-2版IDEA快速创建Servlet" class="headerlink" title="2021.2版IDEA快速创建Servlet"></a>2021.2版IDEA快速创建Servlet</h2><img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic3.png" srcset="/img/loading.gif" lazyload class="">  
-<p><strong>个人就是搞不懂，为什么这么大一个互联网上，都没人说这样创建最快。。。</strong>  </p>
-<h2 id="Servlet工作原理"><a href="#Servlet工作原理" class="headerlink" title="Servlet工作原理"></a>Servlet工作原理</h2><p>狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。  </p>
-<img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic1.png" srcset="/img/loading.gif" lazyload class="">
-<ol>
-<li>web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在</li>
-<li>如果存在，则直接调用此Servlet对象的Service方法（间接调用doPost方法和doGet方法），并将“请求和响应”对象作为参数传递</li>
-<li>如果不存在，容器负责加载Servlet类，创建Servlet对象并实例化，然后调用Servlet的init方法进行初始化，之后调用Servlet方法。</li>
-<li>在Service方法中，通过请求对象获取客户端提交的数据并处理，然后通过响应对象将处理结果返回客户端</li>
-<li><strong>Servlet生存期由javax.servlet.servlet接口的init,service和destory方法表达</strong><img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png" srcset="/img/loading.gif" lazyload class=""></li>
-</ol>
-<h2 id="创建一个Servlet"><a href="#创建一个Servlet" class="headerlink" title="创建一个Servlet"></a>创建一个Servlet</h2><ol>
-<li>通过实现Servlet接口</li>
-<li>通过拓展GenericServlet类</li>
-<li>通过拓展HttpServlet类</li>
-</ol>
-<h3 id="HttpServlet类（重点介绍）"><a href="#HttpServlet类（重点介绍）" class="headerlink" title="HttpServlet类（重点介绍）"></a>HttpServlet类（重点介绍）</h3><p>它拓展了GenericServlet类，增加了一新的service（）方法。继承HttpServlet类可以简化Servlet的开发过程，可以通过重写其提供的方法来处理不同类型的HTTP请求。<strong>（所以继承HttpServlet就只需要重写doGet()，doPost()方法等）</strong><br>HttpServlet中针对不同的HTTP请求方法定义了不同的处理方法，如处理GET请求的doGet（）方法格式如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span> <span class="hljs-params">(HttpServletRequest, HttpServletResponse)</span> <span class="hljs-keyword">throws</span> ServletException, IOException<br></code></pre></td></tr></table></figure>
+                <h1 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h1><h2 id="pacakage命名"><a href="#pacakage命名" class="headerlink" title="pacakage命名"></a>pacakage命名</h2><p>包名称仅使用小写字母和数字（无下划线），连续的单词只是连接在一起。eg:<code>com.example.deepspace</code>  </p>
+<h2 id="类命名"><a href="#类命名" class="headerlink" title="类命名"></a>类命名</h2><p>使用<code>UpperCamelCase</code>风格  </p>
+<h2 id="方法命名"><a href="#方法命名" class="headerlink" title="方法命名"></a>方法命名</h2><p>使用<code>lowerCamelCase</code>风格  </p>
+<h2 id="常量命名"><a href="#常量命名" class="headerlink" title="常量命名"></a>常量命名</h2><p>常量名称使用<code>UPPER_SNAKE_CASE</code>：全部大写字母，每个单词与下一个单词之间用一个下划线分隔。  </p>
+<h2 id="局部变量，函数参数命名"><a href="#局部变量，函数参数命名" class="headerlink" title="局部变量，函数参数命名"></a>局部变量，函数参数命名</h2><p>均采用<code>lowerCamelCase</code>风格，public函数中，函数参数应该避免只有一个字母。  </p>
+<h1 id="when-programming…"><a href="#when-programming…" class="headerlink" title="when programming…"></a>when programming…</h1><h2 id="不要偷懒不写-override"><a href="#不要偷懒不写-override" class="headerlink" title="不要偷懒不写@override"></a>不要偷懒不写@override</h2>
                 
               </div>
             
@@ -350,12 +333,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Blog/" class="category-chain-item">Blog</a>
+  <a href="/categories/StyleGuide/" class="category-chain-item">StyleGuide</a>
   
   
     <span>></span>
     
-  <a href="/categories/Blog/Web/" class="category-chain-item">Web</a>
+  <a href="/categories/StyleGuide/Java/" class="category-chain-item">Java</a>
   
   
 
@@ -372,9 +355,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Web/" class="print-no-link">#Web</a>
-      
-        <a href="/tags/Servlet/" class="print-no-link">#Servlet</a>
+        <a href="/tags/Style/" class="print-no-link">#Style</a>
       
     </div>
   
@@ -386,8 +367,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Servlet基础</div>
-      <div>http://eternal579.github.io/2023/09/25/Servlet基础/</div>
+      <div>Google_Java_Style_Guide</div>
+      <div>http://eternal579.github.io/2023/10/15/Google-Java-Style-Guide/</div>
     </div>
     <div class="license-meta">
       
@@ -399,7 +380,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>September 25, 2023</div>
+          <div>October 15, 2023</div>
         </div>
       
       
@@ -431,18 +412,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/07/%E8%A1%A5%E5%85%A8manpage/" title="补全manpage">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">补全manpage</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/09/18/Web%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/" title="Web基础技术">
-                        <span class="hidden-mobile">Web基础技术</span>
+                      <a href="/2023/10/07/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day5/" title="Linux编程实践Day5">
+                        <span class="hidden-mobile">Linux编程实践Day5</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Google_Java_Style_Guide</title>
+    <link href="/2023/10/15/Google-Java-Style-Guide/"/>
+    <url>/2023/10/15/Google-Java-Style-Guide/</url>
+    
+    <content type="html"><![CDATA[<h1 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h1><h2 id="pacakage命名"><a href="#pacakage命名" class="headerlink" title="pacakage命名"></a>pacakage命名</h2><p>包名称仅使用小写字母和数字（无下划线），连续的单词只是连接在一起。eg:<code>com.example.deepspace</code>  </p><h2 id="类命名"><a href="#类命名" class="headerlink" title="类命名"></a>类命名</h2><p>使用<code>UpperCamelCase</code>风格  </p><h2 id="方法命名"><a href="#方法命名" class="headerlink" title="方法命名"></a>方法命名</h2><p>使用<code>lowerCamelCase</code>风格  </p><h2 id="常量命名"><a href="#常量命名" class="headerlink" title="常量命名"></a>常量命名</h2><p>常量名称使用<code>UPPER_SNAKE_CASE</code>：全部大写字母，每个单词与下一个单词之间用一个下划线分隔。  </p><h2 id="局部变量，函数参数命名"><a href="#局部变量，函数参数命名" class="headerlink" title="局部变量，函数参数命名"></a>局部变量，函数参数命名</h2><p>均采用<code>lowerCamelCase</code>风格，public函数中，函数参数应该避免只有一个字母。  </p><h1 id="when-programming…"><a href="#when-programming…" class="headerlink" title="when programming…"></a>when programming…</h1><h2 id="不要偷懒不写-override"><a href="#不要偷懒不写-override" class="headerlink" title="不要偷懒不写@override"></a>不要偷懒不写@override</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>StyleGuide</category>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Style</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Linux编程实践Day5</title>
     <link href="/2023/10/07/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day5/"/>
     <url>/2023/10/07/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day5/</url>
@@ -62,7 +89,7 @@
     <link href="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/"/>
     <url>/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/</url>
     
-    <content type="html"><![CDATA[<p>狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。</p><h2 id="Servlet工作原理"><a href="#Servlet工作原理" class="headerlink" title="Servlet工作原理"></a>Servlet工作原理</h2><img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic1.png" class=""><ol><li>web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在</li><li>如果存在，则直接调用此Servlet对象的Service方法（间接调用doPost方法和doGet方法），并将“请求和响应”对象作为参数传递</li><li>如果不存在，容器负责加载Servlet类，创建Servlet对象并实例化，然后调用Servlet的init方法进行初始化，之后调用Servlet方法。</li><li>在Service方法中，通过请求对象获取客户端提交的数据并处理，然后通过响应对象将处理结果返回客户端</li><li><strong>Servlet生存期由javax.servlet.servlet接口的init,service和destory方法表达</strong><img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png" class=""></li></ol><h2 id="创建一个Servlet"><a href="#创建一个Servlet" class="headerlink" title="创建一个Servlet"></a>创建一个Servlet</h2><ol><li>通过实现Servlet接口</li><li>通过拓展GenericServlet类</li><li>通过拓展HttpServlet类</li></ol><h3 id="HttpServlet类"><a href="#HttpServlet类" class="headerlink" title="HttpServlet类"></a>HttpServlet类</h3><p>它拓展了GenericServlet类，增加了一新的service（）方法。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">service</span> <span class="hljs-params">(HttpServletRequest, HttpServletResponse)</span> <span class="hljs-keyword">throws</span> ServletException, IOException<br></code></pre></td></tr></table></figure><p>HttpServlet中针对不同的HTTP请求方法定义了不同的处理方法，如处理GET请求的doGet（）方法格式如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span> <span class="hljs-params">(HttpServletRequest, HttpServletResponse)</span> <span class="hljs-keyword">throws</span> ServletException, IOException<br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h2 id="2021-2版IDEA快速创建Servlet"><a href="#2021-2版IDEA快速创建Servlet" class="headerlink" title="2021.2版IDEA快速创建Servlet"></a>2021.2版IDEA快速创建Servlet</h2><img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic3.png" class="">  <p><strong>个人就是搞不懂，为什么这么大一个互联网上，都没人说这样创建最快。。。</strong>  </p><h2 id="Servlet工作原理"><a href="#Servlet工作原理" class="headerlink" title="Servlet工作原理"></a>Servlet工作原理</h2><p>狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。  </p><img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic1.png" class=""><ol><li>web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在</li><li>如果存在，则直接调用此Servlet对象的Service方法（间接调用doPost方法和doGet方法），并将“请求和响应”对象作为参数传递</li><li>如果不存在，容器负责加载Servlet类，创建Servlet对象并实例化，然后调用Servlet的init方法进行初始化，之后调用Servlet方法。</li><li>在Service方法中，通过请求对象获取客户端提交的数据并处理，然后通过响应对象将处理结果返回客户端</li><li><strong>Servlet生存期由javax.servlet.servlet接口的init,service和destory方法表达</strong><img src="/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png" class=""></li></ol><h2 id="创建一个Servlet"><a href="#创建一个Servlet" class="headerlink" title="创建一个Servlet"></a>创建一个Servlet</h2><ol><li>通过实现Servlet接口</li><li>通过拓展GenericServlet类</li><li>通过拓展HttpServlet类</li></ol><h3 id="HttpServlet类（重点介绍）"><a href="#HttpServlet类（重点介绍）" class="headerlink" title="HttpServlet类（重点介绍）"></a>HttpServlet类（重点介绍）</h3><p>它拓展了GenericServlet类，增加了一新的service（）方法。继承HttpServlet类可以简化Servlet的开发过程，可以通过重写其提供的方法来处理不同类型的HTTP请求。<strong>（所以继承HttpServlet就只需要重写doGet()，doPost()方法等）</strong><br>HttpServlet中针对不同的HTTP请求方法定义了不同的处理方法，如处理GET请求的doGet（）方法格式如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span> <span class="hljs-params">(HttpServletRequest, HttpServletResponse)</span> <span class="hljs-keyword">throws</span> ServletException, IOException<br></code></pre></td></tr></table></figure>]]></content>
     
     
     <categories>
