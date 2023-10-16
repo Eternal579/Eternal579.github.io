@@ -27,7 +27,7 @@
 <meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic1.png">
 <meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png">
 <meta property="article:published_time" content="2023-09-25T08:41:41.000Z">
-<meta property="article:modified_time" content="2023-10-15T08:37:41.230Z">
+<meta property="article:modified_time" content="2023-10-16T01:27:54.056Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="Web">
 <meta property="article:tag" content="Servlet">
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.2k words
+          5.3k words
         
       </span>
     
@@ -265,7 +265,7 @@
         
         
         
-          44 mins
+          45 mins
         
       </span>
     
@@ -331,6 +331,10 @@
 <li>通过拓展GenericServlet类</li>
 <li>通过拓展HttpServlet类</li>
 </ol>
+<h3 id="重中之重！！！"><a href="#重中之重！！！" class="headerlink" title="重中之重！！！"></a>重中之重！！！</h3><ul>
+<li>url-pattern的匹配规则一定要看<a target="_blank" rel="noopener" href="https://www.cnblogs.com/51kata/p/5152400.html#!comments">这篇文章</a>  </li>
+<li><code>&lt;form action = &quot;servlet&#39;s url&quot;&gt;</code>&emsp;这里的<code>servlet&#39;s url</code>是<strong>一个绝对路径！！！</strong></li>
+</ul>
 <h3 id="HttpServlet类（重点介绍）"><a href="#HttpServlet类（重点介绍）" class="headerlink" title="HttpServlet类（重点介绍）"></a>HttpServlet类（重点介绍）</h3><p>它拓展了GenericServlet类，增加了一新的service（）方法。继承HttpServlet类可以简化Servlet的开发过程，可以通过重写其提供的方法来处理不同类型的HTTP请求。<strong>（所以继承HttpServlet就只需要重写doGet()，doPost()方法等）</strong><br>GET 请求来自于一个 URL 的正常请求，或者来自于一个未指定 METHOD 的 HTML 表单，它由 doGet() 方法处理。  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span> <span class="hljs-params">(HttpServletRequest, HttpServletResponse)</span> <span class="hljs-keyword">throws</span> ServletException, IOException<br></code></pre></td></tr></table></figure>
 <p>POST 请求来自于一个特别指定了 METHOD 为 POST 的 HTML 表单，它由 doPost() 方法处理。  </p>
