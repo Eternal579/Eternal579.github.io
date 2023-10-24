@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>软件工程概论Chap5</title>
+    <link href="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/"/>
+    <url>/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/</url>
+    
+    <content type="html"><![CDATA[<h1 id="5-面向对象方法与UML"><a href="#5-面向对象方法与UML" class="headerlink" title="5 面向对象方法与UML"></a>5 面向对象方法与UML</h1><h2 id="5-1-一些表示方法"><a href="#5-1-一些表示方法" class="headerlink" title="5.1 一些表示方法"></a>5.1 一些表示方法</h2><ul><li>对象的名字下面要加一条下划线。<br>格式如下：<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic1.jpg" class=""></li></ul><h3 id="UML中的关系表示方法"><a href="#UML中的关系表示方法" class="headerlink" title="UML中的关系表示方法"></a>UML中的关系表示方法</h3><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic2.jpg" class=""><h4 id="1-依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物"><a href="#1-依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物" class="headerlink" title="1.依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物"></a>1.依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物</h4><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic3.jpg" class=""><h4 id="2-关联关系描述了多个类的实例之间的连接关系"><a href="#2-关联关系描述了多个类的实例之间的连接关系" class="headerlink" title="2.关联关系描述了多个类的实例之间的连接关系"></a>2.关联关系描述了多个类的实例之间的连接关系</h4><h5 id="2-1普通关联"><a href="#2-1普通关联" class="headerlink" title="2.1普通关联"></a>2.1普通关联</h5><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic4.png" class=""><h5 id="2-2多元关联"><a href="#2-2多元关联" class="headerlink" title="2.2多元关联"></a>2.2多元关联</h5><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic5.png" class=""><h5 id="2-3限定关联"><a href="#2-3限定关联" class="headerlink" title="2.3限定关联"></a>2.3限定关联</h5><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic6.png" class=""><p>关联中的每个链与关联类的一个实例相联系，关联类通过一条虚线与关联链接。  </p><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic7.png" class=""><h4 id="3-聚合"><a href="#3-聚合" class="headerlink" title="3.聚合"></a>3.聚合</h4><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic8.png" class="">  <img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic9.png" class="">  <h4 id="4-泛化"><a href="#4-泛化" class="headerlink" title="4.泛化"></a>4.泛化</h4><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic10.png" class="">  <img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic11.png" class="">  <h4 id="5-实现关系"><a href="#5-实现关系" class="headerlink" title="5.实现关系"></a>5.实现关系</h4><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic12.png" class="">  <h2 id="UML图"><a href="#UML图" class="headerlink" title="UML图"></a>UML图</h2><h3 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h3><p><strong>用例之间的关系：</strong></p><ul><li>泛化关系：一个用例可以被特别列举为一个或多个子用例</li><li>扩展关系：一个用例加入新的动作后构成另一个用例</li><li>包含关系：将可复用的动作作为被包含的用例<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic13.png" class=""></li></ul><h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p>在类的建模中主要使用关联，聚合，泛化（继承）的关系  </p><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic14.png" class="">  <p><strong>tips：</strong>关联类：当两个类关联并具有一定的属性需要存储时，则使用关联类，用虚线联系上  </p><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic15.png" class="">  <h3 id="顺序图"><a href="#顺序图" class="headerlink" title="顺序图"></a>顺序图</h3><ul><li>符号如下：<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic16.png" class="">  </li><li>消息的类型：同步消息要求发出消息后必须等待回应才能发下一条，而异步消息可以不用等待。<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic17.png" class="">  </li><li>一个例子：<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic18.png" class=""></li></ul><h3 id="状态图"><a href="#状态图" class="headerlink" title="状态图"></a>状态图</h3><ul><li>表示方法<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic19.png" class="">  </li><li>一个例子<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic20.png" class=""></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>大三下复习</category>
+      
+      <category>软件工程</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>tensorflow_gpu配置</title>
     <link href="/2023/10/19/tensorflow-gpu%E9%85%8D%E7%BD%AE/"/>
     <url>/2023/10/19/tensorflow-gpu%E9%85%8D%E7%BD%AE/</url>

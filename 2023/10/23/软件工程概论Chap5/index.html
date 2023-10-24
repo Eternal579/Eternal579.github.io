@@ -16,26 +16,42 @@
   <meta name="author" content="BugEater">
   <meta name="keywords" content="">
   
-    <meta name="description" content="基本概率方法 经典概率方法直接运用条件概率的定义进行推理 逆概率方法   先验概率P(Hi) 条件概率P(E&#x2F;Hi) 后验概率P(Hi&#x2F;E)  主观贝叶斯方法为了应用简便和省事，往往用主观决定代替客观观察，用主观指定的数值来代替统计概率   不确定性的表示知识的不确定性 充分性度量     LS表示E存在时对结论H的影响程度 必要性度量     LN表示E不存在时对结论H的影响程度  证据的不确定">
+    <meta name="description" content="5 面向对象方法与UML5.1 一些表示方法 对象的名字下面要加一条下划线。格式如下：  UML中的关系表示方法 1.依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物 2.关联关系描述了多个类的实例之间的连接关系2.1普通关联 2.2多元关联 2.3限定关联 关联中的每个链与关联类的一个实例相联系，关联类通过一条虚线与关联链接。    3.聚合      4.泛化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="人工智能导论Chap4">
-<meta property="og:url" content="http://eternal579.github.io/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/index.html">
+<meta property="og:title" content="软件工程概论Chap5">
+<meta property="og:url" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/index.html">
 <meta property="og:site_name" content="BugEaterのBlog">
-<meta property="og:description" content="基本概率方法 经典概率方法直接运用条件概率的定义进行推理 逆概率方法   先验概率P(Hi) 条件概率P(E&#x2F;Hi) 后验概率P(Hi&#x2F;E)  主观贝叶斯方法为了应用简便和省事，往往用主观决定代替客观观察，用主观指定的数值来代替统计概率   不确定性的表示知识的不确定性 充分性度量     LS表示E存在时对结论H的影响程度 必要性度量     LN表示E不存在时对结论H的影响程度  证据的不确定">
+<meta property="og:description" content="5 面向对象方法与UML5.1 一些表示方法 对象的名字下面要加一条下划线。格式如下：  UML中的关系表示方法 1.依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物 2.关联关系描述了多个类的实例之间的连接关系2.1普通关联 2.2多元关联 2.3限定关联 关联中的每个链与关联类的一个实例相联系，关联类通过一条虚线与关联链接。    3.聚合      4.泛化">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://eternal579.github.io/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic1.jpg">
-<meta property="og:image" content="http://eternal579.github.io/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic2.png">
-<meta property="og:image" content="http://eternal579.github.io/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic3.png">
-<meta property="og:image" content="http://eternal579.github.io/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic4.png">
-<meta property="article:published_time" content="2023-10-13T09:08:25.000Z">
-<meta property="article:modified_time" content="2023-10-21T01:33:27.938Z">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic1.jpg">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic2.jpg">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic3.jpg">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic4.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic5.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic6.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic7.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic8.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic9.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic10.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic11.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic12.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic13.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic14.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic15.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic16.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic17.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic18.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic19.png">
+<meta property="og:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic20.png">
+<meta property="article:published_time" content="2023-10-23T02:57:24.000Z">
+<meta property="article:modified_time" content="2023-10-24T01:56:07.127Z">
 <meta property="article:author" content="BugEater">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://eternal579.github.io/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic1.jpg">
+<meta name="twitter:image" content="http://eternal579.github.io/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic1.jpg">
   
   
   
-  <title>人工智能导论Chap4 - BugEaterのBlog</title>
+  <title>软件工程概论Chap5 - BugEaterのBlog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +246,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="人工智能导论Chap4"></span>
+            <span id="subtitle" data-typed-text="软件工程概论Chap5"></span>
           
         </div>
 
@@ -241,8 +257,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-10-13 17:08" pubdate>
-          October 13, 2023 pm
+        <time datetime="2023-10-23 10:57" pubdate>
+          October 23, 2023 am
         </time>
       </span>
     
@@ -253,7 +269,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          789 words
+          402 words
         
       </span>
     
@@ -264,7 +280,7 @@
         
         
         
-          7 mins
+          4 mins
         
       </span>
     
@@ -309,39 +325,44 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">人工智能导论Chap4</h1>
+            <h1 id="seo-header">软件工程概论Chap5</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="基本概率方法"><a href="#基本概率方法" class="headerlink" title="基本概率方法"></a>基本概率方法</h2><ol>
-<li>经典概率方法<br>直接运用条件概率的定义进行推理</li>
-<li>逆概率方法</li>
-</ol>
+                <h1 id="5-面向对象方法与UML"><a href="#5-面向对象方法与UML" class="headerlink" title="5 面向对象方法与UML"></a>5 面向对象方法与UML</h1><h2 id="5-1-一些表示方法"><a href="#5-1-一些表示方法" class="headerlink" title="5.1 一些表示方法"></a>5.1 一些表示方法</h2><ul>
+<li>对象的名字下面要加一条下划线。<br>格式如下：<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic1.jpg" srcset="/img/loading.gif" lazyload class=""></li>
+</ul>
+<h3 id="UML中的关系表示方法"><a href="#UML中的关系表示方法" class="headerlink" title="UML中的关系表示方法"></a>UML中的关系表示方法</h3><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic2.jpg" srcset="/img/loading.gif" lazyload class="">
+<h4 id="1-依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物"><a href="#1-依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物" class="headerlink" title="1.依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物"></a>1.依赖关系表示目标事物如果有变化，源事物也会有变化。虚线箭头从源事物指向目标事物</h4><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic3.jpg" srcset="/img/loading.gif" lazyload class="">
+<h4 id="2-关联关系描述了多个类的实例之间的连接关系"><a href="#2-关联关系描述了多个类的实例之间的连接关系" class="headerlink" title="2.关联关系描述了多个类的实例之间的连接关系"></a>2.关联关系描述了多个类的实例之间的连接关系</h4><h5 id="2-1普通关联"><a href="#2-1普通关联" class="headerlink" title="2.1普通关联"></a>2.1普通关联</h5><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic4.png" srcset="/img/loading.gif" lazyload class="">
+<h5 id="2-2多元关联"><a href="#2-2多元关联" class="headerlink" title="2.2多元关联"></a>2.2多元关联</h5><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic5.png" srcset="/img/loading.gif" lazyload class="">
+<h5 id="2-3限定关联"><a href="#2-3限定关联" class="headerlink" title="2.3限定关联"></a>2.3限定关联</h5><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic6.png" srcset="/img/loading.gif" lazyload class="">
+<p>关联中的每个链与关联类的一个实例相联系，关联类通过一条虚线与关联链接。  </p>
+<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic7.png" srcset="/img/loading.gif" lazyload class="">
+<h4 id="3-聚合"><a href="#3-聚合" class="headerlink" title="3.聚合"></a>3.聚合</h4><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic8.png" srcset="/img/loading.gif" lazyload class="">  
+<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic9.png" srcset="/img/loading.gif" lazyload class="">  
+<h4 id="4-泛化"><a href="#4-泛化" class="headerlink" title="4.泛化"></a>4.泛化</h4><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic10.png" srcset="/img/loading.gif" lazyload class="">  
+<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic11.png" srcset="/img/loading.gif" lazyload class="">  
+<h4 id="5-实现关系"><a href="#5-实现关系" class="headerlink" title="5.实现关系"></a>5.实现关系</h4><img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic12.png" srcset="/img/loading.gif" lazyload class="">  
+<h2 id="UML图"><a href="#UML图" class="headerlink" title="UML图"></a>UML图</h2><h3 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h3><p><strong>用例之间的关系：</strong></p>
 <ul>
-<li>先验概率<code>P(Hi)</code></li>
-<li>条件概率<code>P(E/Hi)</code></li>
-<li>后验概率<code>P(Hi/E)</code><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic1.jpg" srcset="/img/loading.gif" lazyload class=""></li>
+<li>泛化关系：一个用例可以被特别列举为一个或多个子用例</li>
+<li>扩展关系：一个用例加入新的动作后构成另一个用例</li>
+<li>包含关系：将可复用的动作作为被包含的用例<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic13.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ul>
-<h2 id="主观贝叶斯方法"><a href="#主观贝叶斯方法" class="headerlink" title="主观贝叶斯方法"></a>主观贝叶斯方法</h2><p><strong>为了应用简便和省事，往往用主观决定代替客观观察，用主观指定的数值来代替统计概率</strong>  </p>
-<h3 id="不确定性的表示"><a href="#不确定性的表示" class="headerlink" title="不确定性的表示"></a>不确定性的表示</h3><h4 id="知识的不确定性"><a href="#知识的不确定性" class="headerlink" title="知识的不确定性"></a>知识的不确定性</h4><ol>
-<li>充分性度量  <img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic2.png" srcset="/img/loading.gif" lazyload class="">  
-LS表示E存在时对结论H的影响程度</li>
-<li>必要性度量  <img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic3.png" srcset="/img/loading.gif" lazyload class="">  
-LN表示E不存在时对结论H的影响程度</li>
-</ol>
-<h4 id="证据的不确定性"><a href="#证据的不确定性" class="headerlink" title="证据的不确定性"></a>证据的不确定性</h4><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic4.png" srcset="/img/loading.gif" lazyload class="">  
-<p>这样用户只要对证据E给出在观察S下的可信度C(E&#x2F;S)，系统即可求出相应的概率P(E&#x2F;S)  </p>
-<h3 id="不确定性的传递算法"><a href="#不确定性的传递算法" class="headerlink" title="不确定性的传递算法"></a>不确定性的传递算法</h3><h4 id="几率函数"><a href="#几率函数" class="headerlink" title="几率函数"></a>几率函数</h4><p><strong><code>O(x) = P(X) / (1 - P(X))</code></strong><br>几率函数表示x的出现概率与不出现概率之比  </p>
-<h4 id="证据肯定存在时"><a href="#证据肯定存在时" class="headerlink" title="证据肯定存在时"></a>证据肯定存在时</h4><p><strong><code>O(H/E) = LS * O(H)</code></strong> &#x3D;&#x3D;&#x3D;&#x3D;&gt; <strong><code>P(H/E) = LS * P(H) / ((LS - 1) * P(H) + 1)</code></strong><br><strong><code>O(H/E) = LS * O(H)</code></strong> 可以这样理解，因为LS是E存在时对H的影响，那LS乘上O(H)就会提升EH同时发生的概率与不同时发生的概率之比  </p>
-<h5 id="LS的性质"><a href="#LS的性质" class="headerlink" title="LS的性质"></a>LS的性质</h5><ul>
-<li>LS &gt; 1时，O(H&#x2F;E) &gt; O(H)，说明证据E支持结论H，当LS -&gt; 正无穷，O(H&#x2F;E) -&gt; 正无穷，等价于P(H&#x2F;E) -&gt; 1，这表示由于E的确定存在，将导致H确定为真</li>
-<li>巴拉巴拉巴拉巴拉</li>
+<h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p>在类的建模中主要使用关联，聚合，泛化（继承）的关系  </p>
+<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic14.png" srcset="/img/loading.gif" lazyload class="">  
+<p><strong>tips：</strong>关联类：当两个类关联并具有一定的属性需要存储时，则使用关联类，用虚线联系上  </p>
+<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic15.png" srcset="/img/loading.gif" lazyload class="">  
+<h3 id="顺序图"><a href="#顺序图" class="headerlink" title="顺序图"></a>顺序图</h3><ul>
+<li>符号如下：<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic16.png" srcset="/img/loading.gif" lazyload class="">  </li>
+<li>消息的类型：同步消息要求发出消息后必须等待回应才能发下一条，而异步消息可以不用等待。<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic17.png" srcset="/img/loading.gif" lazyload class="">  </li>
+<li>一个例子：<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic18.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ul>
-<h4 id="证据肯定不存在时"><a href="#证据肯定不存在时" class="headerlink" title="证据肯定不存在时"></a>证据肯定不存在时</h4><p><strong><code>O(H/非E) = LN * O(H)</code></strong> &#x3D;&#x3D;&#x3D;&#x3D;&gt; <strong><code>P(H/非E) = LN * P(H) / ((LN - 1) * P(H) + 1)</code></strong><br><strong><code>O(H/非E) = LN * O(H)</code></strong> 可以同上理解  </p>
-<h5 id="LN的性质"><a href="#LN的性质" class="headerlink" title="LN的性质"></a>LN的性质</h5><ul>
-<li>LN &gt; 1时，O(H&#x2F;非E) &gt; O(H)，说明证据非E支持结论H，当LN -&gt; 正无穷，O(H&#x2F;非E) -&gt; 正无穷，等价于P(H&#x2F;非E) -&gt; 1，这表示由于E的确定不存在，将导致H确定为真</li>
-<li>巴拉巴拉巴拉巴拉</li>
+<h3 id="状态图"><a href="#状态图" class="headerlink" title="状态图"></a>状态图</h3><ul>
+<li>表示方法<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic19.png" srcset="/img/loading.gif" lazyload class="">  </li>
+<li>一个例子<img src="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/pic20.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ul>
 
                 
@@ -364,6 +385,13 @@ LN表示E不存在时对结论H的影响程度</li>
   <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8B%E5%A4%8D%E4%B9%A0/" class="category-chain-item">大三下复习</a>
   
   
+    <span>></span>
+    
+  <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8B%E5%A4%8D%E4%B9%A0/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">软件工程</a>
+  
+  
+
+  
 
       </span>
     
@@ -381,8 +409,8 @@ LN表示E不存在时对结论H的影响程度</li>
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>人工智能导论Chap4</div>
-      <div>http://eternal579.github.io/2023/10/13/人工智能导论Chap4/</div>
+      <div>软件工程概论Chap5</div>
+      <div>http://eternal579.github.io/2023/10/23/软件工程概论Chap5/</div>
     </div>
     <div class="license-meta">
       
@@ -394,7 +422,7 @@ LN表示E不存在时对结论H的影响程度</li>
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>October 13, 2023</div>
+          <div>October 23, 2023</div>
         </div>
       
       
@@ -421,6 +449,23 @@ LN表示E不存在时对结论H的影响程度</li>
 
 
 
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/19/tensorflow-gpu%E9%85%8D%E7%BD%AE/" title="tensorflow_gpu配置">
+                        <span class="hidden-mobile">tensorflow_gpu配置</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
               
             </div>
 
