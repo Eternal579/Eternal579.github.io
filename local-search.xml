@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>人工智能导论Chap6</title>
+    <link href="/2023/10/29/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap6/"/>
+    <url>/2023/10/29/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap6/</url>
+    
+    <content type="html"><![CDATA[<h1 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h1><h2 id="决策树表示法"><a href="#决策树表示法" class="headerlink" title="决策树表示法"></a>决策树表示法</h2><img src="/2023/10/29/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap6/pic1.jpg" class="">  <h2 id="ID3算法"><a href="#ID3算法" class="headerlink" title="ID3算法"></a>ID3算法</h2><h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><ul><li>熵(Entropy)定义为<img src="/2023/10/29/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap6/pic2.png" class="">  </li><li>信息增益(Gain)定义为<img src="/2023/10/29/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap6/pic3.jpg" class=""></li></ul><hr><ul><li>熵刻画了数据集的纯度，熵越小，数据集越纯净</li><li>信息增益就是原本的熵<strong>减去</strong>分割后，它的儿子的加权熵和（权就是该属性值在整个<strong>数据集D</strong>中的占比）</li></ul><h3 id="栗子"><a href="#栗子" class="headerlink" title="栗子"></a>栗子</h3><p>见课本P182  </p><h3 id="过度拟合问题"><a href="#过度拟合问题" class="headerlink" title="过度拟合问题"></a>过度拟合问题</h3><p>见课本P180  </p><h1 id="贝叶斯学习"><a href="#贝叶斯学习" class="headerlink" title="贝叶斯学习"></a>贝叶斯学习</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>大三下复习</category>
+      
+      <category>人工智能导论</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>软件工程概论Chap5</title>
     <link href="/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/"/>
     <url>/2023/10/23/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap5/</url>
@@ -16,6 +37,54 @@
       <category>大三下复习</category>
       
       <category>软件工程</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>OralEnglish</title>
+    <link href="/2023/10/21/OralEnglish/"/>
+    <url>/2023/10/21/OralEnglish/</url>
+    
+    <content type="html"><![CDATA[<h2 id="2023-10-21"><a href="#2023-10-21" class="headerlink" title="2023.10.21"></a>2023.10.21</h2><ul><li>slip my mind 忘了</li><li>go big or go home 大胆去做</li><li>Getting butterflies in the stomach 焦虑不安</li><li>make landfall 登陆</li></ul><h2 id="2023-10-25"><a href="#2023-10-25" class="headerlink" title="2023.10.25"></a>2023.10.25</h2><ul><li>come in fits and starts 时断时续地进行</li><li></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+      <category>English</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>English</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>人工智能导论Chap5</title>
+    <link href="/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/"/>
+    <url>/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/</url>
+    
+    <content type="html"><![CDATA[<h1 id="状态空间表示法"><a href="#状态空间表示法" class="headerlink" title="状态空间表示法"></a>状态空间表示法</h1><p><strong>一个状态空间可以用三元组(S,F,G)来描述</strong>  </p><ul><li>S是状态集合</li><li>F是操作算符集</li><li>G是目标状态集<br><strong>例子：</strong><br>用(a,b)表示问题的状态，其中a表示圆环A所在的钢针号，b表示圆环B所在的钢针号。用A(x,y)表示把A从x钢针移到y钢针。<br>这样，汉诺塔问题的状态空间图为：  <img src="/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/pic1.jpg" class=""></li></ul><h1 id="与或树表示法"><a href="#与或树表示法" class="headerlink" title="与或树表示法"></a>与或树表示法</h1><img src="/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/pic2.png" class="">  ]]></content>
+    
+    
+    <categories>
+      
+      <category>大三下复习</category>
+      
+      <category>人工智能导论</category>
       
     </categories>
     
@@ -131,6 +200,69 @@
       <tag>Style</tag>
       
     </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>人工智能导论Chap4</title>
+    <link href="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/"/>
+    <url>/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/</url>
+    
+    <content type="html"><![CDATA[<h2 id="基本概率方法"><a href="#基本概率方法" class="headerlink" title="基本概率方法"></a>基本概率方法</h2><ol><li>经典概率方法<br>直接运用条件概率的定义进行推理</li><li>逆概率方法</li></ol><ul><li>先验概率<code>P(Hi)</code></li><li>条件概率<code>P(E/Hi)</code></li><li>后验概率<code>P(Hi/E)</code><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic1.jpg" class=""></li></ul><h2 id="主观贝叶斯方法"><a href="#主观贝叶斯方法" class="headerlink" title="主观贝叶斯方法"></a>主观贝叶斯方法</h2><p><strong>为了应用简便和省事，往往用主观决定代替客观观察，用主观指定的数值来代替统计概率</strong>  </p><h3 id="不确定性的表示"><a href="#不确定性的表示" class="headerlink" title="不确定性的表示"></a>不确定性的表示</h3><h4 id="知识的不确定性"><a href="#知识的不确定性" class="headerlink" title="知识的不确定性"></a>知识的不确定性</h4><ol><li>充分性度量  <img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic2.png" class="">  LS表示E存在时对结论H的影响程度</li><li>必要性度量  <img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic3.png" class="">  LN表示E不存在时对结论H的影响程度</li></ol><h4 id="证据的不确定性"><a href="#证据的不确定性" class="headerlink" title="证据的不确定性"></a>证据的不确定性</h4><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap4/pic4.png" class="">  <p>这样用户只要对证据E给出在观察S下的可信度C(E&#x2F;S)，系统即可求出相应的概率P(E&#x2F;S)  </p><h3 id="不确定性的传递算法"><a href="#不确定性的传递算法" class="headerlink" title="不确定性的传递算法"></a>不确定性的传递算法</h3><h4 id="几率函数"><a href="#几率函数" class="headerlink" title="几率函数"></a>几率函数</h4><p><strong><code>O(x) = P(X) / (1 - P(X))</code></strong><br>几率函数表示x的出现概率与不出现概率之比  </p><h4 id="证据肯定存在时"><a href="#证据肯定存在时" class="headerlink" title="证据肯定存在时"></a>证据肯定存在时</h4><p><strong><code>O(H/E) = LS * O(H)</code></strong> &#x3D;&#x3D;&#x3D;&#x3D;&gt; <strong><code>P(H/E) = LS * P(H) / ((LS - 1) * P(H) + 1)</code></strong><br><strong><code>O(H/E) = LS * O(H)</code></strong> 可以这样理解，因为LS是E存在时对H的影响，那LS乘上O(H)就会提升EH同时发生的概率与不同时发生的概率之比  </p><h5 id="LS的性质"><a href="#LS的性质" class="headerlink" title="LS的性质"></a>LS的性质</h5><ul><li>LS &gt; 1时，O(H&#x2F;E) &gt; O(H)，说明证据E支持结论H，当LS -&gt; 正无穷，O(H&#x2F;E) -&gt; 正无穷，等价于P(H&#x2F;E) -&gt; 1，这表示由于E的确定存在，将导致H确定为真</li><li>巴拉巴拉巴拉巴拉</li></ul><h4 id="证据肯定不存在时"><a href="#证据肯定不存在时" class="headerlink" title="证据肯定不存在时"></a>证据肯定不存在时</h4><p><strong><code>O(H/非E) = LN * O(H)</code></strong> &#x3D;&#x3D;&#x3D;&#x3D;&gt; <strong><code>P(H/非E) = LN * P(H) / ((LN - 1) * P(H) + 1)</code></strong><br><strong><code>O(H/非E) = LN * O(H)</code></strong> 可以同上理解  </p><h5 id="LN的性质"><a href="#LN的性质" class="headerlink" title="LN的性质"></a>LN的性质</h5><ul><li>LN &gt; 1时，O(H&#x2F;非E) &gt; O(H)，说明证据非E支持结论H，当LN -&gt; 正无穷，O(H&#x2F;非E) -&gt; 正无穷，等价于P(H&#x2F;非E) -&gt; 1，这表示由于E的确定不存在，将导致H确定为真</li><li>巴拉巴拉巴拉巴拉</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>大三下复习</category>
+      
+      <category>人工智能导论</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>人工智能导论Chap3</title>
+    <link href="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/"/>
+    <url>/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/</url>
+    
+    <content type="html"><![CDATA[<h2 id="代换与合一"><a href="#代换与合一" class="headerlink" title="代换与合一"></a>代换与合一</h2><h3 id="代换"><a href="#代换" class="headerlink" title="代换"></a>代换</h3><p><strong>切记不要弄反代换！！！</strong>  </p><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic1.jpg" class="">  <h3 id="θ°λ"><a href="#θ°λ" class="headerlink" title="θ°λ"></a><code>θ°λ</code></h3><p>有如下两种代换：<br><code>θ = &#123;t1/x1,t2/x2,...,tn/xn&#125;</code><br><code>λ = &#123;u1/y1,u2/y2,...,um/ym&#125;</code><br>则两个代换的复合表示为<code>θ°λ</code><br><strong>计算方法：</strong><br>首先得到<code>&#123;t1λ/x1,t2λ/x2,...,tnλ/xn,u1/y1,u2/y2,...,um/ym&#125;</code><br>其中，<code>tiλ</code>表示对<code>ti</code>运用<code>λ</code>代换<br>然后将形如:<code>tiλ/xi 当tiλ = xi时</code>与<code>ui/yi 当yi属于&#123;x1,x2,...,xn&#125;</code>的元素从中删除即可  </p><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic2.jpg" class="">  <h3 id="合一"><a href="#合一" class="headerlink" title="合一"></a>合一</h3><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic3.jpg" class="">  <h3 id="最一般合一"><a href="#最一般合一" class="headerlink" title="最一般合一"></a>最一般合一</h3><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic4.png" class="">  <h2 id="自然演绎推理"><a href="#自然演绎推理" class="headerlink" title="自然演绎推理"></a>自然演绎推理</h2><ol><li><strong>假言推理的一般形式：</strong><code>P, P -&gt; Q =&gt; Q</code>  </li><li><strong>拒取式推理一般形式：</strong><code>P -&gt; Q, 非Q =&gt; 非P</code></li></ol><h2 id="归结演绎推理"><a href="#归结演绎推理" class="headerlink" title="归结演绎推理"></a>归结演绎推理</h2><h3 id="子句集求法"><a href="#子句集求法" class="headerlink" title="子句集求法"></a>子句集求法</h3><ol><li><code>P -&gt; Q 等价于 非P 或 Q</code>  </li><li><code>P &lt;-&gt; Q 等价于 (P 且 Q) 或 (非P 且 非Q)</code></li></ol><h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic5.png" class="">  <p><strong>消去存在量词</strong>&emsp;若存在量词不出现在全称量词辖域内，则只要用一个新的个体常量替换即可，但存在量词位于一个或多个全称量词的辖域内时，则要用Skolem函数<code>f(x1,x2,...,xn)</code>来替换存在量词，其中<code>x1,x2,...xn</code>表示存在量词所在辖域的全称量词<br><strong>最后要记得对不同子句中的变元更名</strong></p><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic6.png" class="">  <h4 id="谓词公式F不可满足的充要条件为其标准形的子句集S不可满足"><a href="#谓词公式F不可满足的充要条件为其标准形的子句集S不可满足" class="headerlink" title="谓词公式F不可满足的充要条件为其标准形的子句集S不可满足"></a>谓词公式F不可满足的充要条件为其标准形的子句集S不可满足</h4><h4 id="海伯伦域"><a href="#海伯伦域" class="headerlink" title="海伯伦域"></a>海伯伦域</h4><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic7.jpg" class="">  <h3 id="鲁滨逊归结原理"><a href="#鲁滨逊归结原理" class="headerlink" title="鲁滨逊归结原理"></a>鲁滨逊归结原理</h3><h4 id="鲁滨逊归结原理又称消解原理：它的基本思想是检查子句集S中是否包含空子句。若包含，则S不可满足，若不包含，就在子句集中选择合适的子句进行归结，一旦通过归结便能推出空子句，则说明S是不可满足的"><a href="#鲁滨逊归结原理又称消解原理：它的基本思想是检查子句集S中是否包含空子句。若包含，则S不可满足，若不包含，就在子句集中选择合适的子句进行归结，一旦通过归结便能推出空子句，则说明S是不可满足的" class="headerlink" title="鲁滨逊归结原理又称消解原理：它的基本思想是检查子句集S中是否包含空子句。若包含，则S不可满足，若不包含，就在子句集中选择合适的子句进行归结，一旦通过归结便能推出空子句，则说明S是不可满足的"></a>鲁滨逊归结原理又称消解原理：它的基本思想是检查子句集S中是否包含空子句。若包含，则S不可满足，若不包含，就在子句集中选择合适的子句进行归结，一旦通过归结便能推出空子句，则说明S是不可满足的</h4><h4 id="命题逻辑中的归结原理"><a href="#命题逻辑中的归结原理" class="headerlink" title="命题逻辑中的归结原理"></a>命题逻辑中的归结原理</h4><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic8.jpg" class="">  <h4 id="谓词逻辑中的归结原理"><a href="#谓词逻辑中的归结原理" class="headerlink" title="谓词逻辑中的归结原理"></a>谓词逻辑中的归结原理</h4><p>在谓词逻辑中，由于子句中含有变元，所以不能像命题逻辑那样直接消去互补文字，而需要先用最一般合一对变元进行代换，然后才能归结</p><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic9.jpg" class=""><img src="/2023/10/13/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap3/pic10.jpg" class="">    <h3 id="归结反演规则"><a href="#归结反演规则" class="headerlink" title="归结反演规则"></a>归结反演规则</h3><p>假设F为前提公式集，Q为目标公式（结论）。</p><ol><li><strong>否定Q</strong></li><li><strong>把非Q并入公式集，得到<code>&#123;F, 非Q&#125;</code></strong></li><li><strong>把公式集<code>&#123;F, 非Q&#125;</code>化为子句集S</strong></li><li><strong>把子句集S进行归结，并把每次归结得到的归结式都并入S，如此反复，直至出现空子句为止，便证明了Q为真</strong></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>大三下复习</category>
+      
+      <category>人工智能导论</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>软件工程概论Chap4</title>
+    <link href="/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/"/>
+    <url>/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/</url>
+    
+    <content type="html"><![CDATA[<h1 id="4-结构化设计方法"><a href="#4-结构化设计方法" class="headerlink" title="4 结构化设计方法"></a>4 结构化设计方法</h1><h2 id="4-1-软件设计的概念以及原则"><a href="#4-1-软件设计的概念以及原则" class="headerlink" title="4.1 软件设计的概念以及原则"></a>4.1 软件设计的概念以及原则</h2><h3 id="耦合种类"><a href="#耦合种类" class="headerlink" title="耦合种类"></a>耦合种类</h3><ol><li>非直接耦合：指两个模块之间没有直接关系，它们之间的联系完全是通过主模块的控制和调用来建立的  <img src="/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/pic1.png" class=""></li><li>数据耦合：指两个模块访问是通过<strong>简单数据参数</strong>来交换信息的</li><li>特征耦合：模块通过参数表传递记录信息</li><li>控制耦合：一个模块通过传送开关等控制信息，显式选择另一模块的功能<img src="/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/pic2.png" class=""></li><li>公共耦合：如一组模块访问同一个公共数据环境（<strong>可以是全局数据结构，共享的通信区，内存的公共覆盖区</strong>），则为公共耦合。<img src="/2023/10/09/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E6%A6%82%E8%AE%BAChap4/pic3.png" class=""></li><li>内容耦合：直接访问另一个模块的内部数据<br>在设计中引入灵活性的方法有：</li></ol><ul><li>降低耦合并提高内聚（易于提高替换能力）</li><li>建立抽象（创建有多态操作的接口和父类）</li><li>不要将代码写死（消除代码中的常数）</li><li>抛出异常（由操作的调用者处理异常）</li><li>使用并创建可以复用的代码</li></ul><h2 id="4-2-结构化设计"><a href="#4-2-结构化设计" class="headerlink" title="4.2 结构化设计"></a>4.2 结构化设计</h2><h3 id="4-2-1-任务"><a href="#4-2-1-任务" class="headerlink" title="4.2.1 任务"></a>4.2.1 任务</h3><ol><li>从工程管理角度</li></ol><ul><li>概要设计阶段</li><li>详细设计阶段</li></ul><ol start="2"><li>从技术角度</li></ol><ul><li>体系结构设计</li><li>数据设计</li><li>接口设计</li><li>过程设计</li></ul><ol start="3"><li>面向对象方法</li></ol><ul><li>体系结构设计</li><li>类设计</li><li>接口设计</li><li>构件级设计</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>大三下复习</category>
+      
+      <category>软件工程</category>
+      
+    </categories>
+    
     
   </entry>
   
@@ -432,33 +564,6 @@
     <tags>
       
       <tag>Java</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>MyFS</title>
-    <link href="/2023/08/28/MyFS/"/>
-    <url>/2023/08/28/MyFS/</url>
-    
-    <content type="html"><![CDATA[<h1 id="Fuse介绍"><a href="#Fuse介绍" class="headerlink" title="Fuse介绍"></a>Fuse介绍</h1><p><code>Fuse</code>，全称为<code>Filesystem in Userspace</code>，即运行在用户空间上的文件系统。<code>Fuse file-system deamon</code>指的就是基于<code>Fuse library</code>开发的文件系统驱动，它将我们的目录挂载到<code>/dev/fuse</code>。之后，我们就可以通过目录挂载点的方式来访问这个文件系统。<br><del>说人话就是</del>&emsp;<strong>我们也许只需要一个c语言文件和一个h类函数文件，或者甚至只需要一个c语言文件就能完成一个自己设计的文件系统。</strong></p><h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><ol><li>安装<code>ninja</code>以及<code>meson</code>，从<code>github</code>下载<code>libfuse</code>。<strong>clone的时候卡住了有可能是因为文件数过多导致的？</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get install python3 python3-pip ninja-build  <br>pip3 install --user meson  <br>git <span class="hljs-built_in">clone</span> https://github.com/libfuse/libfuse.git  <br></code></pre></td></tr></table></figure></li><li>在<code>libfuse</code>下新建文件夹<code>build</code>，切换到<code>build</code>文件夹，运行<code>meson</code>。<br> <strong>meson ..命令和ninja命令组合起来会生成一堆相关的构建产物</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> build; <span class="hljs-built_in">cd</span> build  <br>sudo apt install meson<br>meson ..  <br></code></pre></td></tr></table></figure></li><li>接着我们使用<code>ninja</code>安装<code>libfuse</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">ninja<br>```  <br>1. 进入**`build`下面的**`example`文件夹，<br>``` bash<br><span class="hljs-built_in">mkdir</span> mountTest **创建临时文件夹用来测试**<br><span class="hljs-built_in">ls</span> -al moutTest **展示文件夹的相关详细信息** <br>./hello mountTest **将hello文件系统安装到mountTest**<br><span class="hljs-built_in">ls</span> -al mountTest <br><span class="hljs-built_in">cat</span> mountTest/hello **输出Hello World!**  <br></code></pre></td></tr></table></figure></li><li><strong>经过上面的测试，可以初步了解<code>Fuse</code>，同时可以参照<code>hello.c</code>来编写自己的文件系统</strong></li></ol><h1 id="中间可能遇到的问题"><a href="#中间可能遇到的问题" class="headerlink" title="中间可能遇到的问题"></a>中间可能遇到的问题</h1><ol><li>问题如下 <img src="/2023/08/28/MyFS/bug1.png" class=""><strong>解决方案：</strong> <code>sudo apt install libfuse3-dev</code></li></ol><h1 id="开工"><a href="#开工" class="headerlink" title="开工"></a>开工</h1><ol><li><strong>文件系统布局如下：</strong><img src="/2023/08/28/MyFS/pic1.png" class=""></li><li><strong>超级块的结构如下：</strong><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">SuperBlock</span> &#123;</span><br>    <span class="hljs-type">long</span> fs_size;  <span class="hljs-comment">//文件系统的大小，以块为单位 8MB/512B=16384块</span><br><br>    <span class="hljs-type">long</span> first_blk;  <span class="hljs-comment">//数据区的第一块块号为 518（从0开始），根目录也放在此 </span><br>    <span class="hljs-type">long</span> data_size;  <span class="hljs-comment">//数据区大小，以块为单位 16384-1-1-4-512=15818块</span><br>    <span class="hljs-type">long</span> first_inode;    <span class="hljs-comment">//inode区起始块号为 6</span><br>    <span class="hljs-type">long</span> inode_area_size;   <span class="hljs-comment">//inode区大小，以块为单位 512块</span><br>    <span class="hljs-type">long</span> first_blk_of_inodebitmap;   <span class="hljs-comment">//inode位图区起始块号为 1</span><br>    <span class="hljs-type">long</span> inode_bitmap_size;  <span class="hljs-comment">// inode位图区大小，以块为单位 1块</span><br>    <span class="hljs-type">long</span> first_blk_of_databitmap;   <span class="hljs-comment">//数据块位图起始块号为 2</span><br>    <span class="hljs-type">long</span> databitmap_size;      <span class="hljs-comment">//数据块位图大小，以块为单位 4块</span><br>&#125;<br></code></pre></td></tr></table></figure></li><li><strong>目录项结构如下：</strong><br>目录项结构图： <img src="/2023/08/28/MyFS/pic2.png" class=""><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 根目录具有固定inode号：1</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DirEntry</span>&#123;</span> <span class="hljs-comment">// 16字节</span><br>  <span class="hljs-type">char</span> f_name[<span class="hljs-number">8</span>]; <span class="hljs-comment">// 文件名 最多为8字节</span><br>  <span class="hljs-type">char</span> f_ext[<span class="hljs-number">3</span>]; <span class="hljs-comment">// 文件拓展名，最多为3字节</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> i_num; <span class="hljs-comment">// inode号最多为2字节</span><br>  <span class="hljs-type">char</span> spare[<span class="hljs-number">3</span>]; <span class="hljs-comment">// 备用：3字节</span><br>&#125;;<br></code></pre></td></tr></table></figure></li><li><strong>inode的结构如下：</strong><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Inode</span> &#123;</span> <span class="hljs-comment">// 64字节</span><br>    <span class="hljs-type">short</span> <span class="hljs-type">int</span> st_mode; <span class="hljs-comment">// 权限，2字节 </span><br>    <span class="hljs-type">short</span> <span class="hljs-type">int</span> st_ino; <span class="hljs-comment">// i-node号，2字节 </span><br>    <span class="hljs-type">char</span> st_nlink; <span class="hljs-comment">// 连接数，1字节 </span><br>    <span class="hljs-type">uid_t</span> st_uid; <span class="hljs-comment">// 拥有者的用户 ID ，4字节  </span><br>    <span class="hljs-type">gid_t</span> st_gid; <span class="hljs-comment">// 拥有者的组 ID，4字节   </span><br>    <span class="hljs-type">off_t</span> st_size; <span class="hljs-comment">// 文件大小，4字节 </span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timespec</span> <span class="hljs-title">st_atim</span>;</span> <span class="hljs-comment">// 16个字节time of last access  </span><br>    <span class="hljs-type">short</span> <span class="hljs-type">int</span> addr [<span class="hljs-number">7</span>];    <span class="hljs-comment">// 磁盘地址，14字节</span><br>    <span class="hljs-type">char</span> spare[<span class="hljs-number">17</span>]; <span class="hljs-comment">// 备用：17字节</span><br>&#125;;<br></code></pre></td></tr></table></figure></li><li><strong>数据块的结构如下：</strong><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 数据块结构，大小为 512 bytes，占用1块磁盘块</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">data_block</span> &#123;</span><br>    <span class="hljs-type">char</span> data[MAX_DATA_IN_BLOCK];<span class="hljs-comment">// And all the rest of the space in the block can be used for actual data storage.</span><br>&#125;;<br></code></pre></td></tr></table></figure></li><li><strong>介绍一下文件系统中查找某一文件的过程</strong><img src="/2023/08/28/MyFS/pic3.png" class=""></li><li><strong>新建文件或目录所发生的事</strong></li></ol><ul><li>先确定用户对于欲新增文件的目录是否具有w与x的权限，若有的话才能新增（MyFS目前未做）</li><li>根据inode位图找到没有使用的inode号，并将新文件的相关属性写入inode后修改inode位图</li><li>根据数据块位图找到没有使用的数据块号，并将实际的数据写入数据块中后修改数据块位图，并更新inode信息中的arr数组</li></ul><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>[1] <a href="https://zhuanlan.zhihu.com/p/621112625">知乎文章</a><br>[2] [鸟哥的Linux私房菜]</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>Blog</category>
-      
-      <category>FS</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>FS</tag>
       
     </tags>
     
