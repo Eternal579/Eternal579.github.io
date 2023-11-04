@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>outstandingC</title>
+    <link href="/2023/11/02/outstandingC/"/>
+    <url>/2023/11/02/outstandingC/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一些知识"><a href="#一些知识" class="headerlink" title="一些知识"></a>一些知识</h2><ol><li>C语言中的字节对齐<br><a href="http://t.csdnimg.cn/9FkNW">ref</a>  <img src="/2023/11/02/outstandingC/pic1.png" class=""></li></ol><h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><ol><li>C语言中，指针作为参数传递给函数时，是<strong>值传递</strong>，函数接收到的是指针的副本，但<strong>指向的是同一块内存</strong>。<br><strong>所以</strong>，如果原始指针<code>origin</code>,函数参数叫<code>copy</code>,在函数中产生了一个新的指针叫<code>new</code>，想要通过<code>copy</code>来把<code>new</code>所指的对象赋值给<code>origin</code>所指对象，<strong>绝对不能使用<code>copy = new</code>！！！</strong> <strong>一定要使用<code>*copy = *new</code>！！！</strong></li></ol><h2 id="一些好习惯"><a href="#一些好习惯" class="headerlink" title="一些好习惯"></a>一些好习惯</h2><ol><li>在填写一些<code>size_t</code>类型的函数参数时，一定要养成习惯，能写<code>sizeof(struct DataType)</code>的一定不要写<code>sizeof(variable)</code>！！！</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>人工智能导论Chap6</title>
     <link href="/2023/10/29/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap6/"/>
     <url>/2023/10/29/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap6/</url>
@@ -576,7 +603,7 @@
     <link href="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/"/>
     <url>/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/</url>
     
-    <content type="html"><![CDATA[<h1 id="文件系统结构"><a href="#文件系统结构" class="headerlink" title="文件系统结构"></a>文件系统结构</h1><h2 id="连续结构"><a href="#连续结构" class="headerlink" title="连续结构"></a>连续结构</h2><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic1.png" class=""><h2 id="链接结构"><a href="#链接结构" class="headerlink" title="链接结构"></a>链接结构</h2><ol><li><strong>链表分配</strong> <img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic2.png" class=""></li><li><strong>内存表分配</strong> 文件的起始块号从文件目录(FCB)中得到  <img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic3.png" class=""></li></ol><h2 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h2><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic4.png" class=""><p><strong>多级索引：</strong>块大小4KB，索引指针大小为4B，则二级索引支持最大文件为1K * 1K * 4KB</p><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic5.png" class=""><h1 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h1><p>第一个字符代表这个文件时目录、文件或链接文件等</p><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic6.jpg" class=""><h2 id="Linux命令实现"><a href="#Linux命令实现" class="headerlink" title="Linux命令实现"></a>Linux命令实现</h2><h3 id="Linux手册页节"><a href="#Linux手册页节" class="headerlink" title="Linux手册页节"></a>Linux手册页节</h3><ol><li>Section 1：用户命令（User Commands）：包括常见的用户可执行命令，如ls、mkdir、grep等。  </li><li>Section 2：系统调用（System Calls）：包括操作系统提供的底层系统调用接口，如fork、open、read等。  </li><li>Section 3：C库函数（Library Functions）：包括C语言库函数，如printf、malloc、strlen等。  </li><li>Section 4：设备和特殊文件（Devices and Special Files）：包括设备驱动程序和特殊文件的手册页。  </li><li>Section 5：文件格式（File Formats）：包括常见文件格式的描述，如passwd文件、man页格式等。  </li><li>Section 6：游戏和演示（Games and Demos）：包括一些游戏和演示程序的手册页。  </li><li>Section 7：其他（Miscellaneous）：包括一些其他类型的手册页，如宏包、协议等。</li></ol><h1 id="硬链接与符号链接"><a href="#硬链接与符号链接" class="headerlink" title="硬链接与符号链接"></a>硬链接与符号链接</h1><ol><li><strong>符号链接：</strong>类似Windows的快捷方式功能的文件，可以块链接到目标文件（目录）</li><li><strong>硬链接：</strong>通过文件系统的inode链接来产生新文件名，即多个文件名对应同一个inode号</li><li><strong>不允许硬链接到目录的原因：</strong>允许目录的硬链接可能会打破文件系统目录的有向无环图结构，可能创建目录循环，这可能会导致fsck以及其他一些遍历文件树的软件出错。</li><li><strong>inode的链接数的增减时机：</strong></li></ol><ul><li>创建文件</li><li>创建硬链接</li><li>创建符号链接</li><li>删除文件或硬链接</li></ul><ol><li><strong>文件夹一创建，其链接数便为2，原因：新建文件夹的父文件夹有一个目录项指向此文件夹，其次，新建文件夹的目录中有一个指向自身的目录项</strong></li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>[1] <a href="http://t.csdn.cn/SC8OR">CSDN博客</a><br>[2] [鸟哥的Linux私房菜]<br>[3] <a href="http://t.csdn.cn/peCrK">CSDN博客</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="文件系统结构"><a href="#文件系统结构" class="headerlink" title="文件系统结构"></a>文件系统结构</h1><h2 id="连续结构"><a href="#连续结构" class="headerlink" title="连续结构"></a>连续结构</h2><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic1.png" class=""><h2 id="链接结构"><a href="#链接结构" class="headerlink" title="链接结构"></a>链接结构</h2><ol><li><strong>链表分配</strong> <img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic2.png" class=""></li><li><strong>内存表分配</strong> 文件的起始块号从文件目录(FCB)中得到  <img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic3.png" class=""></li></ol><h2 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h2><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic4.png" class=""><p><strong>多级索引：</strong>块大小4KB，索引指针大小为4B，则二级索引支持最大文件为1K * 1K * 4KB</p><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic5.png" class=""><h1 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h1><p>第一个字符代表这个文件时目录、文件或链接文件等</p><img src="/2023/08/28/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0/pic6.jpg" class=""><h2 id="Linux命令实现"><a href="#Linux命令实现" class="headerlink" title="Linux命令实现"></a>Linux命令实现</h2><h3 id="Linux手册页节"><a href="#Linux手册页节" class="headerlink" title="Linux手册页节"></a>Linux手册页节</h3><ol><li>Section 1：用户命令（User Commands）：包括常见的用户可执行命令，如ls、mkdir、grep等。  </li><li>Section 2：系统调用（System Calls）：包括操作系统提供的底层系统调用接口，如fork、open、read等。  </li><li>Section 3：C库函数（Library Functions）：包括C语言库函数，如printf、malloc、strlen等。  </li><li>Section 4：设备和特殊文件（Devices and Special Files）：包括设备驱动程序和特殊文件的手册页。  </li><li>Section 5：文件格式（File Formats）：包括常见文件格式的描述，如passwd文件、man页格式等。  </li><li>Section 6：游戏和演示（Games and Demos）：包括一些游戏和演示程序的手册页。  </li><li>Section 7：其他（Miscellaneous）：包括一些其他类型的手册页，如宏包、协议等。</li></ol><h1 id="硬链接与符号链接"><a href="#硬链接与符号链接" class="headerlink" title="硬链接与符号链接"></a>硬链接与符号链接</h1><ol><li><strong>符号链接：</strong>类似Windows的快捷方式功能的文件，可以块链接到目标文件（目录）</li><li><strong>硬链接：</strong>通过文件系统的inode链接来产生新文件名，即多个文件名对应同一个inode号</li><li><strong>不允许硬链接到目录的原因：</strong>允许目录的硬链接可能会打破文件系统目录的有向无环图结构，可能创建目录循环，这可能会导致fsck以及其他一些遍历文件树的软件出错。</li><li><strong>inode的链接数的增减时机：</strong></li></ol><ul><li>创建文件</li><li>创建硬链接</li><li>创建符号链接</li><li>删除文件或硬链接</li></ul><ol><li><strong>文件夹一创建，其链接数便为2（根目录除外），原因：新建文件夹的父文件夹有一个目录项指向此文件夹，其次，新建文件夹的目录中有一个指向自身的目录项</strong>  </li><li><strong>普通文件一创建，链接数便为1</strong></li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>[1] <a href="http://t.csdn.cn/SC8OR">CSDN博客</a><br>[2] [鸟哥的Linux私房菜]<br>[3] <a href="http://t.csdn.cn/peCrK">CSDN博客</a></p>]]></content>
     
     
     <categories>
