@@ -19,20 +19,20 @@
     <meta name="description" content="2021.2版IDEA快速创建Servlet   个人就是搞不懂，为什么这么大一个互联网上，都没人说这样创建最快。。。   Servlet工作原理狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。     web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在 如果存在，则直">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Servlet基础">
-<meta property="og:url" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:url" content="http://bugeater.space/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="BugEaterのBlog">
 <meta property="og:description" content="2021.2版IDEA快速创建Servlet   个人就是搞不懂，为什么这么大一个互联网上，都没人说这样创建最快。。。   Servlet工作原理狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。     web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在 如果存在，则直">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic3.png">
-<meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic1.png">
-<meta property="og:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png">
+<meta property="og:image" content="http://bugeater.space/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic3.png">
+<meta property="og:image" content="http://bugeater.space/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic1.png">
+<meta property="og:image" content="http://bugeater.space/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic2.png">
 <meta property="article:published_time" content="2023-09-25T08:41:41.000Z">
 <meta property="article:modified_time" content="2023-10-16T01:27:54.056Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="Web">
 <meta property="article:tag" content="Servlet">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://eternal579.github.io/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic3.png">
+<meta name="twitter:image" content="http://bugeater.space/2023/09/25/Servlet%E5%9F%BA%E7%A1%80/pic3.png">
   
   
   
@@ -74,7 +74,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"eternal579.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"VmrotYkN0qs7j5EDHJUX5sM1-MdYXbMMI","app_key":"YvoXNeOhIlq2fMZiYJzC9eDy","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"bugeater.space","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"VmrotYkN0qs7j5EDHJUX5sM1-MdYXbMMI","app_key":"YvoXNeOhIlq2fMZiYJzC9eDy","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -417,7 +417,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>Servlet基础</div>
-      <div>http://eternal579.github.io/2023/09/25/Servlet基础/</div>
+      <div>http://bugeater.space/2023/09/25/Servlet基础/</div>
     </div>
     <div class="license-meta">
       

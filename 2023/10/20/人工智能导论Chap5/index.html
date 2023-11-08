@@ -19,17 +19,17 @@
     <meta name="description" content="状态空间表示法一个状态空间可以用三元组(S,F,G)来描述    S是状态集合 F是操作算符集 G是目标状态集例子：用(a,b)表示问题的状态，其中a表示圆环A所在的钢针号，b表示圆环B所在的钢针号。用A(x,y)表示把A从x钢针移到y钢针。这样，汉诺塔问题的状态空间图为：    与或树表示法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="人工智能导论Chap5">
-<meta property="og:url" content="http://eternal579.github.io/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/index.html">
+<meta property="og:url" content="http://bugeater.space/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/index.html">
 <meta property="og:site_name" content="BugEaterのBlog">
 <meta property="og:description" content="状态空间表示法一个状态空间可以用三元组(S,F,G)来描述    S是状态集合 F是操作算符集 G是目标状态集例子：用(a,b)表示问题的状态，其中a表示圆环A所在的钢针号，b表示圆环B所在的钢针号。用A(x,y)表示把A从x钢针移到y钢针。这样，汉诺塔问题的状态空间图为：    与或树表示法">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://eternal579.github.io/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/pic1.jpg">
-<meta property="og:image" content="http://eternal579.github.io/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/pic2.png">
+<meta property="og:image" content="http://bugeater.space/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/pic1.jpg">
+<meta property="og:image" content="http://bugeater.space/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/pic2.png">
 <meta property="article:published_time" content="2023-10-20T13:21:44.000Z">
 <meta property="article:modified_time" content="2023-10-29T01:31:26.964Z">
 <meta property="article:author" content="BugEater">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://eternal579.github.io/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/pic1.jpg">
+<meta name="twitter:image" content="http://bugeater.space/2023/10/20/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BAChap5/pic1.jpg">
   
   
   
@@ -71,7 +71,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"eternal579.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"VmrotYkN0qs7j5EDHJUX5sM1-MdYXbMMI","app_key":"YvoXNeOhIlq2fMZiYJzC9eDy","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"bugeater.space","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"VmrotYkN0qs7j5EDHJUX5sM1-MdYXbMMI","app_key":"YvoXNeOhIlq2fMZiYJzC9eDy","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -364,7 +364,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>人工智能导论Chap5</div>
-      <div>http://eternal579.github.io/2023/10/20/人工智能导论Chap5/</div>
+      <div>http://bugeater.space/2023/10/20/人工智能导论Chap5/</div>
     </div>
     <div class="license-meta">
       
