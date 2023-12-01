@@ -16,13 +16,15 @@
   <meta name="author" content="BugEater">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="JSP生命周期编译阶段：servlet容器编译servlet源文件，生成servlet类当浏览器请求JSP页面时，JSP引擎会首先去检查是否需要编译这个文件。如果这个文件没有被编译过，或者在上次编译后被更改过，则编译这个JSP文件。编译的过程包括三个步骤：  解析JSP文件。 将JSP文件转为servlet。 编译servlet。  组成JSP页面内容可以分成 元素 和 模板数据 两部分。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="JSP基础">
 <meta property="og:url" content="http://bugeater.space/2023/12/01/JSP%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="BugEaterのBlog">
+<meta property="og:description" content="JSP生命周期编译阶段：servlet容器编译servlet源文件，生成servlet类当浏览器请求JSP页面时，JSP引擎会首先去检查是否需要编译这个文件。如果这个文件没有被编译过，或者在上次编译后被更改过，则编译这个JSP文件。编译的过程包括三个步骤：  解析JSP文件。 将JSP文件转为servlet。 编译servlet。  组成JSP页面内容可以分成 元素 和 模板数据 两部分。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-12-01T03:15:08.000Z">
-<meta property="article:modified_time" content="2023-12-01T03:15:08.321Z">
+<meta property="article:modified_time" content="2023-12-01T08:04:25.805Z">
 <meta property="article:author" content="BugEater">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -246,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 words
+          1.5k words
         
       </span>
     
@@ -257,7 +259,7 @@
         
         
         
-          1 mins
+          13 mins
         
       </span>
     
@@ -307,7 +309,37 @@
             
               <div class="markdown-body">
                 
-                
+                <h2 id="JSP生命周期"><a href="#JSP生命周期" class="headerlink" title="JSP生命周期"></a>JSP生命周期</h2><p>编译阶段：<br>servlet容器编译servlet源文件，生成servlet类<br>当浏览器请求JSP页面时，JSP引擎会首先去检查是否需要编译这个文件。如果这个文件没有被编译过，或者在上次编译后被更改过，则编译这个JSP文件。<br>编译的过程包括三个步骤：</p>
+<ul>
+<li>解析JSP文件。</li>
+<li>将JSP文件转为servlet。</li>
+<li>编译servlet。</li>
+</ul>
+<h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><p>JSP页面内容可以分成 元素 和 模板数据 两部分。  </p>
+<ul>
+<li>元素是在JSP基本语法中定义的内容<br>JSP容器在转换阶段将元素翻译成相应的Java代码。<br>JSP定义的元素有四种类型：指令、脚本、动作和表达式语言。  </li>
+<li>JSP页面中其他的所有内容都是模板数据。<br>JSP容器对模板数据不做处理，例如HTML内容，会直接送到客户端执行。</li>
+</ul>
+<h2 id="JSP指令"><a href="#JSP指令" class="headerlink" title="JSP指令"></a>JSP指令</h2><p>JSP（JavaServer Pages）指令是用于指导 JSP 容器在编译和执行 JSP 页面时的行为的特殊指令。它们以 &lt;%@ 开始，以 %&gt; 结束，并位于 JSP 页面的顶部。</p>
+<ul>
+<li>page 指令：page 指令用于设置整个 JSP 页面的属性和配置选项。它可以指定页面的编码方式、脚本语言、缓冲区大小等<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%@ page language=<span class="hljs-string">&quot;java&quot;</span> contentType=<span class="hljs-string">&quot;text/html; charset=UTF-8&quot;</span> pageEncoding=<span class="hljs-string">&quot;UTF-8&quot;</span> %&gt;<br></code></pre></td></tr></table></figure></li>
+<li>include 指令：include 指令用于在 JSP 页面中包含其他文件。它可以将其他 JSP 页面、HTML 文件或文本文件包含到当前页面中<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%@ include file=<span class="hljs-string">&quot;header.jsp&quot;</span> %&gt;<br></code></pre></td></tr></table></figure></li>
+<li>taglib 指令：taglib 指令用于引入自定义标签库（Tag Library）到当前的 JSP 页面中。它指定了标签库的 URI（Uniform Resource Identifier）和位置。<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%@ taglib uri=<span class="hljs-string">&quot;http://example.com/mytags&quot;</span> prefix=<span class="hljs-string">&quot;my&quot;</span> %&gt;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="JSP隐含对象"><a href="#JSP隐含对象" class="headerlink" title="JSP隐含对象"></a>JSP隐含对象</h2><p>也被称为预定义变量  </p>
+<ul>
+<li>request：表示客户端发起的 HTTP 请求的请求对象。它提供了对请求参数、请求头、请求方法等的访问，以及与请求相关的操作和处理。</li>
+<li>response：表示服务器对客户端的 HTTP 响应的响应对象。它提供了向客户端发送响应内容、设置响应头、重定向等操作的方法。</li>
+<li>out：表示向客户端发送响应的输出流对象。它提供了向客户端输出文本、HTML、XML 等内容的方法。</li>
+<li>session：表示客户端与服务器之间的会话对象。它提供了在会话期间存储和检索数据的方法，以及与会话相关的操作，如会话失效、会话跟踪等。</li>
+</ul>
+<h2 id="JSP动作"><a href="#JSP动作" class="headerlink" title="JSP动作"></a>JSP动作</h2><p>JSP（JavaServer Pages）动作是一种特殊的标记，用于在 JSP 页面中执行特定的操作。这些动作以 <a href="jsp:">jsp:</a> 开头，通过使用不同的动作标签，可以实现各种功能和操作，如控制流程、访问数据库、处理表单数据等。  </p>
+<ul>
+<li><code>&lt;jsp:include&gt;</code>：用于包含其他页面或文件的内容。可以将一个页面的内容嵌入到另一个页面中，实现代码的重用和模块化。<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:include page=<span class="hljs-string">&quot;relative URL&quot;</span> flush=<span class="hljs-string">&quot;true&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+<strong>属性： 描述</strong><br>page：包含在页面中的相对URL地址。<br>flush：布尔属性，定义在包含资源前是否刷新缓存区。  </li>
+<li><code>&lt;jsp:forward&gt;</code>：用于将请求转发到另一个页面或资源。可以实现页面之间的跳转，将请求传递给其他页面进行处理。<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:forward page=<span class="hljs-string">&quot;Relative URL&quot;</span> /&gt;<br></code></pre></td></tr></table></figure></li>
+</ul>
+
                 
               </div>
             
