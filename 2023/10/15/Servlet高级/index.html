@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://bugeater.space/2023/10/15/Servlet%E9%AB%98%E7%BA%A7/pic1.png">
 <meta property="article:published_time" content="2023-10-15T14:08:23.000Z">
-<meta property="article:modified_time" content="2023-10-16T13:21:20.242Z">
+<meta property="article:modified_time" content="2023-12-03T03:01:04.238Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="Web">
 <meta property="article:tag" content="Servlet">
@@ -252,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5k words
+          5.2k words
         
       </span>
     
@@ -263,7 +263,7 @@
         
         
         
-          42 mins
+          44 mins
         
       </span>
     
@@ -318,6 +318,7 @@
 <h2 id="RequestDispatcher"><a href="#RequestDispatcher" class="headerlink" title="RequestDispatcher"></a>RequestDispatcher</h2><p><code>RequestDispatcher</code>是一个Web资源的包装器，可以用来把当前request传递到该资源，或者把新的资源包括到当前响应中，<strong>使用的是<code>forward</code>和<code>include</code>方法，此两种方法调用对用户来说是透明的</strong>  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (passwd.equals(<span class="hljs-string">&quot;mypasswd&quot;</span>) &amp;&amp; name.equals(<span class="hljs-string">&quot;admin&quot;</span>)) &#123;<br>    <span class="hljs-type">RequestDispatcher</span> <span class="hljs-variable">rd</span> <span class="hljs-operator">=</span> request.getRequestDispatcher(<span class="hljs-string">&quot;Welcome&quot;</span>);<br>    out.print(<span class="hljs-string">&quot;Username is : &quot;</span> + name);<br>    rd.forward(request, response);<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    out.print(<span class="hljs-string">&quot;Sorry UserName or Password Error!&quot;</span>);<br>    <span class="hljs-type">RequestDispatcher</span> <span class="hljs-variable">rd</span> <span class="hljs-operator">=</span> request.getRequestDispatcher(<span class="hljs-string">&quot;/index.html&quot;</span>);<br>    rd.include(request, response);<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong>最重要的是<code>url</code>不会改变！！！所以常用！</strong>  </p>
+<h1 id="常用技巧，想将button与servlet结合起来的最好方法"><a href="#常用技巧，想将button与servlet结合起来的最好方法" class="headerlink" title="常用技巧，想将button与servlet结合起来的最好方法"></a>常用技巧，想将button与servlet结合起来的最好方法</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span> = <span class="hljs-string">&quot;logout&quot;</span> <span class="hljs-attr">method</span> = <span class="hljs-string">&quot;post&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span> = <span class="hljs-string">&quot;submit&quot;</span>&gt;</span>注销<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><h2 id="一张搞懂Filter"><a href="#一张搞懂Filter" class="headerlink" title="一张搞懂Filter"></a>一张搞懂Filter</h2><img src="/2023/10/15/Servlet%E9%AB%98%E7%BA%A7/pic1.png" srcset="/img/loading.gif" lazyload class="">  
 <h2 id="一套代码介绍Filter的作用"><a href="#一套代码介绍Filter的作用" class="headerlink" title="一套代码介绍Filter的作用"></a>一套代码介绍Filter的作用</h2><ul>
 <li>index.jsp<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%@ page contentType=<span class="hljs-string">&quot;text/html; charset=UTF-8&quot;</span> pageEncoding=<span class="hljs-string">&quot;UTF-8&quot;</span> %&gt;<br>&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>    &lt;title&gt;Login Page&lt;/title&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>&lt;h1&gt;Login&lt;/h1&gt;<br>&lt;form action=<span class="hljs-string">&quot;welcome&quot;</span> method=<span class="hljs-string">&quot;post&quot;</span>&gt;<br>    &lt;label <span class="hljs-keyword">for</span>=<span class="hljs-string">&quot;username&quot;</span>&gt;Username:&lt;/label&gt;<br>    &lt;input type=<span class="hljs-string">&quot;text&quot;</span> id=<span class="hljs-string">&quot;userName&quot;</span> name=<span class="hljs-string">&quot;username&quot;</span>&gt;&lt;br&gt;&lt;br&gt;<br>    &lt;label <span class="hljs-keyword">for</span>=<span class="hljs-string">&quot;password&quot;</span>&gt;Password:&lt;/label&gt;<br>    &lt;input type=<span class="hljs-string">&quot;password&quot;</span> id=<span class="hljs-string">&quot;passWord&quot;</span> name=<span class="hljs-string">&quot;password&quot;</span>&gt;&lt;br&gt;&lt;br&gt;<br>    &lt;input type=<span class="hljs-string">&quot;submit&quot;</span> value=<span class="hljs-string">&quot;Login&quot;</span>&gt;<br>&lt;/form&gt;&lt;br/&gt;<br>&lt;a href=<span class="hljs-string">&quot;HelloServlet&quot;</span>&gt;click&lt;/a&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;<br></code></pre></td></tr></table></figure></li>
