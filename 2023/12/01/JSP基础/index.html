@@ -16,16 +16,18 @@
   <meta name="author" content="BugEater">
   <meta name="keywords" content="">
   
-    <meta name="description" content="JSP生命周期编译阶段：servlet容器编译servlet源文件，生成servlet类当浏览器请求JSP页面时，JSP引擎会首先去检查是否需要编译这个文件。如果这个文件没有被编译过，或者在上次编译后被更改过，则编译这个JSP文件。编译的过程包括三个步骤：  解析JSP文件。 将JSP文件转为servlet。 编译servlet。  组成JSP页面内容可以分成 元素 和 模板数据 两部分。">
+    <meta name="description" content="JSP语法首先jsp最常用的就是用&lt;% your jsp code %&gt;语法。 JSP声明语法声明变量 这些变量在整个JSP页面内有效。 当用多个用户请求一个JSP页面时，JSP容器为每个客户起动一个线程，这些线程共享JSP页面的成员变量，因此任何一个用户对JSP页面成员变量的操作的结果，都会影响到其他用户。123&lt;%! int i &#x3D; 0; %&gt; &lt;%! int a">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JSP基础">
 <meta property="og:url" content="http://bugeater.space/2023/12/01/JSP%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="BugEaterのBlog">
-<meta property="og:description" content="JSP生命周期编译阶段：servlet容器编译servlet源文件，生成servlet类当浏览器请求JSP页面时，JSP引擎会首先去检查是否需要编译这个文件。如果这个文件没有被编译过，或者在上次编译后被更改过，则编译这个JSP文件。编译的过程包括三个步骤：  解析JSP文件。 将JSP文件转为servlet。 编译servlet。  组成JSP页面内容可以分成 元素 和 模板数据 两部分。">
+<meta property="og:description" content="JSP语法首先jsp最常用的就是用&lt;% your jsp code %&gt;语法。 JSP声明语法声明变量 这些变量在整个JSP页面内有效。 当用多个用户请求一个JSP页面时，JSP容器为每个客户起动一个线程，这些线程共享JSP页面的成员变量，因此任何一个用户对JSP页面成员变量的操作的结果，都会影响到其他用户。123&lt;%! int i &#x3D; 0; %&gt; &lt;%! int a">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-12-01T03:15:08.000Z">
-<meta property="article:modified_time" content="2023-12-01T08:04:25.805Z">
+<meta property="article:modified_time" content="2023-12-14T01:51:19.595Z">
 <meta property="article:author" content="BugEater">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="JSP">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -248,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k words
+          3.1k words
         
       </span>
     
@@ -259,7 +261,7 @@
         
         
         
-          13 mins
+          26 mins
         
       </span>
     
@@ -309,7 +311,21 @@
             
               <div class="markdown-body">
                 
-                <h2 id="JSP生命周期"><a href="#JSP生命周期" class="headerlink" title="JSP生命周期"></a>JSP生命周期</h2><p>编译阶段：<br>servlet容器编译servlet源文件，生成servlet类<br>当浏览器请求JSP页面时，JSP引擎会首先去检查是否需要编译这个文件。如果这个文件没有被编译过，或者在上次编译后被更改过，则编译这个JSP文件。<br>编译的过程包括三个步骤：</p>
+                <h2 id="JSP语法"><a href="#JSP语法" class="headerlink" title="JSP语法"></a>JSP语法</h2><p>首先jsp最常用的就是用<code>&lt;% your jsp code %&gt;</code>语法。</p>
+<h3 id="JSP声明语法"><a href="#JSP声明语法" class="headerlink" title="JSP声明语法"></a>JSP声明语法</h3><h4 id="声明变量"><a href="#声明变量" class="headerlink" title="声明变量"></a>声明变量</h4><ul>
+<li>这些变量在整个JSP页面内有效。</li>
+<li>当用多个用户请求一个JSP页面时，JSP容器为每个客户起动一个线程，这些线程共享JSP页面的成员变量，因此任何一个用户对JSP页面成员变量的操作的结果，都会影响到其他用户。<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%! <span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; %&gt; <br>&lt;%! <span class="hljs-type">int</span> a, b, c; %&gt; <br>&lt;%! <span class="hljs-type">Circle</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Circle</span>(<span class="hljs-number">2.0</span>); %&gt;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="声明方法"><a href="#声明方法" class="headerlink" title="声明方法"></a>声明方法</h4><ul>
+<li>需要注意的是，在方法中定义的变量，只在该方法内有效。</li>
+</ul>
+<h4 id="声明类"><a href="#声明类" class="headerlink" title="声明类"></a>声明类</h4><ul>
+<li>由于该类在Servlet类的内部，以 内部类 形式存在，所以该类只在本JSP页面内有效，即在JSP页面的Java程序部分可以使用该类创建的对象。</li>
+</ul>
+<h3 id="JSP表达式语法"><a href="#JSP表达式语法" class="headerlink" title="JSP表达式语法"></a>JSP表达式语法</h3><p>表达式是由常量、变量和运算符组成的式子，在请求处理的时候表达式被计算并插入到输出流返回给客户端。<br><code>&lt;%=</code>三个字符之间不能有空格，表达式之后不能有<code>;</code>。</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%@ page language=<span class="hljs-string">&quot;java&quot;</span> <span class="hljs-keyword">import</span>=<span class="hljs-string">&quot;java.util.*&quot;</span> pageEncoding=<span class="hljs-string">&quot;UTF-8&quot;</span>%&gt;<br>&lt;html&gt;<br>    &lt;head&gt;<br>        &lt;title&gt;JSP表达式实例&lt;/title&gt;<br>    &lt;/head&gt;<br>    &lt;body&gt;<br>        &lt;p&gt;<br>            今天是:&lt;%=(<span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.util.Date()).toLocaleString()%&gt;<br>        &lt;/p&gt;<br>    &lt;/body&gt;<br>&lt;/html&gt;<br></code></pre></td></tr></table></figure>
+<h3 id="JSP注释语法"><a href="#JSP注释语法" class="headerlink" title="JSP注释语法"></a>JSP注释语法</h3><p><code>&lt;%-- your comment --%&gt;</code>  </p>
+<h2 id="JSP生命周期"><a href="#JSP生命周期" class="headerlink" title="JSP生命周期"></a>JSP生命周期</h2><p>编译阶段：<br>servlet容器编译servlet源文件，生成servlet类<br>当浏览器请求JSP页面时，JSP引擎会首先去检查是否需要编译这个文件。如果这个文件没有被编译过，或者在上次编译后被更改过，则编译这个JSP文件。<br>编译的过程包括三个步骤：</p>
 <ul>
 <li>解析JSP文件。</li>
 <li>将JSP文件转为servlet。</li>
@@ -320,7 +336,7 @@
 <li>元素是在JSP基本语法中定义的内容<br>JSP容器在转换阶段将元素翻译成相应的Java代码。<br>JSP定义的元素有四种类型：指令、脚本、动作和表达式语言。  </li>
 <li>JSP页面中其他的所有内容都是模板数据。<br>JSP容器对模板数据不做处理，例如HTML内容，会直接送到客户端执行。</li>
 </ul>
-<h2 id="JSP指令"><a href="#JSP指令" class="headerlink" title="JSP指令"></a>JSP指令</h2><p>JSP（JavaServer Pages）指令是用于指导 JSP 容器在编译和执行 JSP 页面时的行为的特殊指令。它们以 &lt;%@ 开始，以 %&gt; 结束，并位于 JSP 页面的顶部。</p>
+<h2 id="JSP指令"><a href="#JSP指令" class="headerlink" title="JSP指令"></a>JSP指令</h2><p>JSP（JavaServer Pages）指令是用于指导 JSP 容器在编译和执行 JSP 页面时的行为的特殊指令。它们以<code>&lt;%@</code>开始，以<code>%&gt;</code>结束，并位于 JSP 页面的顶部。</p>
 <ul>
 <li>page 指令：page 指令用于设置整个 JSP 页面的属性和配置选项。它可以指定页面的编码方式、脚本语言、缓冲区大小等<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%@ page language=<span class="hljs-string">&quot;java&quot;</span> contentType=<span class="hljs-string">&quot;text/html; charset=UTF-8&quot;</span> pageEncoding=<span class="hljs-string">&quot;UTF-8&quot;</span> %&gt;<br></code></pre></td></tr></table></figure></li>
 <li>include 指令：include 指令用于在 JSP 页面中包含其他文件。它可以将其他 JSP 页面、HTML 文件或文本文件包含到当前页面中<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%@ include file=<span class="hljs-string">&quot;header.jsp&quot;</span> %&gt;<br></code></pre></td></tr></table></figure></li>
@@ -338,6 +354,8 @@
 <li><code>&lt;jsp:include&gt;</code>：用于包含其他页面或文件的内容。可以将一个页面的内容嵌入到另一个页面中，实现代码的重用和模块化。<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:include page=<span class="hljs-string">&quot;relative URL&quot;</span> flush=<span class="hljs-string">&quot;true&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
 <strong>属性： 描述</strong><br>page：包含在页面中的相对URL地址。<br>flush：布尔属性，定义在包含资源前是否刷新缓存区。  </li>
 <li><code>&lt;jsp:forward&gt;</code>：用于将请求转发到另一个页面或资源。可以实现页面之间的跳转，将请求传递给其他页面进行处理。<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:forward page=<span class="hljs-string">&quot;Relative URL&quot;</span> /&gt;<br></code></pre></td></tr></table></figure></li>
+<li><code>&lt;jsp:useBean&gt;</code>：装载一个将在JSP页面中使用的 JavaBean<br>JavaBean类如下：  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> action;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestBean</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">message</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;No message specified&quot;</span>;<br><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getMessage</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span>(message);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setMessage</span><span class="hljs-params">(String message)</span> &#123;<br>        <span class="hljs-built_in">this</span>.message = message;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+JSP代码如下：<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;html&gt;<br>&lt;head&gt;<br>&lt;title&gt;Using JavaBeans in JSP&lt;/title&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>&lt;center&gt;<br>&lt;h2&gt;Using JavaBeans in JSP&lt;/h2&gt;<br>&lt;jsp:useBean id=<span class="hljs-string">&quot;test&quot;</span> class=<span class="hljs-string">&quot;action.TestBean&quot;</span> /&gt;<br>&lt;jsp:setProperty name=<span class="hljs-string">&quot;test&quot;</span><br>                property=<span class="hljs-string">&quot;message&quot;</span><br>                value=<span class="hljs-string">&quot;Hello JSP...&quot;</span> /&gt;<br>&lt;p&gt;Got message....&lt;/p&gt;<br>&lt;jsp:getProperty name=<span class="hljs-string">&quot;test&quot;</span> property=<span class="hljs-string">&quot;message&quot;</span> /&gt;<br>&lt;/center&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;<br></code></pre></td></tr></table></figure></li>
 </ul>
 
                 
@@ -347,6 +365,43 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Blog/" class="category-chain-item">Blog</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Blog/Web/" class="category-chain-item">Web</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web/" class="print-no-link">#Web</a>
+      
+        <a href="/tags/JSP/" class="print-no-link">#JSP</a>
+      
+    </div>
   
 </div>
 
@@ -400,6 +455,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/12/14/JavaBean-EL-JSTL/" title="JavaBean&amp;EL&amp;JSTL">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JavaBean&amp;EL&amp;JSTL</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
