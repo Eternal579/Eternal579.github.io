@@ -23,13 +23,14 @@
 <meta property="og:site_name" content="BugEaterのBlog">
 <meta property="og:description" content="IntroductionLab1 is split into 3 parts, the first part is designed to let us get familiar with x86 assembly language, the QEMU x86 emulator, and the PC’s power-on-bootstrap(引导程序) procedure. The second">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://bugeater.space/img/test.png">
+<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic1.png">
+<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic2.png">
 <meta property="article:published_time" content="2024-01-09T14:23:58.000Z">
-<meta property="article:modified_time" content="2024-01-12T10:06:38.291Z">
+<meta property="article:modified_time" content="2024-01-12T11:28:15.301Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://bugeater.space/img/test.png">
+<meta name="twitter:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic1.png">
   
   
   
@@ -257,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          307 words
+          2.4k words
         
       </span>
     
@@ -268,7 +269,7 @@
         
         
         
-          3 mins
+          21 mins
         
       </span>
     
@@ -319,7 +320,27 @@
               <div class="markdown-body">
                 
                 <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Lab1 is split into 3 parts, the first part is designed to let us get familiar with x86 assembly language, the QEMU x86 emulator, and the PC’s power-on-bootstrap(引导程序) procedure. The second part test the boot loader for our 6.828 kernel. Finally, the third part delves into the initial template for out 6.828 kernel itself, named JOS.  </p>
-<h2 id="Part1-PC-Bootstrap"><a href="#Part1-PC-Bootstrap" class="headerlink" title="Part1: PC Bootstrap"></a>Part1: PC Bootstrap</h2>
+<h2 id="Part1-PC-Bootstrap"><a href="#Part1-PC-Bootstrap" class="headerlink" title="Part1: PC Bootstrap"></a>Part1: PC Bootstrap</h2><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
+<li>type ctrl+a &amp; x to quit qemu</li>
+</ul>
+<h3 id="The-PC’s-Physical-Address-Space"><a href="#The-PC’s-Physical-Address-Space" class="headerlink" title="The PC’s Physical Address Space"></a>The PC’s Physical Address Space</h3><img src="/2024/01/09/MIT6-828-Lab1/pic1.png" srcset="/img/loading.gif" lazyload class="">
+<p>The general layout above belongs to 16-bit Intel 8088 processor(16 bit means the data bus width), which is capable of addressing 1MB of physical memory attributed by its 20-bit address bus. “Low Memory” is the only random-access memory(RAM) that an early PC could use. The left area(from 0x000A0000 through 0x000FFFFF) was reserved by the hardware for special uses such as video display buffers and firmware held in non-volatile memory. <strong>The most important part of this reserved area is the Basic Input&#x2F;Output System (BIOS)</strong>, which occupies the 64KB region from 0x000F0000 through 0x000FFFFF and is responsible for performing basic system initialization such as activating the video card and checking the amount of memory installed. After performing this initialization, the BIOS loads the operating system from some appropriate location and passes control of the machine to the operating system.<br>Considering x86 processors can support more than 4GB of physical RAM, so RAM can extend further above 0xFFFFFFFF. In this case the BIOS must arrange to leave a second hole in the system’s RAM at the top of the 32-bit addressable region, to leave room for these 32-bit devices to be mapped. Because of design limitations JOS will use only the first 256MB of a PC’s physical memory anyway, <strong>so for now we will pretend that all PCs have “only” a 32-bit physical address space.</strong>  </p>
+<h3 id="The-ROM-BIOS"><a href="#The-ROM-BIOS" class="headerlink" title="The ROM BIOS"></a>The ROM BIOS</h3><img src="/2024/01/09/MIT6-828-Lab1/pic2.png" srcset="/img/loading.gif" lazyload class="">
+<p>Open 2 terminal windows and cd both shells into my lab directory. In one, type <code>sudo make qemu-gdb</code>, which will starts up QEMU, but it stops just before the processor executes the first instruction. In the second terminal, type <code>sudo make gdb</code>. u will get the above result.  </p>
+<p><strong>Some explanation</strong>  </p>
+<ol>
+<li>the above line:<br><code>[f000:fff0]    0xffff0: ljmp   $0xf000,$0xe05b</code> is GDB’s disassembly of the first instruction to be executed.</li>
+</ol>
+<ul>
+<li>The IBM PC starts executing at physical address 0x000ffff0, which is at the very top of the 64KB area reserved for the ROM BIOS.</li>
+<li>The PC starts executing with CS &#x3D; 0xf000 and IP &#x3D; 0xfff0.</li>
+<li>The first instruction to be executed is a jmp instruction, which jumps to the segmented address CS &#x3D; 0xf000 and IP &#x3D; 0xe05b.</li>
+</ul>
+<ol start="2">
+<li>formula<br><code>physical address = 16 * segment + offset</code>, segment &#x3D; PC, offset &#x3D; IP. So, the physical address regerenced is: 16 * 0xf000 + 0xfff0 &#x3D; 0xffff0.</li>
+<li><strong>why 0xffff0?</strong><br>Obviously, 0xffff0 is 16 bytes before the and of the BIOS(0x100000), that’s because the first thing that BIOS does is <code>jmp</code> backwards to an earlier location.</li>
+</ol>
+
                 
               </div>
             
