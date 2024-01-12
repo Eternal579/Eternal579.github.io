@@ -1,4 +1,5 @@
 http://bugeater.space/2024/01/09/MIT6-828-Lab1/
+http://bugeater.space/2023/09/04/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day1/
 http://bugeater.space/about/index.html
 http://bugeater.space/2024/01/09/MIT6-828-PreWork/
 http://bugeater.space/2024/01/08/Git%E6%89%8B%E5%86%8C/
@@ -11,7 +12,6 @@ http://bugeater.space/2023/10/07/%E8%A1%A5%E5%85%A8manpage/
 http://bugeater.space/2023/09/12/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day4/
 http://bugeater.space/2023/09/09/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day3/
 http://bugeater.space/2023/09/06/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day2/
-http://bugeater.space/2023/09/04/Linux%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5Day1/
 http://bugeater.space/
 http://bugeater.space/tags/Git/
 http://bugeater.space/tags/Linux/
