@@ -8,7 +8,7 @@
     <link href="/2024/01/09/MIT6-828-Lab1/"/>
     <url>/2024/01/09/MIT6-828-Lab1/</url>
     
-    <content type="html"><![CDATA[<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Lab1 is split into 3 parts, the first part is designed to let us get familiar with x86 assembly language, the QEMU x86 emulator, and the PC’s power-on-bootstrap(引导程序) procedure. The second part test the boot loader for our 6.828 kernel. Finally, the third part delves into the initial template for out 6.828 kernel itself, named JOS.  </p><h2 id="Part1-PC-Bootstrap"><a href="#Part1-PC-Bootstrap" class="headerlink" title="Part1: PC Bootstrap"></a>Part1: PC Bootstrap</h2><p>abababaab</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Lab1 is split into 3 parts, the first part is designed to let us get familiar with x86 assembly language, the QEMU x86 emulator, and the PC’s power-on-bootstrap(引导程序) procedure. The second part test the boot loader for our 6.828 kernel. Finally, the third part delves into the initial template for out 6.828 kernel itself, named JOS.  </p><h2 id="Part1-PC-Boots"><a href="#Part1-PC-Boots" class="headerlink" title="Part1: PC Boots"></a>Part1: PC Boots</h2><p>testsetdasdnasodxcvxcvxcv</p>]]></content>
     
     
     <categories>
