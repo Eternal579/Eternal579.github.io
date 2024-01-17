@@ -26,9 +26,13 @@
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic1.png">
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic2.png">
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic3.png">
+<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic8.png">
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic4.png">
+<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic7.png">
+<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic5.png">
+<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic6.png">
 <meta property="article:published_time" content="2024-01-09T14:23:58.000Z">
-<meta property="article:modified_time" content="2024-01-17T08:22:58.393Z">
+<meta property="article:modified_time" content="2024-01-17T13:11:35.144Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -260,7 +264,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.5k words
+          9.3k words
         
       </span>
     
@@ -271,7 +275,7 @@
         
         
         
-          72 mins
+          78 mins
         
       </span>
     
@@ -359,15 +363,17 @@
 <ul>
 <li><code>b *&lt;ADDR&gt;</code>: <code>&lt;ADDR&gt;</code>means the address where you wannna break</li>
 <li><code>si &lt;N&gt;</code>: <code>&lt;N&gt;</code>means N steps</li>
+<li><code>x/Nx &lt;ADDR&gt;</code>: Display a hex dump of N words starting at <strong>virtual</strong> address addr</li>
 <li><code>x/Ni &lt;ADDR&gt;</code>: <code>&lt;ADDR&gt;</code>is the memory address at which to start disassembling, and N is the number of consecutive instructions to disassemble<br>here is some results I tried:<img src="/2024/01/09/MIT6-828-Lab1/pic3.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ul>
-<h3 id="Exercise-3"><a href="#Exercise-3" class="headerlink" title="Exercise 3"></a>Exercise 3</h3><p><strong>ans:</strong> the loop is finished at <code>0x7d71</code>, which is showed by <code>jae    7d71 &lt;bootmain+0x58&gt;</code> instruction<br>And the kernel code seems to be at <code>0x10000c</code>, here is some disassembly code after loop is finished</p>
+<h3 id="Exercise-3"><a href="#Exercise-3" class="headerlink" title="Exercise 3"></a>Exercise 3</h3><img src="/2024/01/09/MIT6-828-Lab1/pic8.png" srcset="/img/loading.gif" lazyload class="">
+<p><strong>ans:</strong> the loop is finished at <code>0x7d71</code>, which is showed by <code>jae    7d71 &lt;bootmain+0x58&gt;</code> instruction<br>And the kernel code seems to be at <code>0x10000c</code>, here is some disassembly code after loop is finished</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs asm">(gdb) x/10i 0x10000c<br>   0x10000c:    movw   $0x1234,0x472<br>   0x100015:    mov    $0x111000,%eax<br>   0x10001a:    mov    %eax,%cr3<br>=&gt; 0x10001d:    mov    %cr0,%eax<br>   0x100020:    or     $0x80010001,%eax<br>   0x100025:    mov    %eax,%cr0<br>   0x100028:    mov    $0xf010002f,%eax<br>   0x10002d:    jmp    *%eax<br>   0x10002f:    mov    $0x0,%ebp<br>   0x100034:    mov    $0xf010f000,%esp<br></code></pre></td></tr></table></figure>
 <h3 id="questions"><a href="#questions" class="headerlink" title="questions"></a>questions</h3><ul>
 <li>At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode?</li>
 </ul>
 <ol>
-<li>starts at <code>0x7c32</code> which the disassembly shows</li>
+<li>after <code>ljmp</code> instruction</li>
 <li><code>ljmp    $PROT_MODE_CSEG, $protcseg</code>, concluded by appendix B in <code>xv6-book</code></li>
 </ol>
 <ul>
@@ -392,7 +398,14 @@
 <li>use <code>objdump -h obj/kern/kernel</code> to see the full list of the names, sizes, and link addresses of all the sections in the kernel executable</li>
 <li>Verification about <code>Where is the first instruction of the kernel</code>:<br>use <code>objdump -f obj/kern/kernel</code>, you will see the figure below:<img src="/2024/01/09/MIT6-828-Lab1/pic4.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ul>
-<h2 id="Part3-The-Kernel"><a href="#Part3-The-Kernel" class="headerlink" title="Part3: The Kernel"></a>Part3: The Kernel</h2>
+<h2 id="Part3-The-Kernel"><a href="#Part3-The-Kernel" class="headerlink" title="Part3: The Kernel"></a>Part3: The Kernel</h2><h3 id="Using-virtual-memory-to-work-around-position-dependence"><a href="#Using-virtual-memory-to-work-around-position-dependence" class="headerlink" title="Using virtual memory to work around position dependence"></a>Using virtual memory to work around position dependence</h3><p><strong>First, we need to straighten things out.</strong>  For backward compatibility, processcor starts at 16-bit mode, and we use <code>bootloader</code> to change it into 32-bit mode, which let us get into <code>protected mode</code>. <strong>But!!!</strong>, memory references are still <strong>treated as physical addresses</strong>, until <code>kern/entry.S</code> sets the <code>CRO_PG</code>(Page flag). Once <code>CR0_PG</code> is set, memory references are virtual addresses that get translated by the virtual memory hardware to physical addresses.  </p>
+<h3 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a>Exercise 7</h3><img src="/2024/01/09/MIT6-828-Lab1/pic7.png" srcset="/img/loading.gif" lazyload class="">
+<p><strong>ATTENTION!!!</strong> the kernel has already been loaded at <code>0x10000c</code>, so do not use <code>b *0xf0100020</code> like me!!!<br>before <code>movl	%eax, %cr0</code>, the memory is shown below:  </p>
+<img src="/2024/01/09/MIT6-828-Lab1/pic5.png" srcset="/img/loading.gif" lazyload class="">
+<p>after that:  </p>
+<img src="/2024/01/09/MIT6-828-Lab1/pic6.png" srcset="/img/loading.gif" lazyload class="">
+<p>As we can see, memory started at <code>0x00100000</code> has been copied to <code>0xf0100000</code><br>AND, the first instruction that would fail should be some actions about accessing high address  </p>
+
                 
               </div>
             
