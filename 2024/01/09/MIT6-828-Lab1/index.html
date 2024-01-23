@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic6.png">
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic9.png">
 <meta property="article:published_time" content="2024-01-09T14:23:58.000Z">
-<meta property="article:modified_time" content="2024-01-19T07:36:16.068Z">
+<meta property="article:modified_time" content="2024-01-23T14:06:26.478Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -265,7 +265,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          10k words
+          12k words
         
       </span>
     
@@ -276,7 +276,7 @@
         
         
         
-          86 mins
+          97 mins
         
       </span>
     
@@ -401,7 +401,7 @@
 </ul>
 <h2 id="Part3-The-Kernel"><a href="#Part3-The-Kernel" class="headerlink" title="Part3: The Kernel"></a>Part3: The Kernel</h2><h3 id="Using-virtual-memory-to-work-around-position-dependence"><a href="#Using-virtual-memory-to-work-around-position-dependence" class="headerlink" title="Using virtual memory to work around position dependence"></a>Using virtual memory to work around position dependence</h3><p><strong>First, we need to straighten things out.</strong>  For backward compatibility, processcor starts at 16-bit mode, and we use <code>bootloader</code> to change it into 32-bit mode, which let us get into <code>protected mode</code>. <strong>But!!!</strong>, memory references are still <strong>treated as physical addresses</strong>, until <code>kern/entry.S</code> sets the <code>CRO_PG</code>(Page flag). Once <code>CR0_PG</code> is set, memory references are virtual addresses that get translated by the virtual memory hardware to physical addresses.  </p>
 <h3 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a>Exercise 7</h3><img src="/2024/01/09/MIT6-828-Lab1/pic7.png" srcset="/img/loading.gif" lazyload class="">
-<p><strong>ATTENTION!!!</strong> the kernel has already been loaded at <code>0x10000c</code>, so do not use <code>b *0xf0100020</code> like me!!!<br>before <code>movl	%eax, %cr0</code>, the memory is shown below:  </p>
+<p><strong>ATTENTION!!!</strong> the kernel has already been loaded at <code>0x10000c</code>(Physical address), but until <code>kernel.asm</code> execute <code>jmp    *%eax</code> to jump into the high address, can we use <code>b *0xf0abcdef</code> to break a point.<br>before <code>movl	%eax, %cr0</code>, the memory is shown below:  </p>
 <img src="/2024/01/09/MIT6-828-Lab1/pic5.png" srcset="/img/loading.gif" lazyload class="">
 <p>after that:  </p>
 <img src="/2024/01/09/MIT6-828-Lab1/pic6.png" srcset="/img/loading.gif" lazyload class="">
@@ -412,10 +412,17 @@
 <li><code>printf.c</code> &amp; <code>printfmt.c</code><br><code>printf.c</code> encapsulate the functions in <code>printfmt.c</code> into <code>cprintf()</code> for the entire program to print in console.</li>
 <li>About <code>va_list</code>, <code>va_start</code>, <code>va_arg</code>, <code>va_end</code><br><code>va_start(va_list args, type var)</code>, parameter <code>var</code> is the last certained parameter in the function which call <code>va_start</code>.<br><code>va_arg(va_list args, type t)</code>, parameter <code>t</code> decides the way of translating parameter in <code>args</code>.</li>
 </ul>
-<h4 id="Exercise-8"><a href="#Exercise-8" class="headerlink" title="Exercise 8"></a>Exercise 8</h4><p>fill the code fragment at <code>vprintfmt</code> function in <code>printfmt.c</code> like below:  </p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// (unsigned) octal</span><br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;o&#x27;</span>:<br>  num = getuint(&amp;ap, lflag);<br>  base = <span class="hljs-number">8</span>;<br>  <span class="hljs-keyword">goto</span> number;<br></code></pre></td></tr></table></figure>
-<p>the result is below:</p>
-<img src="/2024/01/09/MIT6-828-Lab1/pic9.png" srcset="/img/loading.gif" lazyload class="">
+<h4 id="Exercise-8"><a href="#Exercise-8" class="headerlink" title="Exercise 8"></a>Exercise 8</h4><ul>
+<li>fill the code fragment at <code>vprintfmt</code> function in <code>printfmt.c</code> like below:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// (unsigned) octal</span><br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;o&#x27;</span>:<br>  num = getuint(&amp;ap, lflag);<br>  base = <span class="hljs-number">8</span>;<br>  <span class="hljs-keyword">goto</span> number;<br></code></pre></td></tr></table></figure>
+the result is:<img src="/2024/01/09/MIT6-828-Lab1/pic9.png" srcset="/img/loading.gif" lazyload class=""></li>
+<li><strong>Trace the execution of the following code step-by-step:</strong><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> x = <span class="hljs-number">1</span>, y = <span class="hljs-number">3</span>, z = <span class="hljs-number">4</span>;<br>cprintf(<span class="hljs-string">&quot;x %d, y %x, z %d\n&quot;</span>, x, y, z);<br></code></pre></td></tr></table></figure>
+in the call to <code>cprintf()</code>, <code>fmt</code> point to <code>0xf0101a92</code>, and <code>ap</code> point to <code>0xf010efd4</code>, which reminds us that in C function, the actual parameters are pushed into the stack <strong>from right to left</strong>, evidence below:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asm">	// Lab Exercise8-3<br>	int x = 1, y = 3, z = 4;<br>    cprintf(&quot;x %d, y %x, z %d\n&quot;, x, y, z);<br>f01000e8:	6a 04                	push   $0x4<br>f01000ea:	6a 03                	push   $0x3<br>f01000ec:	6a 01                	push   $0x1<br>f01000ee:	8d 83 8a 17 ff ff    	lea    -0xe876(%ebx),%eax<br>f01000f4:	50                   	push   %eax<br>f01000f5:	e8 4f 09 00 00       	call   f0100a49 &lt;cprintf&gt;<br></code></pre></td></tr></table></figure></li>
+<li>Run the following code.<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> i = <span class="hljs-number">0x00646c72</span>;<br>cprintf(<span class="hljs-string">&quot;H%x Wo%s&quot;</span>, <span class="hljs-number">57616</span>, &amp;i);<br></code></pre></td></tr></table></figure>
+<code>57616</code> is <code>e110</code> in hex. And cause x86 is little-endian, so i is stored as <code>0x72</code>,<code>0x6c</code>,<code>0x64</code>,<code>0x00</code> which stands for <code>rld\0</code> in <code>ASCII</code>.</li>
+</ul>
+<h4 id="Understand-GCC-calling-conventions-for-JOS"><a href="#Understand-GCC-calling-conventions-for-JOS" class="headerlink" title="Understand GCC calling conventions for JOS"></a>Understand GCC calling conventions for JOS</h4><p>delve into the code below</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs asm">; 假设执行函数前堆栈指针 ESP 为 NN<br>push   p2    ; 参数 2 入栈，ESP -= 4h , ESP = NN - 4h<br>push   p1    ; 参数 1 入栈，ESP -= 4h , ESP = NN - 8h<br>call test    ; 压入返回地址 ESP -= 4h, ESP = NN - 0Ch  <br>;// 进入函数内<br>&#123;<br>push   ebp                        ; 保护先前 EBP 指针， EBP 入栈， ESP-=4h, ESP = NN - 10h<br>mov    ebp, esp                   ; 设置 EBP 指针指向栈顶 NN-10h<br>mov    eax, dword ptr  [ebp+0ch]  ;ebp+0ch 为 NN-4h, 即参数 2 的位置<br>mov    ebx, dword ptr  [ebp+08h]  ;ebp+08h 为 NN-8h, 即参数 1 的位置<br>sub    esp, 8                     ; 局部变量所占空间 ESP-=8, ESP = NN-18h<br>...<br>add    esp, 8                     ; 释放局部变量，ESP+=8, ESP = NN-10h<br>pop    ebp                        ; 出栈，恢复 EBP, ESP+=4, ESP = NN-0Ch<br>ret    8                          ;ret 返回，弹出返回地址，ESP+=4, ESP=NN-08h, 后面加操作数 8 为平衡堆栈，ESP+=8,ESP=NN, 恢复进入函数前的堆栈.<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="The-Stack"><a href="#The-Stack" class="headerlink" title="The Stack"></a>The Stack</h3>
                 
               </div>
             
