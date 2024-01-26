@@ -19,27 +19,17 @@
     <meta name="description" content="IntroductionLab1 is split into 3 parts, the first part is designed to let us get familiar with x86 assembly language, the QEMU x86 emulator, and the PC’s power-on-bootstrap(引导程序) procedure. The second">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MIT6.828-Lab1">
-<meta property="og:url" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/index.html">
+<meta property="og:url" content="http://bugeater.space/2024/01/26/MIT6-828-Lab1/index.html">
 <meta property="og:site_name" content="BugEaterのBlog">
 <meta property="og:description" content="IntroductionLab1 is split into 3 parts, the first part is designed to let us get familiar with x86 assembly language, the QEMU x86 emulator, and the PC’s power-on-bootstrap(引导程序) procedure. The second">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic1.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic2.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic3.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic8.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic4.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic7.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic5.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic6.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic9.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic10.png">
-<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic11.png">
-<meta property="article:published_time" content="2024-01-09T14:23:58.000Z">
-<meta property="article:modified_time" content="2024-01-26T12:06:02.989Z">
+<meta property="og:image" content="http://bugeater.space/img/6.828_lab1.png">
+<meta property="article:published_time" content="2024-01-26T12:23:58.000Z">
+<meta property="article:modified_time" content="2024-01-26T12:52:33.787Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic1.png">
+<meta name="twitter:image" content="http://bugeater.space/img/6.828_lab1.png">
   
   
   
@@ -255,8 +245,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-09 22:23" pubdate>
-          January 9, 2024 pm
+        <time datetime="2024-01-26 20:23" pubdate>
+          January 26, 2024 pm
         </time>
       </span>
     
@@ -332,9 +322,9 @@
 <h2 id="Part1-PC-Bootstrap"><a href="#Part1-PC-Bootstrap" class="headerlink" title="Part1: PC Bootstrap"></a>Part1: PC Bootstrap</h2><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
 <li>type ctrl+a &amp; x to quit qemu</li>
 </ul>
-<h3 id="The-PC’s-Physical-Address-Space"><a href="#The-PC’s-Physical-Address-Space" class="headerlink" title="The PC’s Physical Address Space"></a>The PC’s Physical Address Space</h3><img src="/2024/01/09/MIT6-828-Lab1/pic1.png" srcset="/img/loading.gif" lazyload class="">
+<h3 id="The-PC’s-Physical-Address-Space"><a href="#The-PC’s-Physical-Address-Space" class="headerlink" title="The PC’s Physical Address Space"></a>The PC’s Physical Address Space</h3><img src="/2024/01/26/MIT6-828-Lab1/pic1.png" srcset="/img/loading.gif" lazyload class="">
 <p>The general layout above belongs to 16-bit Intel 8088 processor(16 bit means the data bus width), which is capable of addressing 1MB of physical memory attributed by its 20-bit address bus. “Low Memory” is the only random-access memory(RAM) that an early PC could use. The left area(from 0x000A0000 through 0x000FFFFF) was reserved by the hardware for special uses such as video display buffers and firmware held in non-volatile memory. <strong>The most important part of this reserved area is the Basic Input&#x2F;Output System (BIOS)</strong>, which occupies the 64KB region from 0x000F0000 through 0x000FFFFF and is responsible for performing basic system initialization such as activating the video card and checking the amount of memory installed. After performing this initialization, the BIOS loads the operating system from some appropriate location and passes control of the machine to the operating system.<br>Considering x86 processors can support more than 4GB of physical RAM, so RAM can extend further above 0xFFFFFFFF. In this case the BIOS must arrange to leave a second hole in the system’s RAM at the top of the 32-bit addressable region, to leave room for these 32-bit devices to be mapped. Because of design limitations JOS will use only the first 256MB of a PC’s physical memory anyway, <strong>so for now we will pretend that all PCs have “only” a 32-bit physical address space.</strong>  </p>
-<h3 id="The-ROM-BIOS"><a href="#The-ROM-BIOS" class="headerlink" title="The ROM BIOS"></a>The ROM BIOS</h3><img src="/2024/01/09/MIT6-828-Lab1/pic2.png" srcset="/img/loading.gif" lazyload class="">
+<h3 id="The-ROM-BIOS"><a href="#The-ROM-BIOS" class="headerlink" title="The ROM BIOS"></a>The ROM BIOS</h3><img src="/2024/01/26/MIT6-828-Lab1/pic2.png" srcset="/img/loading.gif" lazyload class="">
 <p>Open 2 terminal windows and cd both shells into my lab directory. In one, type <code>sudo make qemu-gdb</code>, which will starts up QEMU, but it stops just before the processor executes the first instruction. In the second terminal, type <code>sudo make gdb</code>. u will get the above result.  </p>
 <p><strong>Some explanation</strong>  </p>
 <ol>
@@ -367,9 +357,9 @@
 <li><code>b *&lt;ADDR&gt;</code>: <code>&lt;ADDR&gt;</code>means the address where you wannna break</li>
 <li><code>si &lt;N&gt;</code>: <code>&lt;N&gt;</code>means N steps</li>
 <li><code>x/Nx &lt;ADDR&gt;</code>: Display a hex dump of N words starting at <strong>virtual</strong> address addr</li>
-<li><code>x/Ni &lt;ADDR&gt;</code>: <code>&lt;ADDR&gt;</code>is the memory address at which to start disassembling, and N is the number of consecutive instructions to disassemble<br>here is some results I tried:<img src="/2024/01/09/MIT6-828-Lab1/pic3.png" srcset="/img/loading.gif" lazyload class=""></li>
+<li><code>x/Ni &lt;ADDR&gt;</code>: <code>&lt;ADDR&gt;</code>is the memory address at which to start disassembling, and N is the number of consecutive instructions to disassemble<br>here is some results I tried:<img src="/2024/01/26/MIT6-828-Lab1/pic3.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ul>
-<h3 id="Exercise-3"><a href="#Exercise-3" class="headerlink" title="Exercise 3"></a>Exercise 3</h3><img src="/2024/01/09/MIT6-828-Lab1/pic8.png" srcset="/img/loading.gif" lazyload class="">
+<h3 id="Exercise-3"><a href="#Exercise-3" class="headerlink" title="Exercise 3"></a>Exercise 3</h3><img src="/2024/01/26/MIT6-828-Lab1/pic8.png" srcset="/img/loading.gif" lazyload class="">
 <p><strong>ans:</strong> the loop is finished at <code>0x7d71</code>, which is showed by <code>jae    7d71 &lt;bootmain+0x58&gt;</code> instruction<br>And the kernel code seems to be at <code>0x10000c</code>, here is some disassembly code after loop is finished</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs asm">(gdb) x/10i 0x10000c<br>   0x10000c:    movw   $0x1234,0x472<br>   0x100015:    mov    $0x111000,%eax<br>   0x10001a:    mov    %eax,%cr3<br>=&gt; 0x10001d:    mov    %cr0,%eax<br>   0x100020:    or     $0x80010001,%eax<br>   0x100025:    mov    %eax,%cr0<br>   0x100028:    mov    $0xf010002f,%eax<br>   0x10002d:    jmp    *%eax<br>   0x10002f:    mov    $0x0,%ebp<br>   0x100034:    mov    $0xf010f000,%esp<br></code></pre></td></tr></table></figure>
 <h3 id="questions"><a href="#questions" class="headerlink" title="questions"></a>questions</h3><ul>
@@ -399,14 +389,14 @@
 <li>LMA: The load address of a section is the memory address at which that section should be loaded into memory.</li>
 <li>VMA: The link address of a section is the memory address from which the section expects to execute.</li>
 <li>use <code>objdump -h obj/kern/kernel</code> to see the full list of the names, sizes, and link addresses of all the sections in the kernel executable</li>
-<li>Verification about <code>Where is the first instruction of the kernel</code>:<br>use <code>objdump -f obj/kern/kernel</code>, you will see the figure below:<img src="/2024/01/09/MIT6-828-Lab1/pic4.png" srcset="/img/loading.gif" lazyload class=""></li>
+<li>Verification about <code>Where is the first instruction of the kernel</code>:<br>use <code>objdump -f obj/kern/kernel</code>, you will see the figure below:<img src="/2024/01/26/MIT6-828-Lab1/pic4.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ul>
 <h2 id="Part3-The-Kernel"><a href="#Part3-The-Kernel" class="headerlink" title="Part3: The Kernel"></a>Part3: The Kernel</h2><h3 id="Using-virtual-memory-to-work-around-position-dependence"><a href="#Using-virtual-memory-to-work-around-position-dependence" class="headerlink" title="Using virtual memory to work around position dependence"></a>Using virtual memory to work around position dependence</h3><p><strong>First, we need to straighten things out.</strong>  For backward compatibility, processcor starts at 16-bit mode, and we use <code>bootloader</code> to change it into 32-bit mode, which let us get into <code>protected mode</code>. <strong>But!!!</strong>, memory references are still <strong>treated as physical addresses</strong>, until <code>kern/entry.S</code> sets the <code>CRO_PG</code>(Page flag). Once <code>CR0_PG</code> is set, memory references are virtual addresses that get translated by the virtual memory hardware to physical addresses.  </p>
-<h3 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a>Exercise 7</h3><img src="/2024/01/09/MIT6-828-Lab1/pic7.png" srcset="/img/loading.gif" lazyload class="">
+<h3 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a>Exercise 7</h3><img src="/2024/01/26/MIT6-828-Lab1/pic7.png" srcset="/img/loading.gif" lazyload class="">
 <p><strong>ATTENTION!!!</strong> the kernel has already been loaded at <code>0x10000c</code>(Physical address), but until <code>kernel.asm</code> execute <code>jmp    *%eax</code> to jump into the high address, can we use <code>b *0xf0abcdef</code> to break a point.<br>before <code>movl	%eax, %cr0</code>, the memory is shown below:  </p>
-<img src="/2024/01/09/MIT6-828-Lab1/pic5.png" srcset="/img/loading.gif" lazyload class="">
+<img src="/2024/01/26/MIT6-828-Lab1/pic5.png" srcset="/img/loading.gif" lazyload class="">
 <p>after that:  </p>
-<img src="/2024/01/09/MIT6-828-Lab1/pic6.png" srcset="/img/loading.gif" lazyload class="">
+<img src="/2024/01/26/MIT6-828-Lab1/pic6.png" srcset="/img/loading.gif" lazyload class="">
 <p>As we can see, memory started at <code>0x00100000</code> has been copied to <code>0xf0100000</code><br>AND, the first instruction that would fail should be some actions about accessing high address  </p>
 <h3 id="Formatted-Printing-to-the-Console"><a href="#Formatted-Printing-to-the-Console" class="headerlink" title="Formatted Printing to the Console"></a>Formatted Printing to the Console</h3><h4 id="printf-like-function-is-not-for-granted"><a href="#printf-like-function-is-not-for-granted" class="headerlink" title="printf() like function is not for granted!"></a><code>printf()</code> like function is not for granted!</h4><p>Read through <code>kern/printf.c</code>, <code>lib/printfmt.c</code>, and <code>kern/console.c</code>, and make sure you understand their relationship. It will become clear in later labs why <code>printfmt.c</code> is located in the separate lib directory.  </p>
 <ul>
@@ -416,7 +406,7 @@
 </ul>
 <h4 id="Exercise-8"><a href="#Exercise-8" class="headerlink" title="Exercise 8"></a>Exercise 8</h4><ul>
 <li>fill the code fragment at <code>vprintfmt</code> function in <code>printfmt.c</code> like below:  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// (unsigned) octal</span><br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;o&#x27;</span>:<br>  num = getuint(&amp;ap, lflag);<br>  base = <span class="hljs-number">8</span>;<br>  <span class="hljs-keyword">goto</span> number;<br></code></pre></td></tr></table></figure>
-the result is:<img src="/2024/01/09/MIT6-828-Lab1/pic9.png" srcset="/img/loading.gif" lazyload class=""></li>
+the result is:<img src="/2024/01/26/MIT6-828-Lab1/pic9.png" srcset="/img/loading.gif" lazyload class=""></li>
 <li><strong>Trace the execution of the following code step-by-step:</strong><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> x = <span class="hljs-number">1</span>, y = <span class="hljs-number">3</span>, z = <span class="hljs-number">4</span>;<br>cprintf(<span class="hljs-string">&quot;x %d, y %x, z %d\n&quot;</span>, x, y, z);<br></code></pre></td></tr></table></figure>
 in the call to <code>cprintf()</code>, <code>fmt</code> point to <code>0xf0101a92</code>, and <code>ap</code> point to <code>0xf010efd4</code>, which reminds us that in C function, the actual parameters are pushed into the stack <strong>from right to left</strong>, evidence below:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asm">	// Lab Exercise8-3<br>	int x = 1, y = 3, z = 4;<br>    cprintf(&quot;x %d, y %x, z %d\n&quot;, x, y, z);<br>f01000e8:	6a 04                	push   $0x4<br>f01000ea:	6a 03                	push   $0x3<br>f01000ec:	6a 01                	push   $0x1<br>f01000ee:	8d 83 8a 17 ff ff    	lea    -0xe876(%ebx),%eax<br>f01000f4:	50                   	push   %eax<br>f01000f5:	e8 4f 09 00 00       	call   f0100a49 &lt;cprintf&gt;<br></code></pre></td></tr></table></figure></li>
 <li>Run the following code.<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> i = <span class="hljs-number">0x00646c72</span>;<br>cprintf(<span class="hljs-string">&quot;H%x Wo%s&quot;</span>, <span class="hljs-number">57616</span>, &amp;i);<br></code></pre></td></tr></table></figure>
@@ -424,7 +414,7 @@ in the call to <code>cprintf()</code>, <code>fmt</code> point to <code>0xf0101a9
 </ul>
 <h4 id="Understand-GCC-calling-conventions-for-JOS"><a href="#Understand-GCC-calling-conventions-for-JOS" class="headerlink" title="Understand GCC calling conventions for JOS"></a>Understand GCC calling conventions for JOS</h4><p>delve into the code below</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs asm">; 假设执行函数前堆栈指针 ESP 为 NN<br>push   p2    ; 参数 2 入栈，ESP -= 4h , ESP = NN - 4h<br>push   p1    ; 参数 1 入栈，ESP -= 4h , ESP = NN - 8h<br>call test    ; 压入返回地址 ESP -= 4h, ESP = NN - 0Ch  <br>;// 进入函数内<br>&#123;<br>push   ebp                        ; 保护先前 EBP 指针， EBP 入栈， ESP-=4h, ESP = NN - 10h<br>mov    ebp, esp                   ; 设置 EBP 指针指向栈顶 NN-10h<br>mov    eax, dword ptr  [ebp+0ch]  ;ebp+0ch 为 NN-4h, 即参数 2 的位置<br>mov    ebx, dword ptr  [ebp+08h]  ;ebp+08h 为 NN-8h, 即参数 1 的位置<br>sub    esp, 8                     ; 局部变量所占空间 ESP-=8, ESP = NN-18h<br>...<br>add    esp, 8                     ; 释放局部变量，ESP+=8, ESP = NN-10h<br>pop    ebp                        ; 出栈，恢复 EBP, ESP+=4, ESP = NN-0Ch<br>ret    8                          ;ret 返回，弹出返回地址，ESP+=4, ESP=NN-08h, 后面加操作数 8 为平衡堆栈，ESP+=8,ESP=NN, 恢复进入函数前的堆栈.<br>&#125;<br></code></pre></td></tr></table></figure>
-<h3 id="The-Stack"><a href="#The-Stack" class="headerlink" title="The Stack"></a>The Stack</h3><h4 id="Exercise-9"><a href="#Exercise-9" class="headerlink" title="Exercise 9"></a>Exercise 9</h4><img src="/2024/01/09/MIT6-828-Lab1/pic10.png" srcset="/img/loading.gif" lazyload class="">
+<h3 id="The-Stack"><a href="#The-Stack" class="headerlink" title="The Stack"></a>The Stack</h3><h4 id="Exercise-9"><a href="#Exercise-9" class="headerlink" title="Exercise 9"></a>Exercise 9</h4><img src="/2024/01/26/MIT6-828-Lab1/pic10.png" srcset="/img/loading.gif" lazyload class="">
 <ul>
 <li>At the <code>entry.S</code>, we can see that kernel use <code>movl	$(bootstacktop),%esp</code> to set location of stack to <code>0xf010f000</code></li>
 <li>At the <code>inc/memlayout.h</code>, we can see <code>KSTSIZE</code> is <code>8 * PGSIZE</code> which used in <code>entry.S</code></li>
@@ -440,7 +430,7 @@ in the call to <code>cprintf()</code>, <code>fmt</code> point to <code>0xf0101a9
 the code above initiate the <code>__STAB_*</code>  </li>
 <li>run <code>objdump -h obj/kern/kernel</code></li>
 </ul>
-<img src="/2024/01/09/MIT6-828-Lab1/pic11.png" srcset="/img/loading.gif" lazyload class="">  
+<img src="/2024/01/26/MIT6-828-Lab1/pic11.png" srcset="/img/loading.gif" lazyload class="">  
 <p>so the <code>__STAB_BEGIN__</code> shoule be <code>0x001021f0</code>, and the <code>__START_END__</code> shoule be <code>__STAB_BEGIN__</code> + <code>SIZE</code>.  </p>
 <ul>
 <li>run <code>objdump -G obj/kern/kernel</code><br>to show the global symbol table of the execution.  </li>
@@ -502,7 +492,7 @@ the code above initiate the <code>__STAB_*</code>  </li>
   <div class="license-box my-3">
     <div class="license-title">
       <div>MIT6.828-Lab1</div>
-      <div>http://bugeater.space/2024/01/09/MIT6-828-Lab1/</div>
+      <div>http://bugeater.space/2024/01/26/MIT6-828-Lab1/</div>
     </div>
     <div class="license-meta">
       
@@ -514,7 +504,7 @@ the code above initiate the <code>__STAB_*</code>  </li>
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>January 9, 2024</div>
+          <div>January 26, 2024</div>
         </div>
       
       
