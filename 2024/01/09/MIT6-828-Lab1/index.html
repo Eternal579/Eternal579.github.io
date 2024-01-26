@@ -33,8 +33,9 @@
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic6.png">
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic9.png">
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic10.png">
+<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic11.png">
 <meta property="article:published_time" content="2024-01-09T14:23:58.000Z">
-<meta property="article:modified_time" content="2024-01-24T13:14:37.141Z">
+<meta property="article:modified_time" content="2024-01-26T12:06:02.989Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -266,7 +267,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          12k words
+          14k words
         
       </span>
     
@@ -277,7 +278,7 @@
         
         
         
-          103 mins
+          116 mins
         
       </span>
     
@@ -431,7 +432,23 @@ in the call to <code>cprintf()</code>, <code>fmt</code> point to <code>0xf0101a9
 </ul>
 <h4 id="Exercise-10"><a href="#Exercise-10" class="headerlink" title="Exercise 10"></a>Exercise 10</h4><p>watch <code>Understand GCC calling conventions for JOS</code> part, understand what i mentioned above<br><strong>Something that we have to know about.  When <code>call</code> some function, current instruction address(<code>%eip</code>) will be pushed onto the stack as the return address, and will set the <code>eip</code> to the right value. So, it explains why <code>eip</code> is always at the previous data before where the <code>ebp</code> points at in the stack</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm"># Example instruction  What it does in x86<br>call 0x12345           pushl %eip<br>                       movl $0x12345, %eip<br>ret                    popl %eip<br></code></pre></td></tr></table></figure>
-<h4 id="Exercise-11"><a href="#Exercise-11" class="headerlink" title="Exercise 11"></a>Exercise 11</h4><p><strong>Implement a stack backtrace-1</strong>  </p>
+<h4 id="Exercise-11"><a href="#Exercise-11" class="headerlink" title="Exercise 11"></a>Exercise 11</h4><p><strong>Implement a stack backtrace-1</strong><br>As 74th line in <code>entry.S</code> says, the first <code>ebp</code> should be <code>0x0</code>, which can be used for stopping the loop. The parameters has been pushed onto the stack before <code>call</code> instruction, so we can also find them by <code>ebp</code>  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span><br><span class="hljs-title function_">mon_backtrace</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv, <span class="hljs-keyword">struct</span> Trapframe *tf)</span><br>&#123;<br>	cprintf(<span class="hljs-string">&quot;Stack backtrace:\n&quot;</span>);<br>	<span class="hljs-type">uint32_t</span> ebp = read_ebp();<br>	<span class="hljs-type">uint32_t</span> *last;<br>	<span class="hljs-keyword">do</span>&#123;<br>		last = (<span class="hljs-type">uint32_t</span> *)ebp;<br>		cprintf(<span class="hljs-string">&quot;  ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n&quot;</span>, ebp, *(last + <span class="hljs-number">1</span>), *(last + <span class="hljs-number">2</span>),<br>		 *(last + <span class="hljs-number">3</span>), *(last + <span class="hljs-number">4</span>), *(last + <span class="hljs-number">5</span>), *(last + <span class="hljs-number">6</span>));<br>	&#125;<span class="hljs-keyword">while</span>((ebp = *last) != <span class="hljs-number">0</span>);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="Exercise-12"><a href="#Exercise-12" class="headerlink" title="Exercise 12"></a>Exercise 12</h4><p><strong>Implement a stack backtrace-2</strong>  </p>
+<ul>
+<li>look in the file <code>kern/kernel.ld</code> for <code>__STAB_*</code><br>as the <code>kernel.ld</code> says below:<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-comment">/* Include debugging information in kernel memory */</span><br><span class="hljs-selector-class">.stab</span> : &#123;<br>  <span class="hljs-built_in">PROVIDE</span>(__STAB_BEGIN__ = .);<br>  *(.stab);<br>  <span class="hljs-built_in">PROVIDE</span>(__STAB_END__ = .);<br>  <span class="hljs-built_in">BYTE</span>(<span class="hljs-number">0</span>)		<span class="hljs-comment">/* Force the linker to allocate space</span><br><span class="hljs-comment">          for this section */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+the code above initiate the <code>__STAB_*</code>  </li>
+<li>run <code>objdump -h obj/kern/kernel</code></li>
+</ul>
+<img src="/2024/01/09/MIT6-828-Lab1/pic11.png" srcset="/img/loading.gif" lazyload class="">  
+<p>so the <code>__STAB_BEGIN__</code> shoule be <code>0x001021f0</code>, and the <code>__START_END__</code> shoule be <code>__STAB_BEGIN__</code> + <code>SIZE</code>.  </p>
+<ul>
+<li>run <code>objdump -G obj/kern/kernel</code><br>to show the global symbol table of the execution.  </li>
+<li>run <code>gcc -pipe -nostdinc -O2 -fno-builtin -I. -MD -Wall -Wno-format -DJOS_KERNEL -gstabs -c -S kern/init.c</code>, and look at <code>init.s</code>.</li>
+<li>see if the bootloader loads the symbol table in memory as part of loading the kernel binary<br>hmmm, maybe?  </li>
+<li>complete the <code>debuginfo_eip</code> like below:<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c">stab_binsearch(stabs, &amp;lline, &amp;rline, N_SLINE, addr);<br><span class="hljs-keyword">if</span>(lline &lt;= rline) &#123;<br>  info-&gt;eip_line = stabs[lline].n_desc;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>add new code to <code>mon_backtrace</code><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Eipdebuginfo</span> <span class="hljs-title">info</span>;</span><br><span class="hljs-keyword">if</span>(debuginfo_eip(*(last + <span class="hljs-number">1</span>), &amp;info) == <span class="hljs-number">0</span>)&#123;<br>  cprintf(<span class="hljs-string">&quot;		 %s:%d: %.*s+%d\n&quot;</span>, info.eip_file, info.eip_line, <br>  info.eip_fn_namelen, info.eip_fn_name, *(last + <span class="hljs-number">1</span>) - info.eip_fn_addr);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
 
                 
               </div>
