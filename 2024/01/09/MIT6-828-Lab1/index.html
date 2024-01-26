@@ -32,8 +32,9 @@
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic5.png">
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic6.png">
 <meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic9.png">
+<meta property="og:image" content="http://bugeater.space/2024/01/09/MIT6-828-Lab1/pic10.png">
 <meta property="article:published_time" content="2024-01-09T14:23:58.000Z">
-<meta property="article:modified_time" content="2024-01-23T14:06:26.478Z">
+<meta property="article:modified_time" content="2024-01-24T13:14:37.141Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -276,7 +277,7 @@
         
         
         
-          97 mins
+          103 mins
         
       </span>
     
@@ -422,7 +423,16 @@ in the call to <code>cprintf()</code>, <code>fmt</code> point to <code>0xf0101a9
 </ul>
 <h4 id="Understand-GCC-calling-conventions-for-JOS"><a href="#Understand-GCC-calling-conventions-for-JOS" class="headerlink" title="Understand GCC calling conventions for JOS"></a>Understand GCC calling conventions for JOS</h4><p>delve into the code below</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs asm">; 假设执行函数前堆栈指针 ESP 为 NN<br>push   p2    ; 参数 2 入栈，ESP -= 4h , ESP = NN - 4h<br>push   p1    ; 参数 1 入栈，ESP -= 4h , ESP = NN - 8h<br>call test    ; 压入返回地址 ESP -= 4h, ESP = NN - 0Ch  <br>;// 进入函数内<br>&#123;<br>push   ebp                        ; 保护先前 EBP 指针， EBP 入栈， ESP-=4h, ESP = NN - 10h<br>mov    ebp, esp                   ; 设置 EBP 指针指向栈顶 NN-10h<br>mov    eax, dword ptr  [ebp+0ch]  ;ebp+0ch 为 NN-4h, 即参数 2 的位置<br>mov    ebx, dword ptr  [ebp+08h]  ;ebp+08h 为 NN-8h, 即参数 1 的位置<br>sub    esp, 8                     ; 局部变量所占空间 ESP-=8, ESP = NN-18h<br>...<br>add    esp, 8                     ; 释放局部变量，ESP+=8, ESP = NN-10h<br>pop    ebp                        ; 出栈，恢复 EBP, ESP+=4, ESP = NN-0Ch<br>ret    8                          ;ret 返回，弹出返回地址，ESP+=4, ESP=NN-08h, 后面加操作数 8 为平衡堆栈，ESP+=8,ESP=NN, 恢复进入函数前的堆栈.<br>&#125;<br></code></pre></td></tr></table></figure>
-<h3 id="The-Stack"><a href="#The-Stack" class="headerlink" title="The Stack"></a>The Stack</h3>
+<h3 id="The-Stack"><a href="#The-Stack" class="headerlink" title="The Stack"></a>The Stack</h3><h4 id="Exercise-9"><a href="#Exercise-9" class="headerlink" title="Exercise 9"></a>Exercise 9</h4><img src="/2024/01/09/MIT6-828-Lab1/pic10.png" srcset="/img/loading.gif" lazyload class="">
+<ul>
+<li>At the <code>entry.S</code>, we can see that kernel use <code>movl	$(bootstacktop),%esp</code> to set location of stack to <code>0xf010f000</code></li>
+<li>At the <code>inc/memlayout.h</code>, we can see <code>KSTSIZE</code> is <code>8 * PGSIZE</code> which used in <code>entry.S</code></li>
+<li>the stack pointer always points to the lower area</li>
+</ul>
+<h4 id="Exercise-10"><a href="#Exercise-10" class="headerlink" title="Exercise 10"></a>Exercise 10</h4><p>watch <code>Understand GCC calling conventions for JOS</code> part, understand what i mentioned above<br><strong>Something that we have to know about.  When <code>call</code> some function, current instruction address(<code>%eip</code>) will be pushed onto the stack as the return address, and will set the <code>eip</code> to the right value. So, it explains why <code>eip</code> is always at the previous data before where the <code>ebp</code> points at in the stack</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm"># Example instruction  What it does in x86<br>call 0x12345           pushl %eip<br>                       movl $0x12345, %eip<br>ret                    popl %eip<br></code></pre></td></tr></table></figure>
+<h4 id="Exercise-11"><a href="#Exercise-11" class="headerlink" title="Exercise 11"></a>Exercise 11</h4><p><strong>Implement a stack backtrace-1</strong>  </p>
+
                 
               </div>
             
