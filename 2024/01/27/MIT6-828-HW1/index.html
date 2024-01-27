@@ -1,0 +1,760 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/StarFlow.png">
+  <link rel="icon" href="/img/StarFlow.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#E58A8A">
+  <meta name="author" content="BugEater">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="重点感谢大佬博客    以下是info reg的结果  1234567891011121314151617(gdb) info regeax            0x0                 0ecx            0x0                 0edx            0x1f0               496ebx            0x10094">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT6.828-HW1-boot xv6">
+<meta property="og:url" content="http://bugeater.space/2024/01/27/MIT6-828-HW1/index.html">
+<meta property="og:site_name" content="BugEaterのBlog">
+<meta property="og:description" content="重点感谢大佬博客    以下是info reg的结果  1234567891011121314151617(gdb) info regeax            0x0                 0ecx            0x0                 0edx            0x1f0               496ebx            0x10094">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-01-27T07:24:44.000Z">
+<meta property="article:modified_time" content="2024-01-27T09:21:52.931Z">
+<meta property="article:author" content="BugEater">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>MIT6.828-HW1-boot xv6 - BugEaterのBlog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/mac.css">
+<link rel="stylesheet" href="/css/mouse.css">
+<link rel="stylesheet" href="/css/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bugeater.space","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"VmrotYkN0qs7j5EDHJUX5sM1-MdYXbMMI","app_key":"YvoXNeOhIlq2fMZiYJzC9eDy","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>BugEaterのBlog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/redemption2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MIT6.828-HW1-boot xv6"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-27 15:24" pubdate>
+          January 27, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MIT6.828-HW1-boot xv6</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>重点感谢<a target="_blank" rel="noopener" href="http://t.csdnimg.cn/7PhH7">大佬博客</a>  </p>
+<blockquote>
+<p>以下是<code>info reg</code>的结果</p>
+</blockquote>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">(gdb) info reg<br><span class="hljs-built_in">eax</span>            <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">ecx</span>            <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">edx</span>            <span class="hljs-number">0x1f0</span>               <span class="hljs-number">496</span><br><span class="hljs-built_in">ebx</span>            <span class="hljs-number">0x10094</span>             <span class="hljs-number">65684</span><br><span class="hljs-built_in">esp</span>            <span class="hljs-number">0x7bdc</span>              <span class="hljs-number">0x7bdc</span><br><span class="hljs-built_in">ebp</span>            <span class="hljs-number">0x7bf8</span>              <span class="hljs-number">0x7bf8</span><br><span class="hljs-built_in">esi</span>            <span class="hljs-number">0x10094</span>             <span class="hljs-number">65684</span><br><span class="hljs-built_in">edi</span>            <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">eip</span>            <span class="hljs-number">0x10000c</span>            <span class="hljs-number">0x10000c</span><br>eflags         <span class="hljs-number">0x46</span>                [ PF ZF ]<br><span class="hljs-built_in">cs</span>             <span class="hljs-number">0x8</span>                 <span class="hljs-number">8</span><br><span class="hljs-built_in">ss</span>             <span class="hljs-number">0x10</span>                <span class="hljs-number">16</span><br><span class="hljs-built_in">ds</span>             <span class="hljs-number">0x10</span>                <span class="hljs-number">16</span><br><span class="hljs-built_in">es</span>             <span class="hljs-number">0x10</span>                <span class="hljs-number">16</span><br><span class="hljs-built_in">fs</span>             <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">gs</span>             <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>以下是从<code>$esp</code>开始，向上展示24字</p>
+</blockquote>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">(gdb) x/24x $<span class="hljs-built_in">esp</span><br><span class="hljs-number">0x7bdc</span>: <span class="hljs-number">0x00007d87</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x7bec</span>: <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x7bfc</span>: <span class="hljs-number">0x00007c4d</span>      <span class="hljs-number">0x8ec031fa</span>      <span class="hljs-number">0x8ec08ed8</span>      <span class="hljs-number">0xa864e4d0</span><br><span class="hljs-number">0x7c0c</span>: <span class="hljs-number">0xb0fa7502</span>      <span class="hljs-number">0xe464e6d1</span>      <span class="hljs-number">0x7502a864</span>      <span class="hljs-number">0xe6dfb0fa</span><br><span class="hljs-number">0x7c1c</span>: <span class="hljs-number">0x16010f60</span>      <span class="hljs-number">0x200f7c78</span>      <span class="hljs-number">0xc88366c0</span>      <span class="hljs-number">0xc0220f01</span><br><span class="hljs-number">0x7c2c</span>: <span class="hljs-number">0x087c31ea</span>      <span class="hljs-number">0x10b86600</span>      <span class="hljs-number">0x8ed88e00</span>      <span class="hljs-number">0x66d08ec0</span><br></code></pre></td></tr></table></figure>
+<p><strong>如何理解stack里的内容？</strong>  </p>
+<ol>
+<li>一直记住栈是向小的方向增长的</li>
+<li><code>bootblock.asm</code>里的<code>mov    $0x7c00,%esp</code>，告诉我们栈从<code>0x7c00</code>开始增长，<strong>所以<code>0x7bfc</code>那一行的第一个数字就是真正在栈里的第一个数</strong></li>
+<li>需要注意到<code>bootblock.asm</code>里，有以下代码，所以我们可以知道<code>0x7bfc</code>那一行的第一个数字表示的是push进去的bootmain返回地址<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs asm">call    bootmain<br>7c48:	e8 f0 00 00 00       	call   7d3d &lt;bootmain&gt;<br><br># If bootmain returns (it shouldn&#x27;t), trigger a Bochs<br># breakpoint if running under Bochs, then loop.<br>movw    $0x8a00, %ax            # 0x8a00 -&gt; port 0x8a00<br>7c4d:	66 b8 00 8a          	mov    $0x8a00,%ax<br></code></pre></td></tr></table></figure></li>
+<li>接下来看<code>bootmain</code>函数的部分内容，可以看到在<code>call bootmain</code>之后便将<code>ebp</code>push入栈，相关知识见<code>Lab1</code>的<code>gcc calling convention for JOS</code>。故我们可以得知，<code>0x7bec</code>那一行的最右边的数字0表示的是<code>ebp</code>的值，相关证据如下（我在<code>0x7c43</code>的地方打了断点，并展示寄存器的值，可以看到在没有<code>call bootmain</code>之前，<code>ebp</code>的值就是0，这与<code>JOS</code>中的<code>entry.S</code>里的<code>movl	$0x0,%ebp			# nuke frame pointer</code>原理应该是类似的吧？我猜的）<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs asm">00007d3d &lt;bootmain&gt;:<br>&#123;<br>    7d3d:	55                   	push   %ebp<br>    7d3e:	89 e5                	mov    %esp,%ebp<br>    7d40:	57                   	push   %edi<br>    7d41:	56                   	push   %esi<br>    7d42:	53                   	push   %ebx<br>    7d43:	83 ec 10             	sub    $0x10,%esp<br></code></pre></td></tr></table></figure>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">Thread <span class="hljs-number">1</span> hit Breakpoint <span class="hljs-number">1</span>, <span class="hljs-number">0x00007c43</span> <span class="hljs-keyword">in</span> ?? ()<br>(gdb) info reg<br><span class="hljs-built_in">eax</span>            <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">ecx</span>            <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">edx</span>            <span class="hljs-number">0x80</span>                <span class="hljs-number">128</span><br><span class="hljs-built_in">ebx</span>            <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">esp</span>            <span class="hljs-number">0x6f20</span>              <span class="hljs-number">0x6f20</span><br><span class="hljs-built_in">ebp</span>            <span class="hljs-number">0x0</span>                 <span class="hljs-number">0x0</span><br><span class="hljs-built_in">esi</span>            <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">edi</span>            <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">eip</span>            <span class="hljs-number">0x7c43</span>              <span class="hljs-number">0x7c43</span><br>eflags         <span class="hljs-number">0x6</span>                 [ PF ]<br><span class="hljs-built_in">cs</span>             <span class="hljs-number">0x8</span>                 <span class="hljs-number">8</span><br><span class="hljs-built_in">ss</span>             <span class="hljs-number">0x10</span>                <span class="hljs-number">16</span><br><span class="hljs-built_in">ds</span>             <span class="hljs-number">0x10</span>                <span class="hljs-number">16</span><br><span class="hljs-built_in">es</span>             <span class="hljs-number">0x10</span>                <span class="hljs-number">16</span><br><span class="hljs-built_in">fs</span>             <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br><span class="hljs-built_in">gs</span>             <span class="hljs-number">0x0</span>                 <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure></li>
+<li>至于<code>0x7bdc</code>那一行的第一个数字<code>0x7d87</code>，原理和<code>7dfc</code>类似<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">  entry();<br>    7d81:	ff 15 18 00 01 00    	call   *0x10018<br>&#125;<br>    7d87:	8d 65 f4             	lea    -0xc(%ebp),%esp<br></code></pre></td></tr></table></figure>
+这样这个HW就算是做完了</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Blog/" class="category-chain-item">Blog</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Blog/MIT6-828/" class="category-chain-item">MIT6.828</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OS/" class="print-no-link">#OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MIT6.828-HW1-boot xv6</div>
+      <div>http://bugeater.space/2024/01/27/MIT6-828-HW1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>BugEater</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 27, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/MIT6-828-Lab1/" title="MIT6.828-Lab1">
+                        <span class="hidden-mobile">MIT6.828-Lab1</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"Eternal579/eternal579.github.io","repo-id":"R_kgDOKK2eLQ","category":"Announcements","category-id":"DIC_kwDOKK2eLc4CaGql","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <div id="music_div" style="position: fixed; bottom: 0px; left: 30px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110  src="//music.163.com/outchain/player?type=0&id=9177521496&auto=1&height=90"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicRibbon.js"></script>
+<script src="/js/snowflake.js"></script>
+<script src="/js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
