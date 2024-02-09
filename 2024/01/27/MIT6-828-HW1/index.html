@@ -24,7 +24,7 @@
 <meta property="og:description" content="重点感谢大佬博客    以下是info reg的结果  1234567891011121314151617(gdb) info regeax            0x0                 0ecx            0x0                 0edx            0x1f0               496ebx            0x10094">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-01-27T07:24:44.000Z">
-<meta property="article:modified_time" content="2024-01-27T09:21:52.931Z">
+<meta property="article:modified_time" content="2024-01-29T08:24:20.836Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -266,7 +266,7 @@
         
         
         
-          14 mins
+          15 mins
         
       </span>
     
@@ -327,6 +327,7 @@
 <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">(gdb) x/24x $<span class="hljs-built_in">esp</span><br><span class="hljs-number">0x7bdc</span>: <span class="hljs-number">0x00007d87</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x7bec</span>: <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x7bfc</span>: <span class="hljs-number">0x00007c4d</span>      <span class="hljs-number">0x8ec031fa</span>      <span class="hljs-number">0x8ec08ed8</span>      <span class="hljs-number">0xa864e4d0</span><br><span class="hljs-number">0x7c0c</span>: <span class="hljs-number">0xb0fa7502</span>      <span class="hljs-number">0xe464e6d1</span>      <span class="hljs-number">0x7502a864</span>      <span class="hljs-number">0xe6dfb0fa</span><br><span class="hljs-number">0x7c1c</span>: <span class="hljs-number">0x16010f60</span>      <span class="hljs-number">0x200f7c78</span>      <span class="hljs-number">0xc88366c0</span>      <span class="hljs-number">0xc0220f01</span><br><span class="hljs-number">0x7c2c</span>: <span class="hljs-number">0x087c31ea</span>      <span class="hljs-number">0x10b86600</span>      <span class="hljs-number">0x8ed88e00</span>      <span class="hljs-number">0x66d08ec0</span><br></code></pre></td></tr></table></figure>
 <p><strong>如何理解stack里的内容？</strong>  </p>
 <ol>
+<li>这个展示<code>word</code>的顺序是往右地址在变大</li>
 <li>一直记住栈是向小的方向增长的</li>
 <li><code>bootblock.asm</code>里的<code>mov    $0x7c00,%esp</code>，告诉我们栈从<code>0x7c00</code>开始增长，<strong>所以<code>0x7bfc</code>那一行的第一个数字就是真正在栈里的第一个数</strong></li>
 <li>需要注意到<code>bootblock.asm</code>里，有以下代码，所以我们可以知道<code>0x7bfc</code>那一行的第一个数字表示的是push进去的bootmain返回地址<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs asm">call    bootmain<br>7c48:	e8 f0 00 00 00       	call   7d3d &lt;bootmain&gt;<br><br># If bootmain returns (it shouldn&#x27;t), trigger a Bochs<br># breakpoint if running under Bochs, then loop.<br>movw    $0x8a00, %ax            # 0x8a00 -&gt; port 0x8a00<br>7c4d:	66 b8 00 8a          	mov    $0x8a00,%ax<br></code></pre></td></tr></table></figure></li>
@@ -431,6 +432,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/01/29/MIT6-828-Lab2/" title="MIT6.828-Lab2">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MIT6.828-Lab2</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
