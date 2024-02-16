@@ -1,3 +1,5 @@
+http://bugeater.space/2024/02/13/Linux-note/
+http://bugeater.space/2024/02/11/Redis%E5%85%A5%E9%97%A8/
 http://bugeater.space/2024/01/29/MIT6-828-Lab2/
 http://bugeater.space/2024/01/26/MIT6-828-Lab1/
 http://bugeater.space/2024/01/27/MIT6-828-HW1/
@@ -23,9 +25,12 @@ http://bugeater.space/tags/%E6%A0%91%E5%BD%A2DP/
 http://bugeater.space/tags/OS/
 http://bugeater.space/tags/FS/
 http://bugeater.space/tags/C/
+http://bugeater.space/tags/Redis/
 http://bugeater.space/categories/Blog/
 http://bugeater.space/categories/Blog/Linux%E7%BC%96%E7%A8%8B/
 http://bugeater.space/categories/Blog/LeetCode/
 http://bugeater.space/categories/Blog/MIT6-828/
 http://bugeater.space/categories/Blog/FS/
 http://bugeater.space/categories/Blog/C/
+http://bugeater.space/categories/Blog/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/
+http://bugeater.space/categories/Blog/Linux/
