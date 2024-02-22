@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>webServer-note</title>
+    <link href="/2024/02/18/webServer-note/"/>
+    <url>/2024/02/18/webServer-note/</url>
+    
+    <content type="html"><![CDATA[<h2 id="项目中为什么要处理SIGPIPE信号？"><a href="#项目中为什么要处理SIGPIPE信号？" class="headerlink" title="项目中为什么要处理SIGPIPE信号？"></a>项目中为什么要处理<code>SIGPIPE</code>信号？</h2><p><a href="http://t.csdnimg.cn/SK7df">ref</a></p><h2 id="IO相关"><a href="#IO相关" class="headerlink" title="IO相关"></a>IO相关</h2><blockquote><p>Unix的五种IO模型？</p></blockquote><ul><li>阻塞IO</li><li>非阻塞IO，轮询什么时候可以读写（即什么时候数据从网卡抵达内核缓冲区），系统调用开销大</li><li>IO多路复用，为了使得一个线程可以同时处理多个请求</li><li>信号驱动式IO，内核会告诉程序什么时候可以读写</li><li>异步IO，内核会告诉程序什么时候读写好了</li></ul><blockquote><p>两种事件处理模式？</p></blockquote><ul><li>Reactor模式：主线程只负责监听读写事件，工作线程负责读写以及业务处理</li><li>Proactor模式：主线程负责监听以及读写，工作线程只负责业务处理<blockquote><p>讲讲Select，poll，epoll的区别？</p></blockquote></li><li>对于select和poll，每次都要把文件描述符数组copy到内核，而epoll是每次添加或删除一个内核维护的文件描述符数组中的一个元素，则会导致如果短时间有多次活跃链接，会导致epoll效果比另两者效果差</li><li>select用数组维护fd，poll用链表维护，epoll在内核中用红黑树维护，并将就绪的fd放入ready-list返还给用户程序</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+      <category>webServer</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C++</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Linux-note</title>
     <link href="/2024/02/13/Linux-note/"/>
     <url>/2024/02/13/Linux-note/</url>
