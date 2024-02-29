@@ -16,22 +16,23 @@
   <meta name="author" content="BugEater">
   <meta name="keywords" content="">
   
-    <meta name="description" content="WARNING官方文档中的Test Your Compiler Toolchain和QEMU Emulator一定要每句话都看，千万不能看漏了！（爆哭）   参考本人环境:    WSL2(Ubuntu 22.04) ps:博主总是忘记lsb-release -a的命令，原来lsb是（Linux Standard Base）的缩写  重点参考博客：mit6.828环境搭建">
+    <meta name="description" content="本lab主要告诉我们如何启动一台计算机，其启动流程分以下三步：  BIOS   首先进行硬件自检（Power-On Self-Test），检查硬件能否满足运行的基本条件 根据启动顺序，读取优先级最高的存储设备，（启动顺序可以在BIOS界面中设置） 依次读取扇区（512字节），若最后两个字节为0x55和0xAA，则表明此扇区为引导扇区，随后将此扇区的512字节读入0x7c00处，此段程序即为boot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MIT6.828-PreWork">
-<meta property="og:url" content="http://bugeater.space/2024/01/09/MIT6-828-PreWork/index.html">
+<meta property="og:title" content="MIT6.828-Lab1-总结">
+<meta property="og:url" content="http://bugeater.space/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="BugEaterのBlog">
-<meta property="og:description" content="WARNING官方文档中的Test Your Compiler Toolchain和QEMU Emulator一定要每句话都看，千万不能看漏了！（爆哭）   参考本人环境:    WSL2(Ubuntu 22.04) ps:博主总是忘记lsb-release -a的命令，原来lsb是（Linux Standard Base）的缩写  重点参考博客：mit6.828环境搭建">
+<meta property="og:description" content="本lab主要告诉我们如何启动一台计算机，其启动流程分以下三步：  BIOS   首先进行硬件自检（Power-On Self-Test），检查硬件能否满足运行的基本条件 根据启动顺序，读取优先级最高的存储设备，（启动顺序可以在BIOS界面中设置） 依次读取扇区（512字节），若最后两个字节为0x55和0xAA，则表明此扇区为引导扇区，随后将此扇区的512字节读入0x7c00处，此段程序即为boot">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-01-09T04:23:58.000Z">
-<meta property="article:modified_time" content="2024-01-15T09:50:26.091Z">
+<meta property="og:image" content="http://bugeater.space/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/pic1.png">
+<meta property="article:published_time" content="2024-02-27T01:29:49.000Z">
+<meta property="article:modified_time" content="2024-02-27T01:37:19.329Z">
 <meta property="article:author" content="BugEater">
-<meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://bugeater.space/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/pic1.png">
   
   
   
-  <title>MIT6.828-PreWork - BugEaterのBlog</title>
+  <title>MIT6.828-Lab1-总结 - BugEaterのBlog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -232,7 +233,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="MIT6.828-PreWork"></span>
+            <span id="subtitle" data-typed-text="MIT6.828-Lab1-总结"></span>
           
         </div>
 
@@ -243,8 +244,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-09 12:23" pubdate>
-          January 9, 2024 pm
+        <time datetime="2024-02-27 09:29" pubdate>
+          February 27, 2024 am
         </time>
       </span>
     
@@ -255,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          169 words
+          1.9k words
         
       </span>
     
@@ -266,7 +267,7 @@
         
         
         
-          2 mins
+          16 mins
         
       </span>
     
@@ -311,17 +312,65 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">MIT6.828-PreWork</h1>
+            <h1 id="seo-header">MIT6.828-Lab1-总结</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="WARNING"><a href="#WARNING" class="headerlink" title="WARNING"></a>WARNING</h2><p><a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2018/tools.html">官方文档</a>中的<code>Test Your Compiler Toolchain</code>和<code>QEMU Emulator</code>一定要每句话都看，千万不能看漏了！（爆哭）  </p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>本人环境:  </p>
+                <p>本lab主要告诉我们如何启动一台计算机，其启动流程分以下三步：</p>
+<ol>
+<li>BIOS</li>
+</ol>
 <ul>
-<li>WSL2(Ubuntu 22.04) ps:博主总是忘记<code>lsb-release -a</code>的命令，<del>原来lsb是（Linux Standard Base）的缩写</del></li>
+<li>首先进行硬件自检（Power-On Self-Test），检查硬件能否满足运行的基本条件</li>
+<li>根据启动顺序，读取优先级最高的存储设备，（启动顺序可以在BIOS界面中设置）</li>
+<li>依次读取扇区（512字节），若最后两个字节为<code>0x55</code>和<code>0xAA</code>，则表明此扇区为引导扇区，随后将此扇区的512字节读入<code>0x7c00</code>处，此段程序即为<code>bootloader</code></li>
 </ul>
-<p>重点参考博客：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/489921553">mit6.828环境搭建</a></p>
+<blockquote>
+<p>那么，BIOS为什么放在0xffff0处呢？ </p>
+</blockquote>
+<p>因为不同厂家的BIOS程序大小不一，所以如果将BIOS放在<code>0x0000</code>处，会导致用户可用的内存不是从<code>0x0000</code>开始，并且8086规定，CPU必须先从<code>0xffff0</code>开始，并且<code>0xffff0</code>处必须是一条无条件转移指令JMP用于跳转到BIOS所在的位置。<br>2. BootLoader-boot.S</p>
+<ul>
+<li>打开A20地址线以便于访问超过1M的地址</li>
+<li>构建并加载GDT</li>
+<li>寻址模式从<code>real-mode</code>转变为32位<code>protected-mode</code>（<code>real-mode</code>用段寄存器里存放的是段基址，但<code>protected-mode</code>中段寄存器里存放的是段选择子，使用段选择子在全局描述符表中获取段基址，所以在此过程中可以加一道特权级检查）</li>
+</ul>
+<blockquote>
+<p>为什么BootLoader被加载到内存<code>0x7c00</code>的位置呢？</p>
+</blockquote>
+<p>因为Intel最早的第一台个人电脑芯片8088，搭配的操作系统86-DOS，此操作系统占用内存32KB， 同时芯片本身占用了<code>0x0000-0x03ff</code>的位置用于保存中断处理程序的地址，故只剩下了<code>0x0400-0x7fff</code>， 考虑到在OS被加载到内存中后，<code>BootLoader</code>就不会再被用到了，所以把BootLoader加载到<code>0x7fff - 512B - 512B</code>的位置处便于后续操作系统利用这片内存。（两个512B是因为考虑到<code>BootLoader</code>也会产生数据） </p>
+<blockquote>
+<p>验证BootLoader </p>
+</blockquote>
+<p><code>0x7c00-0x7dff</code>属于<code>BootLoader</code>，<code>0x7e00-0x7fff</code>属于相关数据，使用以下命令检查引导扇区的特征字节</p>
+<img src="/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/pic1.png" srcset="/img/loading.gif" lazyload class="">
+<ol>
+<li>BootLoader-main.c</li>
+</ol>
+<ul>
+<li>将kernel的ELF文件读入到物理地址<code>0x1000</code>处</li>
+<li>根据ELF文件跳转到内核代码（load address在<code>0x100000</code>，入口在<code>0x10000c</code>，这两个数值是在<code>kern/kernel.ld</code>中通过<code>ENTRY(_start）</code>和<code>.text : AT(0x100000)</code>指定的，控制权交给内核</li>
+</ul>
+<ol>
+<li>内核！启动！- entry.S</li>
+</ol>
+<ul>
+<li>创建临时页表，将虚拟地址[0, 4MB)和[KERNBASE, KERNBASE + 4MB)的位置全部映射到物理地址[0, 4MB)，这样子在后面可以既在低地址运行也可以在高地址运行内核（因为需要通过reloc才能到高地址运行内核）</li>
+<li>将<code>entry_pgdir</code>的地址赋值给cr3寄存器，并开启cr0寄存器的PG位，这样子内核就可以使用我们定义的页表了</li>
+</ul>
+<ol>
+<li>call i386_init函数</li>
+</ol>
+<ul>
+<li>操作系统的各种初始化，初始化控制台，内存管理，进程初始化，中断向量表初始化等等</li>
+</ul>
+<p>—————————————手动分割 以下是一些小tips——————————–<br>从一开始的配置环境，到最后完成整个lab，最大的印象是无论如何都要认真地看完每一段话，我仍记得当我发现首次进入内核时地址为<code>0x10000c</code>时的疑惑，直到后面Exercise 4时，要求我们使用<code>objdump -f obj/kern/kernel</code> 来verify时，方能恍然大悟；我仍记得想破脑袋也没想明白为什么<code>bootloader</code>从<code>0x7c00</code>开始，直到查阅相关资料才发现这只是历史遗留问题 。</p>
+<ul>
+<li>想要真正读懂bootloader(boot.S和main.c)还是得去认真地把xv6-book的附录B部分过一遍。</li>
+<li>在entry.S中有一行指令<code>mov $relocated, %eax</code>，直到此命令执行结束后，内核代码才真正地在高memory地区执行，在此之前，如果对高地址进行breakpoint是没有任何效果的。</li>
+<li>关于GCC calling conventions for JOS的部分一定要着重理解，只有了解的足够深，才能意识到为什么eip可以通过<code>*((uint32_t *)ebp + 1)</code>来获取（与call指令本质上的<code>push %eip</code>有关），也才能意识到C语言中函数参数是从按照声明顺序从后往前push入栈的。</li>
+<li>关于backtrace中的<code>stab.h</code>部分，<code>n_value</code>是用来表示符号地址的（虽然不知道为什么注释要写<code>// value of symbol</code>）,<code>n_desc</code>对于<code>N_SLINE</code>类型是表示行号的（虽然只看注释我也看不出来，但我猜对了）。</li>
+</ul>
 
                 
               </div>
@@ -330,41 +379,6 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Blog/" class="category-chain-item">Blog</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/Blog/MIT6-828/" class="category-chain-item">MIT6.828</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/OS/" class="print-no-link">#OS</a>
-      
-    </div>
   
 </div>
 
@@ -374,8 +388,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>MIT6.828-PreWork</div>
-      <div>http://bugeater.space/2024/01/09/MIT6-828-PreWork/</div>
+      <div>MIT6.828-Lab1-总结</div>
+      <div>http://bugeater.space/2024/02/27/MIT6-828-Lab1-总结/</div>
     </div>
     <div class="license-meta">
       
@@ -387,7 +401,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>January 9, 2024</div>
+          <div>February 27, 2024</div>
         </div>
       
       
@@ -419,9 +433,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/01/13/Linux-note/" title="Linux-note">
+                      <a href="/2024/02/28/Mysql%E9%9D%A2%E8%AF%95%E6%8A%A2%E6%95%91/" title="Mysql索引">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Linux-note</span>
+                        <span class="hidden-mobile">Mysql索引</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -429,8 +443,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/01/08/Git%E6%89%8B%E5%86%8C/" title="Git手册">
-                        <span class="hidden-mobile">Git手册</span>
+                      <a href="/2024/02/18/webServer-note/" title="webServer-note">
+                        <span class="hidden-mobile">webServer-note</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
