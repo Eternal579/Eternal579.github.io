@@ -1,0 +1,787 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/StarFlow.png">
+  <link rel="icon" href="/img/StarFlow.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#E58A8A">
+  <meta name="author" content="BugEater">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="IntroductionIn this lab, we will implement the basic kernel facilities required to get a protected user-mode environment(AKA “process”), such as enhancing the JOS kernel to keep track of user environm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT6.828-Lab3">
+<meta property="og:url" content="http://bugeater.space/2024/03/03/MIT6-828-Lab3/index.html">
+<meta property="og:site_name" content="BugEaterのBlog">
+<meta property="og:description" content="IntroductionIn this lab, we will implement the basic kernel facilities required to get a protected user-mode environment(AKA “process”), such as enhancing the JOS kernel to keep track of user environm">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab3/pic1.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab3/pic2.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab3/pic3.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab3/pic4.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab3/pic5.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab3/pic6.png">
+<meta property="article:published_time" content="2024-03-03T07:05:54.000Z">
+<meta property="article:modified_time" content="2024-03-06T04:03:04.318Z">
+<meta property="article:author" content="BugEater">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab3/pic1.png">
+  
+  
+  
+  <title>MIT6.828-Lab3 - BugEaterのBlog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/mac.css">
+<link rel="stylesheet" href="/css/mouse.css">
+<link rel="stylesheet" href="/css/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bugeater.space","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"VmrotYkN0qs7j5EDHJUX5sM1-MdYXbMMI","app_key":"YvoXNeOhIlq2fMZiYJzC9eDy","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>BugEaterのBlog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/redemption2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MIT6.828-Lab3"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-03 15:05" pubdate>
+          March 3, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          54 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MIT6.828-Lab3</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>In this lab, we will implement the basic kernel facilities required to get a protected user-mode environment(AKA “process”), such as enhancing the JOS kernel to keep track of user environments, being capable of handling system calls the user environment makes.  </p>
+<h1 id="PartA-User-Environments-and-Exception-Handling"><a href="#PartA-User-Environments-and-Exception-Handling" class="headerlink" title="PartA: User Environments and Exception Handling"></a>PartA: User Environments and Exception Handling</h1><p>Once JOS gets up and running, the <code>envs</code> pointer points to an array of <code>Env</code> structures representing all the environments in the system. The JOS kernel keeps all of the inactive <code>Env</code> structures on the <code>env_free_list</code>.<br>Here is the definiton of <code>Env</code> structure:  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Env</span> &#123;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Trapframe</span> <span class="hljs-title">env_tf</span>;</span>	<span class="hljs-comment">// Saved registers，进程从用户转到内核态的上下文记录</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Env</span> *<span class="hljs-title">env_link</span>;</span>		<span class="hljs-comment">// Next free Env</span><br>	<span class="hljs-type">envid_t</span> env_id;			<span class="hljs-comment">// Unique environment identifier</span><br>	<span class="hljs-type">envid_t</span> env_parent_id;		<span class="hljs-comment">// env_id of this env&#x27;s parent</span><br>	<span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">EnvType</span> <span class="hljs-title">env_type</span>;</span>		<span class="hljs-comment">// Indicates special system environments</span><br>	<span class="hljs-type">unsigned</span> env_status;		<span class="hljs-comment">// Status of the environment</span><br>	<span class="hljs-type">uint32_t</span> env_runs;		<span class="hljs-comment">// Number of times environment has run</span><br><br>	<span class="hljs-comment">// Address space</span><br>	<span class="hljs-type">pde_t</span> *env_pgdir;		<span class="hljs-comment">// Kernel virtual address of page dir</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>In JOS, each inidividual environment has its only address space, but it does not have its own kernel stack. There can be only one JOS environment active in the kernel at a time, so JOS needs only a user stack.  </p>
+<h2 id="Allocation-the-Environments-Array"><a href="#Allocation-the-Environments-Array" class="headerlink" title="Allocation the Environments Array"></a>Allocation the Environments Array</h2><p>In lab 2, you allocated memory in <code>mem_init()</code> for the pages[] array, which is a table the kernel uses to keep track of which pages are free and which are not. You will now need to modify <code>mem_init()</code> further to allocate a similar array of <code>Env</code> structures, called <code>envs</code>.</p>
+<img src="/2024/03/03/MIT6-828-Lab3/pic1.png" srcset="/img/loading.gif" lazyload class="">
+<p>implementation below:  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">envs = (<span class="hljs-keyword">struct</span> Env*)boot_alloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> Env) * NENV);<br><span class="hljs-built_in">memset</span>(envs, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> Env) * NENV);<br>boot_map_region(kern_pgdir, UENVS, <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> Env) * NENV, PADDR(envs), PTE_U);<br></code></pre></td></tr></table></figure>
+<h2 id="Create-and-Run-the-environment"><a href="#Create-and-Run-the-environment" class="headerlink" title="Create and Run the environment"></a>Create and Run the environment</h2><h3 id="flow-chart"><a href="#flow-chart" class="headerlink" title="flow chart"></a>flow chart</h3><img src="/2024/03/03/MIT6-828-Lab3/pic2.png" srcset="/img/loading.gif" lazyload class="">
+<h3 id="code-here"><a href="#code-here" class="headerlink" title="code here"></a>code here</h3><ol>
+<li>env_init()<br><strong>make sure env_free_list points to envs[0]</strong>  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span><br><span class="hljs-title function_">env_init</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>	<span class="hljs-comment">// Set up envs array</span><br>	<span class="hljs-comment">// LAB 3: Your code here.</span><br>	<span class="hljs-type">int</span> i;<br>	<span class="hljs-keyword">for</span> (i = NENV - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;<br>		envs[i].env_id = <span class="hljs-number">0</span>;<br>		envs[i].env_link = env_free_list;<br>		env_free_list = &amp;envs[i];<br>	&#125;<br>	<span class="hljs-comment">// Per-CPU part of the initialization</span><br>	env_init_percpu();<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>env_setup_vm()<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">static</span> <span class="hljs-type">int</span><br><span class="hljs-title function_">env_setup_vm</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> Env *e)</span><br>&#123;<br>	<span class="hljs-type">int</span> i;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">PageInfo</span> *<span class="hljs-title">p</span> =</span> <span class="hljs-literal">NULL</span>;<br>	<span class="hljs-type">size_t</span> n;<br><br>	<span class="hljs-comment">// Allocate a page for the page directory</span><br>	<span class="hljs-keyword">if</span> (!(p = page_alloc(ALLOC_ZERO)))<br>		<span class="hljs-keyword">return</span> -E_NO_MEM;<br><br>	<span class="hljs-comment">// LAB 3: Your code here.</span><br>	e-&gt;env_pgdir = page2kva(p); p-&gt;pp_ref++;<br>	n = PDX(UTOP);<br>	<span class="hljs-keyword">for</span>(; n &lt; NPDENTRIES; n += <span class="hljs-number">1</span>) &#123;<br>		e-&gt;env_pgdir[n] = kern_pgdir[n];<br>	&#125;<br><br>	<span class="hljs-comment">// UVPT maps the env&#x27;s own page table read-only.</span><br>	<span class="hljs-comment">// Permissions: kernel R, user R</span><br>	e-&gt;env_pgdir[PDX(UVPT)] = PADDR(e-&gt;env_pgdir) | PTE_P | PTE_U;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>region_alloc()<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">static</span> <span class="hljs-type">void</span><br><span class="hljs-title function_">region_alloc</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> Env *e, <span class="hljs-type">void</span> *va, <span class="hljs-type">size_t</span> len)</span><br>&#123;<br>	<span class="hljs-comment">// LAB 3: Your code here.</span><br>	len = ROUNDUP(len, PGSIZE);<br>	va = ROUNDDOWN(va, PGSIZE);<br>	<span class="hljs-type">size_t</span> sz;<br>	<span class="hljs-keyword">for</span>(sz = <span class="hljs-number">0</span>; sz &lt; len; sz += PGSIZE) &#123;<br>		<span class="hljs-type">pte_t</span> *pt = pgdir_walk(e-&gt;env_pgdir, (<span class="hljs-type">void</span> *)va + sz, <span class="hljs-number">1</span>);<br>		<span class="hljs-keyword">if</span>(!pt) panic(<span class="hljs-string">&quot;out of memory\n&quot;</span>);<br>		<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">PageInfo</span> *<span class="hljs-title">p</span> =</span> page_alloc(<span class="hljs-number">0</span>);<br>		<span class="hljs-keyword">if</span>(!p) panic(<span class="hljs-string">&quot;out of memory&quot;</span>);<br>		*pt = page2pa(p) | PTE_U | PTE_W | PTE_P;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>load_icode()<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">static</span> <span class="hljs-type">void</span><br><span class="hljs-title function_">load_icode</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> Env *e, <span class="hljs-type">uint8_t</span> *binary)</span><br>&#123;<br>	<span class="hljs-comment">// LAB 3: Your code here.</span><br>	cprintf(<span class="hljs-string">&quot;load_icode starts\n&quot;</span>);<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Elf</span>* <span class="hljs-title">binary_elf</span> =</span> (<span class="hljs-keyword">struct</span> Elf *)binary;<br>	assert(binary_elf-&gt;e_magic == ELF_MAGIC);<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Proghdr</span> *<span class="hljs-title">ph</span> =</span> (<span class="hljs-keyword">struct</span> Proghdr *)(binary + binary_elf-&gt;e_phoff);<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Proghdr</span> *<span class="hljs-title">eph</span> =</span> ph + binary_elf-&gt;e_phnum; <span class="hljs-comment">// e_phnum表示有几个程序头</span><br>	cprintf(<span class="hljs-string">&quot;check1\n&quot;</span>);<br>	lcr3(PADDR(e-&gt;env_pgdir));<br>	<span class="hljs-keyword">for</span>(; ph &lt; eph; ph++) &#123;<br>		<span class="hljs-keyword">if</span>(ph-&gt;p_type == ELF_PROG_LOAD) &#123;<br>			cprintf(<span class="hljs-string">&quot;loop...\n&quot;</span>);<br>			region_alloc(e, (<span class="hljs-type">void</span> *)ph-&gt;p_va, ph-&gt;p_memsz);<br>			cprintf(<span class="hljs-string">&quot;hello1\n&quot;</span>);<br>			memmove((<span class="hljs-type">void</span>*)ph-&gt;p_va, (<span class="hljs-type">void</span>*)(binary + ph-&gt;p_offset), ph-&gt;p_filesz);<br>			cprintf(<span class="hljs-string">&quot;hello2\n&quot;</span>);<br>			<span class="hljs-built_in">memset</span>((<span class="hljs-type">void</span> *)ph-&gt;p_va + ph-&gt;p_filesz, <span class="hljs-number">0</span>, ph-&gt;p_memsz - ph-&gt;p_filesz);<br>			cprintf(<span class="hljs-string">&quot;hello3\n&quot;</span>);<br>		&#125;<br>	&#125;<br>	lcr3(PADDR(kern_pgdir));<br>	cprintf(<span class="hljs-string">&quot;check2\n&quot;</span>);<br>	<span class="hljs-comment">// 设置初始运行地址</span><br>	e-&gt;env_tf.tf_eip = binary_elf-&gt;e_entry;<br>	<span class="hljs-comment">// Now map one page for the program&#x27;s initial stack</span><br>	<span class="hljs-comment">// at virtual address USTACKTOP - PGSIZE.</span><br>	<span class="hljs-comment">// LAB 3: Your code here.</span><br>	<span class="hljs-comment">// </span><br>	region_alloc(e, (<span class="hljs-type">void</span> *)(USTACKTOP - PGSIZE), PGSIZE);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>env_create()<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span><br><span class="hljs-title function_">env_create</span><span class="hljs-params">(<span class="hljs-type">uint8_t</span> *binary, <span class="hljs-keyword">enum</span> EnvType type)</span><br>&#123;<br>	<span class="hljs-comment">// LAB 3: Your code here.</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Env</span> *<span class="hljs-title">new_e</span>;</span><br>	env_alloc(&amp;new_e, <span class="hljs-number">0</span>);<br>	load_icode(new_e, binary);<br>	new_e-&gt;env_type = type;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>env_run()<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span><br><span class="hljs-title function_">env_run</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> Env *e)</span><br>&#123;<br>	<span class="hljs-keyword">if</span> (!e)<br>		panic(<span class="hljs-string">&quot;env_run: null pointer &#x27;e&#x27;\n&quot;</span>);<br><br>	<span class="hljs-keyword">if</span> (curenv &amp;&amp; curenv-&gt;env_status == ENV_RUNNING) &#123;<br>		curenv-&gt;env_status = ENV_RUNNABLE;<br>	&#125;<br>	curenv = e;<br>	curenv-&gt;env_status = ENV_RUNNING;<br>	curenv-&gt;env_runs++;<br>	lcr3(PADDR(e-&gt;env_pgdir));<br>	env_pop_tf(&amp;(curenv-&gt;env_tf));<br><br>	panic(<span class="hljs-string">&quot;env_run not yet implemented&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="Handling-Interrupts-and-Exceptions"><a href="#Handling-Interrupts-and-Exceptions" class="headerlink" title="Handling Interrupts and Exceptions"></a>Handling Interrupts and Exceptions</h2><p>At this point, the first <code>int $0x30</code> system call instruction in user space is a dead end: once the processor gets into user mode, there is no way to get back out. You will now need to implement basic exception and system call handling, so that it is possible for the kernel to recover control of the processor from user-mode code.  </p>
+<h3 id="Interrupt-procedures-and-Interrupt-tasks"><a href="#Interrupt-procedures-and-Interrupt-tasks" class="headerlink" title="Interrupt procedures and Interrupt tasks"></a>Interrupt procedures and Interrupt tasks</h3><ul>
+<li>Interrrupt Descriptor Table<br>The interrupt descriptor table (IDT) associates each interrupt or exception identifier with a descriptor for the instructions that service the associated event. Like the GDT and LDTs, the IDT is an array of 8-byte descriptors. Unlike the GDT and LDTs, the first entry of the IDT may contain a descriptor. <strong>To form an index into the IDT, the processor multiplies the interrupt or exception identifier by eight.</strong></li>
+</ul>
+<img src="/2024/03/03/MIT6-828-Lab3/pic3.png" srcset="/img/loading.gif" lazyload class="">
+<ul>
+<li>IDT Desctiptors<br>here are 3 IDT Descriptors:</li>
+</ul>
+<img src="/2024/03/03/MIT6-828-Lab3/pic4.png" srcset="/img/loading.gif" lazyload class="">
+<p><strong>tips</strong>: The only difference between trap and interrupt gates is that interrupt gates will disable further processor handling of maskable hardware interrupts, making them suitable to handle hardware-generated interrupts (conversely, trap gates are useful for handling software interrupts and exceptions). A task gate will cause the currently active task-state segment to be switched, using the hardware task switch mechanism to effectively hand over use of the processor to another program, thread or process.</p>
+<ul>
+<li>Interrupt procedures<br>An interrupt gate or trap gate points indirectly to a procedure which will execute in the context of the currently executing task.</li>
+</ul>
+<img src="/2024/03/03/MIT6-828-Lab3/pic5.png" srcset="/img/loading.gif" lazyload class="">
+<ul>
+<li><strong>stack layout after interrupt</strong><br>originated from <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/archive/6.097/lec/l8.html">lec</a><figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-bullet">-</span> <span class="hljs-string">USER =&gt; KERNEL</span><br>   <span class="hljs-bullet">-</span> <span class="hljs-string">stack layout</span><br>          value                       reason pushed<br>        <span class="hljs-bullet">-</span> <span class="hljs-string">old SS                    [ switching</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">old ESP                           stacks]</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">old EFLAGS               [ clearing bits ]</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">old CS                   [ switch to</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">old EIP                      entry point ]</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">error code (optional)    [ extra info ]</span><br>   <span class="hljs-bullet">-</span> <span class="hljs-string">new state</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">SS:ESP &lt;=  TSS ss0:esp0</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">CS:EIP &lt;= IDT[vector].segment :  IDT[vector].offset</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">EFLAGS &lt;= EFLAGS with bits cleared</span><br>                   <span class="hljs-bullet">-</span> <span class="hljs-string">Class OS: kernel runs with device interrupts disabled</span><br>                   <span class="hljs-bullet">-</span> <span class="hljs-string">interrupt gate</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-bullet">-</span> <span class="hljs-string">KERNEL =&gt; KERNEL</span><br>   <span class="hljs-bullet">-</span> <span class="hljs-string">stack layout</span><br>          value                       reason pushed<br>        <span class="hljs-bullet">-</span> <span class="hljs-string">old EFLAGS               [ clearing bits ]</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">old CS                   [ switch to</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">old EIP                      entry point ]</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">error code (optional)    [ extra info ]</span><br>   <span class="hljs-bullet">-</span> <span class="hljs-string">new state</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">SS:ESP **** unchanged!!</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">CS:EIP &lt;= IDT[vector].segment :  IDT[vector].offset</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">EFLAGS &lt;= EFLAGS with bits cleared</span><br></code></pre></td></tr></table></figure></li>
+<li>Interrupt Tasks</li>
+</ul>
+<img src="/2024/03/03/MIT6-828-Lab3/pic6.png" srcset="/img/loading.gif" lazyload class="">
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Blog/" class="category-chain-item">Blog</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Blog/MIT6-828/" class="category-chain-item">MIT6.828</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OS/" class="print-no-link">#OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MIT6.828-Lab3</div>
+      <div>http://bugeater.space/2024/03/03/MIT6-828-Lab3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>BugEater</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 3, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/" title="MIT6.828-Lab2-总结">
+                        <span class="hidden-mobile">MIT6.828-Lab2-总结</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"Eternal579/eternal579.github.io","repo-id":"R_kgDOKK2eLQ","category":"Announcements","category-id":"DIC_kwDOKK2eLc4CaGql","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <div id="music_div" style="position: fixed; bottom: 0px; left: 30px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110  src="//music.163.com/outchain/player?type=0&id=9177521496&auto=1&height=90"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicRibbon.js"></script>
+<script src="/js/snowflake.js"></script>
+<script src="/js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
