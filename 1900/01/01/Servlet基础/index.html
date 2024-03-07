@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/StarFlow.png">
+  <link rel="icon" href="/img/StarFlow.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#E58A8A">
+  <meta name="author" content="BugEater">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="2021.2版IDEA快速创建Servlet   个人就是搞不懂，为什么这么大一个互联网上，都没人说这样创建最快。。。   Servlet工作原理狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。     web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在 如果存在，则直">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Servlet基础">
+<meta property="og:url" content="http://bugeater.space/1900/01/01/Servlet%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="BugEaterのBlog">
+<meta property="og:description" content="2021.2版IDEA快速创建Servlet   个人就是搞不懂，为什么这么大一个互联网上，都没人说这样创建最快。。。   Servlet工作原理狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。     web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在 如果存在，则直">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bugeater.space/1900/01/01/Servlet%E5%9F%BA%E7%A1%80/pic3.png">
+<meta property="og:image" content="http://bugeater.space/1900/01/01/Servlet%E5%9F%BA%E7%A1%80/pic1.png">
+<meta property="og:image" content="http://bugeater.space/1900/01/01/Servlet%E5%9F%BA%E7%A1%80/pic2.png">
+<meta property="article:published_time" content="1900-01-01T08:36:41.000Z">
+<meta property="article:modified_time" content="2024-03-07T15:13:54.551Z">
+<meta property="article:author" content="BugEater">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="Servlet">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://bugeater.space/1900/01/01/Servlet%E5%9F%BA%E7%A1%80/pic3.png">
+  
+  
+  
+  <title>Servlet基础 - BugEaterのBlog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/mac.css">
+<link rel="stylesheet" href="/css/mouse.css">
+<link rel="stylesheet" href="/css/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bugeater.space","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"VmrotYkN0qs7j5EDHJUX5sM1-MdYXbMMI","app_key":"YvoXNeOhIlq2fMZiYJzC9eDy","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>BugEaterのBlog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/redemption2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Servlet基础"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="1900-01-01 16:42" pubdate>
+          January 1, 1900 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          44 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Servlet基础</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="2021-2版IDEA快速创建Servlet"><a href="#2021-2版IDEA快速创建Servlet" class="headerlink" title="2021.2版IDEA快速创建Servlet"></a>2021.2版IDEA快速创建Servlet</h2><img src="/1900/01/01/Servlet%E5%9F%BA%E7%A1%80/pic3.png" srcset="/img/loading.gif" lazyload class="">  
+<p><strong>个人就是搞不懂，为什么这么大一个互联网上，都没人说这样创建最快。。。</strong>  </p>
+<h2 id="Servlet工作原理"><a href="#Servlet工作原理" class="headerlink" title="Servlet工作原理"></a>Servlet工作原理</h2><p>狭义的Servlet指java语言实现的一个接口，广义的Servlet指任何实现了这个Servlet接口的类。  </p>
+<img src="/1900/01/01/Servlet%E5%9F%BA%E7%A1%80/pic1.png" srcset="/img/loading.gif" lazyload class="">
+<ol>
+<li>web服务器（Servlet容器）接收到客户端请求，容器创建“请求和响应”对象，并判断请求的Servlet对象是否存在</li>
+<li>如果存在，则直接调用此Servlet对象的Service方法（间接调用doPost方法和doGet方法），并将“请求和响应”对象作为参数传递</li>
+<li>如果不存在，容器负责加载Servlet类，创建Servlet对象并实例化，然后调用Servlet的init方法进行初始化，之后调用Servlet方法。</li>
+<li>在Service方法中，通过请求对象获取客户端提交的数据并处理，然后通过响应对象将处理结果返回客户端</li>
+<li><strong>Servlet生存期由javax.servlet.servlet接口的init,service和destory方法表达</strong><img src="/1900/01/01/Servlet%E5%9F%BA%E7%A1%80/pic2.png" srcset="/img/loading.gif" lazyload class=""></li>
+</ol>
+<h2 id="创建一个Servlet"><a href="#创建一个Servlet" class="headerlink" title="创建一个Servlet"></a>创建一个Servlet</h2><ol>
+<li>通过实现Servlet接口</li>
+<li>通过拓展GenericServlet类</li>
+<li>通过拓展HttpServlet类</li>
+</ol>
+<h3 id="重中之重！！！"><a href="#重中之重！！！" class="headerlink" title="重中之重！！！"></a>重中之重！！！</h3><ul>
+<li>url-pattern的匹配规则一定要看<a target="_blank" rel="noopener" href="https://www.cnblogs.com/51kata/p/5152400.html#!comments">这篇文章</a></li>
+</ul>
+<h3 id="HttpServlet类（重点介绍）"><a href="#HttpServlet类（重点介绍）" class="headerlink" title="HttpServlet类（重点介绍）"></a>HttpServlet类（重点介绍）</h3><p>它拓展了GenericServlet类，增加了一新的service（）方法。继承HttpServlet类可以简化Servlet的开发过程，可以通过重写其提供的方法来处理不同类型的HTTP请求。<strong>（所以继承HttpServlet就只需要重写doGet()，doPost()方法等）</strong><br>GET 请求来自于一个 URL 的正常请求，或者来自于一个未指定 METHOD 的 HTML 表单，它由 doGet() 方法处理。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span> <span class="hljs-params">(HttpServletRequest, HttpServletResponse)</span> <span class="hljs-keyword">throws</span> ServletException, IOException<br></code></pre></td></tr></table></figure>
+<p>POST 请求来自于一个特别指定了 METHOD 为 POST 的 HTML 表单，它由 doPost() 方法处理。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPost</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="doGet和doPost的区别"><a href="#doGet和doPost的区别" class="headerlink" title="doGet和doPost的区别"></a>doGet和doPost的区别</h4><ul>
+<li>doGet 方法：当客户端发送 HTTP GET 请求时，服务器会调用 doGet 方法来处理该请求。通常，GET 请求用于获取资源或者从服务器获取数据，例如通过 URL 参数传递数据。</li>
+<li>doPost 方法：当客户端发送 HTTP POST 请求时，服务器会调用 doPost 方法来处理该请求。POST 请求通常用于向服务器提交数据，例如通过表单提交数据或者发送 JSON 数据。</li>
+</ul>
+<h4 id="Servlet初始化参数"><a href="#Servlet初始化参数" class="headerlink" title="Servlet初始化参数"></a>Servlet初始化参数</h4><h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><p>可以通过设置初始化参数来配置数据库连接信息，以便在不同的部署环境中轻松切换和配置。<br>例如以下<code>web.xml</code>所示</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>MyServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>com.example.MyServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>dbUrl<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>jdbc:mysql://localhost:3306/mydatabase<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>dbUsername<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>root<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>dbPassword<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>password<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>可以在Servlet中获取初始化参数并使用它们进行数据库连接</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span> &#123;<br>    <span class="hljs-keyword">private</span> String dbUrl;<br>    <span class="hljs-keyword">private</span> String dbUsername;<br>    <span class="hljs-keyword">private</span> String dbPassword;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ServletException &#123;<br>        dbUrl = getInitParameter(<span class="hljs-string">&quot;dbUrl&quot;</span>);<br>        dbUsername = getInitParameter(<span class="hljs-string">&quot;dbUsername&quot;</span>);<br>        dbPassword = getInitParameter(<span class="hljs-string">&quot;dbPassword&quot;</span>);<br>        <span class="hljs-comment">// 其他初始化操作</span><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;<br>        <span class="hljs-comment">// 使用初始化参数进行数据库连接和操作</span><br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>这种方式使得在不同环境中切换和配置数据库连接变得简单而灵活。你可以在不同的部署环境中使用不同的初始化参数值，而无需修改 Servlet 的代码。</strong>  </p>
+<h5 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h5><p>当servlet配置了初始化参数后，web容器在创建servlet实例对象时，会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，将ServletConfig对象传递给servlet。进而，程序员通过ServletConfig对象就可以得到当前servlet的初始化参数信息。<br>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> ServletConfig config;<br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(ServletConfig config)</span> <span class="hljs-keyword">throws</span> ServletException &#123;<br>    <span class="hljs-built_in">this</span>.config = config;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;<br>    <span class="hljs-comment">// 获取在web.xml中配置的初始化参数</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">paramVal</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.config.getInitParameter(<span class="hljs-string">&quot;name&quot;</span>); <span class="hljs-comment">// 获取指定的初始化参数</span><br>    response.getWriter().print(paramVal);<br><br>    response.getWriter().print(<span class="hljs-string">&quot;&lt;hr/&gt;&quot;</span>);<br>    <span class="hljs-comment">// 获取所有的初始化参数</span><br>    Enumeration&lt;String&gt; e = config.getInitParameterNames();<br>    <span class="hljs-keyword">while</span> (e.hasMoreElements()) &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> e.nextElement();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> config.getInitParameter(name);<br>        response.getWriter().print(name + <span class="hljs-string">&quot;=&quot;</span> + value + <span class="hljs-string">&quot;&lt;br/&gt;&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="详讲HttpServletResponse"><a href="#详讲HttpServletResponse" class="headerlink" title="详讲HttpServletResponse"></a>详讲HttpServletResponse</h3><h4 id="常用来"><a href="#常用来" class="headerlink" title="常用来"></a>常用来</h4><ul>
+<li>向客户端写入Cookie</li>
+<li>重写URL</li>
+<li>获取输出流对象，向客户端写入文本或者二进制数据</li>
+<li>设置响应客户端浏览器的字符编码类型</li>
+<li>设置客户端浏览器的MIME类型（设置如何解析和显示接收到的数据）<code>response.setContentType(&quot;text/html&quot;); </code>等</li>
+</ul>
+<h4 id="发送响应消息的相关方法"><a href="#发送响应消息的相关方法" class="headerlink" title="发送响应消息的相关方法"></a>发送响应消息的相关方法</h4><p><code>getOutputStream</code>与<code>getWriter</code>相互排斥，调用了一者，便不能调用另一者  </p>
+<h5 id="getOutputStream"><a href="#getOutputStream" class="headerlink" title="getOutputStream"></a>getOutputStream</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">outputOneByOutputStream</span><span class="hljs-params">(HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        response.setContentType(<span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>); <br>        <span class="hljs-type">OutputStream</span> <span class="hljs-variable">outputStream</span> <span class="hljs-operator">=</span> response.getOutputStream();<br>        outputStream.write(<span class="hljs-string">&quot;使用OutputStream流输出数字1：&quot;</span>.getBytes(<span class="hljs-string">&quot;UTF-8&quot;</span>));<br>        outputStream.write((<span class="hljs-number">1</span> + <span class="hljs-string">&quot;&quot;</span>).getBytes());<br>        outputStream.close();<br>    &#125;<br></code></pre></td></tr></table></figure>
+<h5 id="getWriter"><a href="#getWriter" class="headerlink" title="getWriter"></a>getWriter</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">outputChineseByPrintWriter</span><span class="hljs-params">(HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>    response.setHeader(<span class="hljs-string">&quot;content-type&quot;</span>, <span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>); <span class="hljs-comment">//通过设置响应头控制浏览器以UTF-8的编码显示数据</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">data</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;中国&quot;</span>;<br>    response.setCharacterEncoding(<span class="hljs-string">&quot;UTF-8&quot;</span>); <span class="hljs-comment">// 设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br>    <span class="hljs-type">PrintWriter</span> <span class="hljs-variable">out</span> <span class="hljs-operator">=</span> response.getWriter(); <span class="hljs-comment">// 获取PrintWriter输出流</span><br>    out.write(data); <span class="hljs-comment">// 使用PrintWriter流向客户端输出字符</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h5 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h5><p><strong>若dependecy出现了一些莫名其妙的问题，可以通过<code>file-invalidate caches</code>来解决</strong><br>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPost</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;<br>        <span class="hljs-comment">// 获取上传的文件</span><br>        <span class="hljs-type">Part</span> <span class="hljs-variable">filePart</span> <span class="hljs-operator">=</span> request.getPart(<span class="hljs-string">&quot;file&quot;</span>);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">fileName</span> <span class="hljs-operator">=</span> filePart.getSubmittedFileName();<br><br>        <span class="hljs-comment">// 获取应用程序的真实路径</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">appPath</span> <span class="hljs-operator">=</span> request.getServletContext().getRealPath(<span class="hljs-string">&quot;&quot;</span>);<br><br>        <span class="hljs-comment">// 指定保存文件的目录</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">uploadDir</span> <span class="hljs-operator">=</span> appPath + File.separator  + <span class="hljs-string">&quot;img&quot;</span>;<br><br>        <span class="hljs-comment">// 创建保存文件的目录（如果不存在）</span><br>        <span class="hljs-type">File</span> <span class="hljs-variable">uploadDirFile</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(uploadDir);<br>        <span class="hljs-keyword">if</span> (!uploadDirFile.exists()) &#123;<br>            System.out.println(<span class="hljs-string">&quot;dir not exists!&quot;</span>);<br>            uploadDirFile.mkdirs();<br>        &#125;<br><br>        <span class="hljs-comment">// 拼接文件保存的完整路径</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">filePath</span> <span class="hljs-operator">=</span> uploadDir + File.separator + fileName;<br><br>        <span class="hljs-comment">// 将文件保存到指定目录</span><br>        filePart.write(filePath);<br><br>        <span class="hljs-comment">// 返回上传成功的响应</span><br>        response.getWriter().println(<span class="hljs-string">&quot;sisisisissi&quot;</span>);<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p><strong>注意，此种方法只会临时保存在tomcat上，当tomcat重新deploy时，img文件夹就没了，应当把图片也写入<code>src/main/webapp/img</code>文件夹下，这样就可以解决此问题，不过博主通过代码写入并没有成功，手动保存也是可以的。可以参考<a target="_blank" rel="noopener" href="http://t.csdnimg.cn/pR6RJ">CSDN博客</a></strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Blog/" class="category-chain-item">Blog</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Blog/Web/" class="category-chain-item">Web</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web/" class="print-no-link">#Web</a>
+      
+        <a href="/tags/Servlet/" class="print-no-link">#Servlet</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Servlet基础</div>
+      <div>http://bugeater.space/1900/01/01/Servlet基础/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>BugEater</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 1, 1900</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/1900/01/01/Servlet%E9%AB%98%E7%BA%A7/" title="Servlet高级">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Servlet高级</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/1900/01/01/Web%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/" title="Web基础技术">
+                        <span class="hidden-mobile">Web基础技术</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"Eternal579/eternal579.github.io","repo-id":"R_kgDOKK2eLQ","category":"Announcements","category-id":"DIC_kwDOKK2eLc4CaGql","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <div id="music_div" style="position: fixed; bottom: 0px; left: 30px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110  src="//music.163.com/outchain/player?type=0&id=9177521496&auto=1&height=90"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicRibbon.js"></script>
+<script src="/js/snowflake.js"></script>
+<script src="/js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
