@@ -16,29 +16,28 @@
   <meta name="author" content="BugEater">
   <meta name="keywords" content="">
   
-    <meta name="description" content="JOS的物理内存分布如下（图来自于大佬博客） 分段机制JOS使用struct PageInfo来管理物理页，使用链表将空闲物理页一个个连接起来 123456789struct PageInfo &amp;#123;	&#x2F;&#x2F; Next page on the free list.	struct PageInfo *pp_link;	&#x2F;&#x2F; pp_ref is the count of pointers (usu">
+    <meta name="description" content="Lab3的过程记录放在了我自己的博客上MIT6.828-Lab3，总结放在这里。  用户态环境的建立与管理以及异常处理机制用户环境JOS使用一个数组管理所有的环境（或称进程），最多有1024个struct Env，其使用链表记录所有free的env，并使用currenv来记录当前正在运行的环境。当前的物理内存布局如下：   接下来介绍一下JOS中第一个用户环境的创建流程：此处我觉得最妙的是在en">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MIT6.828-Lab2-总结">
-<meta property="og:url" content="http://bugeater.space/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="MIT6.828-Lab3-总结">
+<meta property="og:url" content="http://bugeater.space/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="BugEaterのBlog">
-<meta property="og:description" content="JOS的物理内存分布如下（图来自于大佬博客） 分段机制JOS使用struct PageInfo来管理物理页，使用链表将空闲物理页一个个连接起来 123456789struct PageInfo &amp;#123;	&#x2F;&#x2F; Next page on the free list.	struct PageInfo *pp_link;	&#x2F;&#x2F; pp_ref is the count of pointers (usu">
+<meta property="og:description" content="Lab3的过程记录放在了我自己的博客上MIT6.828-Lab3，总结放在这里。  用户态环境的建立与管理以及异常处理机制用户环境JOS使用一个数组管理所有的环境（或称进程），最多有1024个struct Env，其使用链表记录所有free的env，并使用currenv来记录当前正在运行的环境。当前的物理内存布局如下：   接下来介绍一下JOS中第一个用户环境的创建流程：此处我觉得最妙的是在en">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic1.png">
-<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic2.png">
-<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic.png">
-<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic3.png">
-<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic4.png">
-<meta property="og:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic1.jpg">
-<meta property="article:published_time" content="2024-03-03T03:08:48.000Z">
-<meta property="article:modified_time" content="2024-03-09T03:05:03.244Z">
+<meta property="og:image" content="http://bugeater.space/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic1.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic2.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic3.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic4.png">
+<meta property="article:published_time" content="2024-03-09T02:52:17.000Z">
+<meta property="article:modified_time" content="2024-03-09T03:11:26.008Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://bugeater.space/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic1.png">
+<meta name="twitter:image" content="http://bugeater.space/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic1.png">
   
   
   
-  <title>MIT6.828-Lab2-总结 - BugEaterのBlog</title>
+  <title>MIT6.828-Lab3-总结 - BugEaterのBlog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -239,7 +238,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="MIT6.828-Lab2-总结"></span>
+            <span id="subtitle" data-typed-text="MIT6.828-Lab3-总结"></span>
           
         </div>
 
@@ -250,8 +249,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-03 11:08" pubdate>
-          March 3, 2024 am
+        <time datetime="2024-03-09 10:52" pubdate>
+          March 9, 2024 am
         </time>
       </span>
     
@@ -262,7 +261,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k words
+          2.8k words
         
       </span>
     
@@ -273,7 +272,7 @@
         
         
         
-          13 mins
+          24 mins
         
       </span>
     
@@ -318,48 +317,49 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">MIT6.828-Lab2-总结</h1>
+            <h1 id="seo-header">MIT6.828-Lab3-总结</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="JOS的物理内存分布如下（图来自于大佬博客）"><a href="#JOS的物理内存分布如下（图来自于大佬博客）" class="headerlink" title="JOS的物理内存分布如下（图来自于大佬博客）"></a>JOS的物理内存分布如下（图来自于<a target="_blank" rel="noopener" href="https://knowledgehive.github.io/6.828/lab2-Memory%20Management.html">大佬博客</a>）</h1><img src="/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic1.png" srcset="/img/loading.gif" lazyload class="">
-<h1 id="分段机制"><a href="#分段机制" class="headerlink" title="分段机制"></a>分段机制</h1><p>JOS使用<code>struct PageInfo</code>来管理物理页，使用链表将空闲物理页一个个连接起来</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">PageInfo</span> &#123;</span><br>	<span class="hljs-comment">// Next page on the free list.</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">PageInfo</span> *<span class="hljs-title">pp_link</span>;</span><br>	<span class="hljs-comment">// pp_ref is the count of pointers (usually in page table entries)</span><br>	<span class="hljs-comment">// to this page, for pages allocated using page_alloc.</span><br>	<span class="hljs-comment">// Pages allocated at boot time using pmap.c&#x27;s</span><br>	<span class="hljs-comment">// boot_alloc do not have valid reference count fields</span><br>	<span class="hljs-type">uint16_t</span> pp_ref;<br>&#125;;<br></code></pre></td></tr></table></figure>
-<p>由于历史缘故，x86的保护模式下的内存管理必须经过分段机制处理，所以就有了三个令人迷糊的名词：虚拟地址，线性地址，物理地址：</p>
-<img src="/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic2.png" srcset="/img/loading.gif" lazyload class="">
-<p>如我之前的<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/680028337">Lab1总结</a>所提到的，实模式下段寄存器里保存的是段基址，而保护模式下段寄存器里保存的是段选择子，段选择子作为索引在段描述符表中找到对应的段描述符，段描述符会告诉我们段基址。x86早期为了支持1M内存，但寄存器只有16位的缘故，所以采取了<code>段基址*16+段内偏移</code>的方式来解决。<br>在这里提一嘴，linux使用平坦模式来绕过分段机制，使用32位寄存器的段内偏移访问4G大小的内存空间。</p>
-<h1 id="分页机制"><a href="#分页机制" class="headerlink" title="分页机制"></a>分页机制</h1><p>我们需要注意一下selector的细节：</p>
-<img src="/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic.png" srcset="/img/loading.gif" lazyload class="">  
-<p>所以selector的值需要右移3位才能拿到<code>Descriptor Index</code></p>
-<img src="/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic3.png" srcset="/img/loading.gif" lazyload class="">  
+                <blockquote>
+<p>Lab3的过程记录放在了我自己的博客上MIT6.828-Lab3，总结放在这里。</p>
+</blockquote>
+<h1 id="用户态环境的建立与管理以及异常处理机制"><a href="#用户态环境的建立与管理以及异常处理机制" class="headerlink" title="用户态环境的建立与管理以及异常处理机制"></a>用户态环境的建立与管理以及异常处理机制</h1><h2 id="用户环境"><a href="#用户环境" class="headerlink" title="用户环境"></a>用户环境</h2><p>JOS使用一个数组管理所有的环境（或称进程），最多有1024个<code>struct Env</code>，其使用链表记录所有<code>free</code>的<code>env</code>，并使用<code>currenv</code>来记录当前正在运行的环境。当前的物理内存布局如下：</p>
+<img src="/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic1.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>接下来介绍一下JOS中第一个用户环境的创建流程：<strong>此处我觉得最妙的是在<code>env_init</code>到<code>env_pop_tf</code>的这段过程中，我们使用<code>Trapframe</code>模拟了从用户态进入内核态时的栈的内容（因为第一个用户进程，不存在从用户态进内核态的过程，所以我们需要模拟），随后我们将<code>tf</code>的首地址赋值给<code>esp</code>寄存器（发生在<code>env_poptf</code>），随后便是convention when switching from kernel to user mode</strong></p>
+<img src="/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic2.png" srcset="/img/loading.gif" lazyload class="">
+
+<h2 id="异常处理机制"><a href="#异常处理机制" class="headerlink" title="异常处理机制"></a>异常处理机制</h2><p>在我们做完了上面的事情后，我们会创建一个hello的用户进程，其尝试使用<code>int $0x30</code>来invoke一个系统调用的中断，接下来我们做的事情便是为了使得JOS可以处理CPU内部异常（类似于divezero，pagefault等等CPU定义的异常）和软中断（用户程序可以发起的系统调用）。</p>
+<h3 id="中断处理过程"><a href="#中断处理过程" class="headerlink" title="中断处理过程"></a>中断处理过程</h3><img src="/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic.png" srcset="/img/loading.gif" lazyload class="">
 
 <ul>
-<li>使用逻辑地址（也可以称虚拟地址）中的段选择子在GDT中找到段基址，Limit和Flags是隐藏字段，与缓存和权限相关，使用段基址与段内偏移结合得到线性地址 </li>
-<li>CR3寄存器中保存了页目录表（Page Directory）的物理地址，使用线性地址的头10位在页目录表中找到对应的PDE，PDE的前20位表示页表的<strong>物理地址</strong>（因为JOS使用页管理内存，页的大小为4KB，所以后12位一定为0）</li>
-<li>找到页表后，使用中间的10位找到PTE，与上同理，PTE的前20位表示物理页的起始位置的物理地址，结合线性地址的最后12位，便可得到物理地址</li>
-</ul>
-<h1 id="TLB机制"><a href="#TLB机制" class="headerlink" title="TLB机制"></a>TLB机制</h1><p>JOS里并没有使用TLB，但在这里介绍一下TLB的具体机制：TLB使用页号（即前20位）和物理页号的映射来减少访问内存的次数</p>
-<img src="/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic4.png" srcset="/img/loading.gif" lazyload class="">
-<h1 id="所以，为什么需要分段和分页"><a href="#所以，为什么需要分段和分页" class="headerlink" title="所以，为什么需要分段和分页"></a>所以，为什么需要分段和分页</h1><blockquote>
-<p>为什么要分段呢？</p>
-</blockquote>
-<ul>
-<li>分段将程序划分成了程序段，数据段，栈段等等，不同段有对应的寄存器保存段基址。在进程上下文切换时，这些段寄存器中的值会被保存，以便恢复，并且不同进程的使用不同的段基址，从而实现进程地址空间的隔离<blockquote>
-<p>为什么要分页呢？</p>
-</blockquote>
+<li><p>首先中断肯定是通过<code>int $num</code>来调用的，所以CPU会知道中断向量号，此中断向量号作为一个索引并结合<code>IDTR</code>寄存器中保存的IDT表首地址，来查询此中断对应的中断门描述符（一般称Interrupt Gate&#x2F; Trap Gate&#x2F; Task Gate）。其中Interrupt Gate和Trap Gate的唯一区别即Interrupt Gate通过将EFLAGS寄存器中的IF标志位置0使其不可屏蔽，而Trap Gate则无此特性。</p>
+<img src="/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic3.png" srcset="/img/loading.gif" lazyload class="">
 </li>
-<li>因为段的颗粒度太大了，所以需要更小的颗粒度来管理内存，以减小内部碎片的影响</li>
+<li><p>然后根据门描述符的段选择子加上偏移便可找到中断程序所在的位置</p>
+</li>
 </ul>
-<h1 id="现在物理内存长啥样了？"><a href="#现在物理内存长啥样了？" class="headerlink" title="现在物理内存长啥样了？"></a>现在物理内存长啥样了？</h1><img src="/2024/03/03/MIT6-828-Lab2-%E6%80%BB%E7%BB%93/pic1.jpg" srcset="/img/loading.gif" lazyload class="">
-<h1 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h1><p>听我上面说的步骤觉得也就那么回事，不过是实际写起来的时候麻烦可真的不少，下面是需要记住的要点</p>
-<ul>
-<li>上面所有的<code>entry</code>里面存的地址全是物理地址，我一直以为里面是虚拟地址，直到反复阅读相关的macro才发现此事实，想来也对，如果里面存的是虚拟地址，那不就recursive了吗？</li>
-<li>在写<code>FUNC:pgdir_walk</code>时我遇到的坑是如果<code>page directory</code>中没有指向我们需要的<code>page table</code>的<code>PDE</code>，在我们分配了一个物理页后，需要切记<code>pde</code>一定要加上<code>PTE_W</code>，不然在<code>FUNC:check_page_installed_pgdir</code>中的<code>*(uint32_t *)PGSIZE = 0x03030303U;</code>会无法写入。</li>
-<li><code>Exercise 2</code>中提到两篇文章一定要仔细看， 分别是<a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2018/readings/i386/s06_04.htm">Page-Level Protection</a>和<a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2018/readings/i386/s05_02.htm">Page Translation</a></li>
-</ul>
-<p>差不多了，似乎没有啥想说的了。</p>
+<h2 id="中断栈帧"><a href="#中断栈帧" class="headerlink" title="中断栈帧"></a>中断栈帧</h2><p>我们都知道，当操作系统call一个函数时，会把参数，eip，ebp入栈使得函数结束时得以回到原始位置。同样的，当操作系统invoke一个interrupt时，也会建立一个栈帧，用于保存上下文。<br>下面是一个常见的中断栈帧：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/HeyLUMouMou/p/17123520.html">图源</a></p>
+<img src="/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/pic4.png" srcset="/img/loading.gif" lazyload class="">
 
+<ul>
+<li>我们需要明白的是只有从用户态进入内核态时，才会push ss和esp用于保存用户栈位置，接着会将TSS中的ss0字段和esp0字段赋值给ss和esp寄存器。</li>
+<li>error code和trap no是由入口程序压入的（即trapentry.S）</li>
+<li>在_alltrap中最后压入esp是用来将其作为函数参数传递给trap，*<em>需要注意的是上图有点小问题，蓝色部分esp(<em>tf)应该改成指向edi的旧esp</em></em></li>
+</ul>
+<h3 id="中断返回"><a href="#中断返回" class="headerlink" title="中断返回"></a>中断返回</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asm"># 将栈中的通用寄存器的值保存回对应的寄存器中<br>popal<br># 恢复es和ds寄存器<br>popl %es<br>popl%ds<br># 省略error code和trap no<br>addl $0x8, %esp<br># 调用iret将关键的ss，esp，eflags，cs，eip恢复回寄存器中<br>iret<br></code></pre></td></tr></table></figure>
+
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>当用户程序想要使用<code>int $14</code>来invoke page fault时，实际上kernel会执行general protection fault，以防止对os恶意的操作</p>
+<h1 id="Page-Faults-System-Calls-and-mem-protection"><a href="#Page-Faults-System-Calls-and-mem-protection" class="headerlink" title="Page Faults, System Calls and mem protection"></a>Page Faults, System Calls and mem protection</h1><h2 id="缺页中断"><a href="#缺页中断" class="headerlink" title="缺页中断"></a>缺页中断</h2><ul>
+<li>当产生一个缺页中断的错误时，出错的线性地址会保存在cr2寄存器中</li>
+<li>kernel mode下的缺页中断是一种bug，可以通过Trapframe的cs字段判断其特权级来判断是kernel还是user mode</li>
+</ul>
+<h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><p>Linux中有超过256个的系统调用，而中断向量号由于历史兼容性是8位的无符号整数，所以JOS采用将syscallno（用于区分不同系统调用）通过硬件保存在eax寄存器中，其余5个系统参数保存在edx，ecx，ebx，edi，esi寄存器中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// Dispatches to the correct kernel function, passing the arguments.</span><br><span class="hljs-type">int32_t</span><br><span class="hljs-title function_">syscall</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span> syscallno, <span class="hljs-type">uint32_t</span> a1, <span class="hljs-type">uint32_t</span> a2, <span class="hljs-type">uint32_t</span> a3, <span class="hljs-type">uint32_t</span> a4, <span class="hljs-type">uint32_t</span> a5)</span><br>&#123;<br>	<span class="hljs-comment">// Call the function corresponding to the &#x27;syscallno&#x27; parameter.</span><br>	<span class="hljs-comment">// Return any appropriate return value.</span><br>	<span class="hljs-comment">// LAB 3: Your code here.</span><br><br>	<span class="hljs-keyword">switch</span> (syscallno) &#123;<br>	<span class="hljs-keyword">case</span> SYS_cputs:<br>		sys_cputs((<span class="hljs-type">const</span> <span class="hljs-type">char</span> *)a1, (<span class="hljs-type">size_t</span>)a2);<br>		<span class="hljs-keyword">break</span>;<br>	<span class="hljs-keyword">case</span> SYS_cgetc:<br>		sys_cgetc();<br>		<span class="hljs-keyword">break</span>;<br>	<span class="hljs-keyword">case</span> SYS_getenvid:<br>		sys_getenvid();<br>		<span class="hljs-keyword">break</span>;<br>	<span class="hljs-keyword">case</span> SYS_env_destroy:<br>		sys_env_destroy((<span class="hljs-type">envid_t</span>)a1);<br>		<span class="hljs-keyword">break</span>;<br>	<span class="hljs-keyword">default</span>:<br>		<span class="hljs-keyword">return</span> -E_INVAL;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="内存保护"><a href="#内存保护" class="headerlink" title="内存保护"></a>内存保护</h2><p>为了防止用户程序通过系统调用访问内核空间，我们需要在系统调用函数中加上内存检查（比如传递过来的参数是否超出ULIM，对应的pte的权限部分是否允许用户读或写等等）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span><br><span class="hljs-title function_">user_mem_check</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> Env *env, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *va, <span class="hljs-type">size_t</span> len, <span class="hljs-type">int</span> perm)</span><br>&#123;<br>    <span class="hljs-type">uint32_t</span> start = (<span class="hljs-type">uint32_t</span>)ROUNDDOWN((<span class="hljs-type">char</span> *)va, PGSIZE);<br>    <span class="hljs-type">uint32_t</span> end = (<span class="hljs-type">uint32_t</span>)ROUNDUP((<span class="hljs-type">char</span> *)va+len, PGSIZE);<br>	<span class="hljs-keyword">if</span> ((<span class="hljs-type">uint32_t</span>)start + end &lt; ULIM) &#123;	<br>		<span class="hljs-keyword">for</span> (; (<span class="hljs-type">uint32_t</span>)start &lt; (<span class="hljs-type">uint32_t</span>)end; start += PGSIZE) &#123;<br>			<span class="hljs-type">pte_t</span> *pte = pgdir_walk(env-&gt;env_pgdir, (<span class="hljs-type">void</span> *)start, <span class="hljs-number">0</span>);<br>			<span class="hljs-keyword">if</span> (!pte || !((*pte &amp; (perm | PTE_P)) == (perm | PTE_P))) &#123;<br>				user_mem_check_addr = (start &lt; (<span class="hljs-type">uint32_t</span>)va ? (<span class="hljs-type">uint32_t</span>)va : start);<br>				<span class="hljs-keyword">return</span> -E_FAULT;<br>			&#125;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		user_mem_check_addr = (<span class="hljs-type">uint32_t</span>)va;<br>		<span class="hljs-keyword">return</span> -E_FAULT;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -411,8 +411,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>MIT6.828-Lab2-总结</div>
-      <div>http://bugeater.space/2024/03/03/MIT6-828-Lab2-总结/</div>
+      <div>MIT6.828-Lab3-总结</div>
+      <div>http://bugeater.space/2024/03/09/MIT6-828-Lab3-总结/</div>
     </div>
     <div class="license-meta">
       
@@ -424,7 +424,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>March 3, 2024</div>
+          <div>March 9, 2024</div>
         </div>
       
       
@@ -456,18 +456,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/03/MIT6-828-Lab3/" title="MIT6.828-Lab3">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MIT6.828-Lab3</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/" title="MIT6.828-Lab1-总结">
-                        <span class="hidden-mobile">MIT6.828-Lab1-总结</span>
+                      <a href="/2024/03/03/MIT6-828-Lab3/" title="MIT6.828-Lab3">
+                        <span class="hidden-mobile">MIT6.828-Lab3</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

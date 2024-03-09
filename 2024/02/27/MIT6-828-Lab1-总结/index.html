@@ -25,8 +25,9 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://bugeater.space/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/pic1.png">
 <meta property="og:image" content="http://bugeater.space/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/pic2.jpg">
+<meta property="og:image" content="http://bugeater.space/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/pic2.png">
 <meta property="article:published_time" content="2024-02-27T01:29:49.000Z">
-<meta property="article:modified_time" content="2024-03-03T03:09:08.191Z">
+<meta property="article:modified_time" content="2024-03-09T03:03:13.040Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -258,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.6k words
+          3.5k words
         
       </span>
     
@@ -269,7 +270,7 @@
         
         
         
-          22 mins
+          30 mins
         
       </span>
     
@@ -332,7 +333,7 @@
 <ul>
 <li>打开A20地址线以便于访问超过1M的地址</li>
 <li>构建并加载GDT</li>
-<li>寻址模式从<code>real-mode</code>转变为32位<code>protected-mode</code>（<code>real-mode</code>用段寄存器里存放的是段基址，但<code>protected-mode</code>中段寄存器里存放的是段选择子，使用段选择子在全局描述符表中获取段基址，所以在此过程中可以加一道特权级检查）</li>
+<li>寻址模式从<code>real-mode</code>转变为32位<code>protected-mode</code>（<code>real-mode</code>用段寄存器里存放的是段基址，但<code>protected-mode</code>中段寄存器里存放的是段选择子，使用段选择子在全局描述符表中获取段基址，<strong>所以在此过程中可以加一道特权级检查</strong>）</li>
 </ul>
 <blockquote>
 <p>为什么BootLoader被加载到内存<code>0x7c00</code>的位置呢？</p>
@@ -346,7 +347,16 @@
 <p>3.BootLoader-main.c</p>
 <ul>
 <li>将kernel的ELF文件读入到物理地址<code>0x1000</code>处</li>
-<li>根据ELF文件跳转到内核代码（load address在<code>0x100000</code>，入口在<code>0x10000c</code>，这两个数值是在<code>kern/kernel.ld</code>中通过<code>ENTRY(_start）</code>和<code>.text : AT(0x100000)</code>指定的，控制权交给内核</li>
+<li>根据ELF文件跳转到内核代码(<strong>load address在<code>0x100000</code>，入口在<code>0x10000c</code>，这两个数值是在<code>kern/kernel.ld</code>中通过<code>ENTRY(_start）</code>和<code>.text : AT(0x100000)</code>指定的</strong>)，控制权交给内核<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Proghdr</span> *<span class="hljs-title">ph</span>, *<span class="hljs-title">eph</span>;</span><br><br><span class="hljs-comment">// read 1st page off disk</span><br>readseg((<span class="hljs-type">uint32_t</span>) ELFHDR, SECTSIZE*<span class="hljs-number">8</span>, <span class="hljs-number">0</span>);<br><br><span class="hljs-comment">// is this a valid ELF?ELF</span><br><span class="hljs-keyword">if</span> (ELFHDR-&gt;e_magic != ELF_MAGIC)<br>	<span class="hljs-keyword">goto</span> bad;<br><br><span class="hljs-comment">// load each program segment (ignores ph flags)</span><br>ph = (<span class="hljs-keyword">struct</span> Proghdr *) ((<span class="hljs-type">uint8_t</span> *) ELFHDR + ELFHDR-&gt;e_phoff); <span class="hljs-comment">// e_phoff表示程序头表相对于ELF头的偏移地址</span><br>eph = ph + ELFHDR-&gt;e_phnum; <span class="hljs-comment">// e_phnum表示有几个程序头</span><br><span class="hljs-keyword">for</span> (; ph &lt; eph; ph++)<br>	<span class="hljs-comment">// p_pa is the load address of this segment (as well</span><br>	<span class="hljs-comment">// as the physical address)</span><br>	readseg(ph-&gt;p_pa, ph-&gt;p_memsz, ph-&gt;p_offset);<br><br><span class="hljs-comment">// call the entry point from the ELF header</span><br><span class="hljs-comment">// note: does not return!</span><br><span class="hljs-comment">// 使用e_entry跳转到内核代码</span><br>((<span class="hljs-type">void</span> (*)(<span class="hljs-type">void</span>)) (ELFHDR-&gt;e_entry))();<br></code></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>ELF格式简介</p>
+</blockquote>
+<ul>
+<li>我们上面是将kernel的ELF头加载到<code>0x1000</code>处了，ELF头主要有三个信息： 程序入口地址相关<code>e_entry</code>、程序头表相对于ELF头的偏移地址<code>e_phoff</code>、程序头个数<code>e_phnum</code></li>
+<li>程序头（programheader，缩写为Proghdr），同样主要有三个信息：程序头类型（或者说段类型）<code>p_type</code>、程序段在硬盘中的位置<code>p_offset</code>、程序段在内存的物理地址和虚拟地址<code>p_pa</code>,<code>p_va</code></li>
+<li>使用<code>readelf -l obj\kern\kernel</code>查看kernel的所有程序头信息</li>
+<li>使用<code>readelf -h obj/kern/kernel</code>查看程序头表（也可以叫ELF头）</li>
 </ul>
 <p>4.内核！启动！- entry.S</p>
 <ul>
@@ -361,6 +371,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs asm">; 假设执行函数前堆栈指针 ESP 为 NN<br>push   p2    ; 参数 2 入栈，ESP -= 4h , ESP = NN - 4h<br>push   p1    ; 参数 1 入栈，ESP -= 4h , ESP = NN - 8h<br>call test    ; 压入返回地址 ESP -= 4h, ESP = NN - 0Ch  <br>;// 进入函数内<br>&#123;<br>push   ebp                        ; 保护先前 EBP 指针， EBP 入栈， ESP-=4h, ESP = NN - 10h<br>mov    ebp, esp                   ; 设置 EBP 指针指向栈顶 NN-10h<br>mov    eax, dword ptr  [ebp+0ch]  ;ebp+0ch 为 NN-4h, 即参数 2 的位置<br>mov    ebx, dword ptr  [ebp+08h]  ;ebp+08h 为 NN-8h, 即参数 1 的位置<br>sub    esp, 8                     ; 局部变量所占空间 ESP-=8, ESP = NN-18h<br>...<br>add    esp, 8                     ; 释放局部变量，ESP+=8, ESP = NN-10h<br>pop    ebp                        ; 出栈，恢复 EBP, ESP+=4, ESP = NN-0Ch<br>ret    8                          ;ret 返回，弹出返回地址，ESP+=4, ESP=NN-08h, 后面加操作数 8 为平衡堆栈，ESP+=8,ESP=NN, 恢复进入函数前的堆栈.<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>每当进入函数时，便会执行两条指令，<code>push %ebp</code>和<code>mov %esp %ebp</code>（和上面代码不一样是因为我写的是AT&amp;T语法），ebp寄存器用于保存当前所执行的函数的基址，因为我们知道在执行函数是esp的值会不断减小，所以我们需要使用ebp来保存esp变化之前的值，以便于我们读取函数参数。<br>下面是我画的每次函数执行时，stack的部分图片：</p>
 <img src="/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/pic2.jpg" srcset="/img/loading.gif" lazyload class="">  
+<h1 id="目前为止，物理内存里长啥样？"><a href="#目前为止，物理内存里长啥样？" class="headerlink" title="目前为止，物理内存里长啥样？"></a>目前为止，物理内存里长啥样？</h1><img src="/2024/02/27/MIT6-828-Lab1-%E6%80%BB%E7%BB%93/pic2.png" srcset="/img/loading.gif" lazyload class="">  
 <h1 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h1><p>从一开始的配置环境，到最后完成整个lab，最大的印象是无论如何都要认真地看完每一段话，我仍记得当我发现首次进入内核时地址为<code>0x10000c</code>时的疑惑，直到后面Exercise 4时，要求我们使用<code>objdump -f obj/kern/kernel</code> 来verify时，方能恍然大悟；我仍记得想破脑袋也没想明白为什么<code>bootloader</code>从<code>0x7c00</code>开始，直到查阅相关资料才发现这只是历史遗留问题 。</p>
 <ul>
 <li>想要真正读懂bootloader(boot.S和main.c)还是得去认真地把xv6-book的附录B部分过一遍。</li>
