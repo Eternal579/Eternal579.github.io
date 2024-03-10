@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>MIT6.828-Lab4</title>
+    <link href="/2024/03/10/MIT6-828-Lab4/"/>
+    <url>/2024/03/10/MIT6-828-Lab4/</url>
+    
+    <content type="html"><![CDATA[<h1 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h1><p>In this lab you will implement preemptive multitasking among multiple simultaneously active user-mode environments.<br>In part A you will add multiprocessor support to JOS, implement round-robin scheduling, and add basic environment management system calls (calls that create and destroy environments, and allocate&#x2F;map memory).<br>In part B, you will implement a Unix-like fork(), which allows a user-mode environment to create copies of itself.<br>Finally, in part C you will add support for inter-process communication (IPC), allowing different user-mode environments to communicate and synchronize with each other explicitly. You will also add support for hardware clock interrupts and preemption.  </p><h1 id="Part-A-Multiprocessor-Support-and-Cooperative-Multitasking"><a href="#Part-A-Multiprocessor-Support-and-Cooperative-Multitasking" class="headerlink" title="Part A: Multiprocessor Support and Cooperative Multitasking"></a>Part A: Multiprocessor Support and Cooperative Multitasking</h1><h2 id="Multiprocessor-Support"><a href="#Multiprocessor-Support" class="headerlink" title="Multiprocessor Support"></a>Multiprocessor Support</h2><p>We are going to make JOS support <strong>“symmetric multiprocessing” (SMP)</strong>, a multiprocessor model in which all CPUs have equivalent access to system resources such as memory and I&#x2F;O buses. While all CPUs are functionally identical in SMP, during the boot process they can be classified into two types: the <strong>bootstrap processor (BSP)</strong> is responsible for initializing the system and for booting the operating system; and the <strong>application processors (APs)</strong> are activated by the BSP only after the operating system is up and running. Which processor is the BSP is determined by the hardware and the BIOS. </p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Blog</category>
+      
+      <category>MIT6.828</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>OS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>MIT6.828-Lab3-总结</title>
     <link href="/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/"/>
     <url>/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/</url>
