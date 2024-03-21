@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://bugeater.space/2024/01/29/MIT6-828-Lab2/</loc>
+    <lastmod>2024-03-21</lastmod>
+  </url>
+  <url>
     <loc>http://bugeater.space/2024/03/10/MIT6-828-Lab4/</loc>
-    <lastmod>2024-03-18</lastmod>
+    <lastmod>2024-03-21</lastmod>
   </url>
   <url>
     <loc>http://bugeater.space/2024/03/03/MIT6-828-Lab3/</loc>
@@ -67,10 +71,6 @@
   <url>
     <loc>http://bugeater.space/2024/02/11/Redis%E5%85%A5%E9%97%A8/</loc>
     <lastmod>2024-02-13</lastmod>
-  </url>
-  <url>
-    <loc>http://bugeater.space/2024/01/29/MIT6-828-Lab2/</loc>
-    <lastmod>2024-02-09</lastmod>
   </url>
   <url>
     <loc>http://bugeater.space/2024/01/27/MIT6-828-HW1/</loc>
