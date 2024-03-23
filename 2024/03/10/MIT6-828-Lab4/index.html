@@ -28,8 +28,10 @@
 <meta property="og:image" content="http://bugeater.space/2024/03/10/MIT6-828-Lab4/pic2.png">
 <meta property="og:image" content="http://bugeater.space/2024/03/10/MIT6-828-Lab4/pic3.png">
 <meta property="og:image" content="http://bugeater.space/2024/03/10/MIT6-828-Lab4/pic5.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/10/MIT6-828-Lab4/pic6.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/10/MIT6-828-Lab4/pic7.png">
 <meta property="article:published_time" content="2024-03-10T07:16:38.000Z">
-<meta property="article:modified_time" content="2024-03-21T08:47:46.044Z">
+<meta property="article:modified_time" content="2024-03-23T01:22:18.195Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -261,7 +263,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          21k words
+          25k words
         
       </span>
     
@@ -272,7 +274,7 @@
         
         
         
-          179 mins
+          211 mins
         
       </span>
     
@@ -426,7 +428,21 @@
 <li>print “page ref” in <code>region_alloc</code> of <code>env.c</code><br>‘cause <code>region_alloc</code> allocates most pages that a user program needs, <strong>unsurprisely, ref of all pages allocated is 0!</strong>  </li>
 <li>reason<br><strong>Instead of using <code>page_insert</code>, I implement <code>region_alloc</code> using <code>pgdir_walk</code> to find pte and then assign right value to it, which causes all pages allocated have 0 on their ref, finally contributing to freed wrongly.</strong></li>
 </ul>
+<h1 id="Part-C-Preemptive-Multitasking-and-Inter-Process-communication-IPC"><a href="#Part-C-Preemptive-Multitasking-and-Inter-Process-communication-IPC" class="headerlink" title="Part C: Preemptive Multitasking and Inter-Process communication(IPC)"></a>Part C: Preemptive Multitasking and Inter-Process communication(IPC)</h1><p>In the final part of lab 4 you will modify the kernel to preempt uncooperative environments and to allow environments to pass messages to each other explicitly.  </p>
+<h2 id="Clock-Interrupts-and-Preemption"><a href="#Clock-Interrupts-and-Preemption" class="headerlink" title="Clock Interrupts and Preemption"></a>Clock Interrupts and Preemption</h2><p>In order to allow the kernel to preempt a running environment, forcefully retaking control of the CPU from it, we must extend the JOS kernel to support external hardware interrupts from the clock hardware.  </p>
+<h3 id="Interrupt-Discipline"><a href="#Interrupt-Discipline" class="headerlink" title="Interrupt Discipline"></a>Interrupt Discipline</h3><p>External interrupts (i.e., device interrupts) are referred to as <code>IRQs</code>. In <code>inc/trap.h</code>, <code>IRQ_OFFSET</code> is defined to be decimal 32. Thus the IDT entries 32-47 correspond to the IRQs 0-15. For example, the clock interrupt is IRQ 0. Thus, <code>IDT[IRQ_OFFSET+0]</code> (i.e., <code>IDT[32]</code>) contains the address of the clock’s interrupt handler routine in the kernel.  </p>
+<img src="/2024/03/10/MIT6-828-Lab4/pic6.png" srcset="/img/loading.gif" lazyload class="">  
 
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// trapentry.S</span><br>TRAPHANDLER_NOEC(irq_error_handler, IRQ_OFFSET+IRQ_ERROR)<br>TRAPHANDLER_NOEC(irq_ide_handler, IRQ_OFFSET+IRQ_IDE)<br>TRAPHANDLER_NOEC(irq_kbd_handler, IRQ_OFFSET+IRQ_KBD)<br>TRAPHANDLER_NOEC(irq_serial_handler, IRQ_OFFSET+IRQ_SERIAL)<br>TRAPHANDLER_NOEC(irq_spurious_handler, IRQ_OFFSET+IRQ_SPURIOUS)<br>TRAPHANDLER_NOEC(irq_timer_handler, IRQ_OFFSET+IRQ_TIMER)<br><br><span class="hljs-comment">// trap.c</span><br><span class="hljs-comment">// 外部中断设置，偏移32个长度。常用的有 IDE、KBD、TIMER，分别表示来自磁盘、键盘、时钟的中断</span><br>SETGATE(idt[IRQ_OFFSET+IRQ_ERROR], <span class="hljs-number">0</span>, GD_KT, irq_error_handler, <span class="hljs-number">3</span>);<br>SETGATE(idt[IRQ_OFFSET+IRQ_IDE], <span class="hljs-number">0</span>, GD_KT, irq_ide_handler, <span class="hljs-number">3</span>);<br>SETGATE(idt[IRQ_OFFSET+IRQ_KBD], <span class="hljs-number">0</span>, GD_KT, irq_kbd_handler, <span class="hljs-number">3</span>);<br>SETGATE(idt[IRQ_OFFSET+IRQ_SERIAL], <span class="hljs-number">0</span>, GD_KT, irq_serial_handler, <span class="hljs-number">3</span>);<br>SETGATE(idt[IRQ_OFFSET+IRQ_SPURIOUS], <span class="hljs-number">0</span>, GD_KT, irq_spurious_handler, <span class="hljs-number">3</span>); <br>SETGATE(idt[IRQ_OFFSET+IRQ_TIMER], <span class="hljs-number">0</span>, GD_KT, irq_timer_handler, <span class="hljs-number">3</span>);<br><br><span class="hljs-comment">// env.c</span><br><span class="hljs-comment">// Enable interrupts while in user mode.</span><br><span class="hljs-comment">// LAB 4: Your code here.</span><br>e-&gt;env_tf.tf_eflags |= FL_IF;<br></code></pre></td></tr></table></figure>
+<h3 id="Handling-Clock-Interrupts"><a href="#Handling-Clock-Interrupts" class="headerlink" title="Handling Clock Interrupts"></a>Handling Clock Interrupts</h3><img src="/2024/03/10/MIT6-828-Lab4/pic7.png" srcset="/img/loading.gif" lazyload class="">  
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// LAB 4: Your code here.</span><br><span class="hljs-keyword">if</span> (tf-&gt;tf_trapno == IRQ_OFFSET + IRQ_TIMER) &#123;<br>	lapic_eoi();<br>	sched_yield();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Inter-Process-communication-IPC"><a href="#Inter-Process-communication-IPC" class="headerlink" title="Inter-Process communication (IPC)"></a>Inter-Process communication (IPC)</h2><p>We’ve been focusing on the isolation aspects of the operating system, the ways it provides the illusion that each program has a machine all to itself. Another important service of an operating system is to allow programs to communicate with each other when they want to. It can be quite powerful to let programs interact with other programs.  </p>
+<h3 id="IPC-in-JOS"><a href="#IPC-in-JOS" class="headerlink" title="IPC in JOS"></a>IPC in JOS</h3><p>You will implement two system calls, <code>sys_ipc_recv</code> and <code>sys_ipc_try_send</code>. Then you will implement two library wrappers <code>ipc_recv</code> and <code>ipc_send</code>.<br>The “messages” that user environments can send to each other using JOS’s IPC mechanism consist of two components: <strong>a single 32-bit value, and optionally a single page mapping</strong>. Allowing environments to pass page mappings in messages provides an efficient way to transfer more data than will fit into a single 32-bit integer, and also allows environments to set up shared memory arrangements easily.  </p>
+<h3 id="Sending-and-Receiving-Messages"><a href="#Sending-and-Receiving-Messages" class="headerlink" title="Sending and Receiving Messages"></a>Sending and Receiving Messages</h3><p>To receive a message, an environment calls <code>sys_ipc_recv</code>. This system call <strong>de-schedules</strong> the current environment and does not run it again until a message has been received.<br>To try to send a value, an environment calls <code>sys_ipc_try_send</code> with both the receiver’s environment id and the value to be sent. If the named environment is actually receiving (it has called <code>sys_ipc_recv</code> and not gotten a value yet), then the send delivers the message and returns 0. Otherwise the send returns -<code>E_IPC_NOT_RECV</code> to indicate that the target environment is not currently expecting to receive a value.<br>A library function <code>ipc_recv</code> in user space will take care of calling <code>sys_ipc_recv</code> and then looking up the information about the received values in the current environment’s <code>struct Env</code>.<br>Similarly, a library function ipc_send will take care of <strong>repeatedly</strong> calling <code>sys_ipc_try_send</code> until the send succeeds.  </p>
+<h3 id="Transferring-Pages"><a href="#Transferring-Pages" class="headerlink" title="Transferring Pages"></a>Transferring Pages</h3><p>When an environment calls <code>sys_ipc_recv</code> with a valid <code>dstva</code> parameter (below <code>UTOP</code>), the environment is stating that it is willing to receive a page mapping. If the sender sends a page, then that page should be mapped at <code>dstva</code> in the receiver’s address space. If the receiver already had a page mapped at <code>dstva</code>, then that previous page is unmapped.<br>When an environment calls <code>sys_ipc_try_send</code> with a valid <code>srcva</code> (below <code>UTOP</code>), it means the sender wants to send the page currently mapped at <code>srcva</code> to the receiver, with permissions perm.<br>After any IPC, the kernel sets the new field <code>env_ipc_perm</code> in the receiver’s Env structure to the permissions of the page received, or zero if no page was received.  </p>
+<h3 id="Implementing-IPC"><a href="#Implementing-IPC" class="headerlink" title="Implementing IPC"></a>Implementing IPC</h3>
                 
               </div>
             
