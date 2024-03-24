@@ -1,0 +1,792 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/StarFlow.png">
+  <link rel="icon" href="/img/StarFlow.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#E58A8A">
+  <meta name="author" content="BugEater">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Part A: 多处理器支持和协作多任务处理JOS支持symmetric multiprocessing(SMP)的多处理器模型，symmetric表示所有CPU拥有相同的的权限获取系统资源， SMP模型中的CPU按照启动顺序分为bootstrap processor和application processor，后者被前者启动。   LAPIC（本地高级可编程中断控制器）多核系统中，使用了LAPI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT6.828-Lab4-总结">
+<meta property="og:url" content="http://bugeater.space/2024/03/24/MIT6-828-Lab4-%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="BugEaterのBlog">
+<meta property="og:description" content="Part A: 多处理器支持和协作多任务处理JOS支持symmetric multiprocessing(SMP)的多处理器模型，symmetric表示所有CPU拥有相同的的权限获取系统资源， SMP模型中的CPU按照启动顺序分为bootstrap processor和application processor，后者被前者启动。   LAPIC（本地高级可编程中断控制器）多核系统中，使用了LAPI">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bugeater.space/2024/03/24/MIT6-828-Lab4-%E6%80%BB%E7%BB%93/pic1.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/24/MIT6-828-Lab4-%E6%80%BB%E7%BB%93/pic2.png">
+<meta property="article:published_time" content="2024-03-24T11:12:21.000Z">
+<meta property="article:modified_time" content="2024-03-24T11:23:40.024Z">
+<meta property="article:author" content="BugEater">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://bugeater.space/2024/03/24/MIT6-828-Lab4-%E6%80%BB%E7%BB%93/pic1.png">
+  
+  
+  
+  <title>MIT6.828-Lab4-总结 - BugEaterのBlog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/mac.css">
+<link rel="stylesheet" href="/css/mouse.css">
+<link rel="stylesheet" href="/css/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bugeater.space","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"VmrotYkN0qs7j5EDHJUX5sM1-MdYXbMMI","app_key":"YvoXNeOhIlq2fMZiYJzC9eDy","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>BugEaterのBlog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/redemption2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MIT6.828-Lab4-总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-24 19:12" pubdate>
+          March 24, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          36 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MIT6.828-Lab4-总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Part-A-多处理器支持和协作多任务处理"><a href="#Part-A-多处理器支持和协作多任务处理" class="headerlink" title="Part A: 多处理器支持和协作多任务处理"></a>Part A: 多处理器支持和协作多任务处理</h1><p>JOS支持<code>symmetric multiprocessing</code>(SMP)的多处理器模型，<code>symmetric</code>表示所有CPU拥有相同的的权限获取系统资源， SMP模型中的CPU按照启动顺序分为<code>bootstrap processor</code>和<code>application processor</code>，后者被前者启动。  </p>
+<h2 id="LAPIC（本地高级可编程中断控制器）"><a href="#LAPIC（本地高级可编程中断控制器）" class="headerlink" title="LAPIC（本地高级可编程中断控制器）"></a>LAPIC（本地高级可编程中断控制器）</h2><p>多核系统中，使用了<code>LAPIC</code>用于协助每个CPU独立管理中断，每个CPU对应一个<code>LAPIC</code>，其不仅能处理外部设备的中断，还能处理其他处理器的中断信号。<br>在JOS中，为了访问CPU专属的<code>LAPIC</code>，每个CPU都会根据<code>mutliprocessor configuration table</code>（BIOS初始化的）的信息（例如<code>LAPIC</code>的物理地址），将其映射在自己的虚拟内存<code>MMIO</code>位置处。<br>下面是我整理的多核启动流程图：  </p>
+<img src="/2024/03/24/MIT6-828-Lab4-%E6%80%BB%E7%BB%93/pic1.png" srcset="/img/loading.gif" lazyload class="">
+
+<ul>
+<li><code>sched_yield</code>是JOS的循环调度的实现</li>
+</ul>
+<h2 id="System-calls-that-create-destory-environments"><a href="#System-calls-that-create-destory-environments" class="headerlink" title="System calls that create&#x2F;destory environments"></a>System calls that create&#x2F;destory environments</h2><p>此部分主要是封装系统系统调用供用户态使用。<strong>重点提一下fork为什么可以产生两个不同的返回值</strong><br>fork的大致流程为：  </p>
+<ul>
+<li>创建一个新的进程</li>
+<li>将其父进程<strong>栈帧</strong>复制给子进程（在JOS中具体实现为<code>child_env-&gt;env_tf = currenv-&gt;env_tfcurrenv</code>即当前进程为父进程），标记子进程为<code>NOT_RUNNABLE</code>，直到父进程将<code>.data</code>，<code>.text</code>，<code>.bss</code>等段同样映射在子进程中。  </li>
+<li><strong>最重要的一步，设置子进程的栈帧中的用于存储函数返回值的寄存器（eax）的值设置为0，这样子就像子进程也调用了fork一样，但其函数返回值为0。</strong></li>
+</ul>
+<h1 id="Part-B-Copy-on-Write-Fork"><a href="#Part-B-Copy-on-Write-Fork" class="headerlink" title="Part B: Copy-on-Write Fork"></a>Part B: Copy-on-Write Fork</h1><h2 id="Page-fault处理机制"><a href="#Page-fault处理机制" class="headerlink" title="Page fault处理机制"></a>Page fault处理机制</h2><p>写时复制机制极大地提高了<code>fork</code>时的内存操作开销，其基于在<code>fork</code>时，父子进程的地址空间的虚拟页上都被标记为只读且<code>PTE_COW</code>（<code>PTE_COW</code>是属于page table entry的低9-12位的AVL位），CPU会触发page fault，随后进行响应。  </p>
+<ul>
+<li>JOS中，page fault的处理被下放给用户态实现，用于降低系统耦合性，这也说明了JOS不是宏内核。</li>
+<li>JOS中，发生缺页中断时，会分配一页的用户异常栈，用于保存上下文，且响应的异常处理均在此栈中进行，重点在于需要在堆栈中保存用户态下的<code>page_fault_handler</code>，当内核构建好异常栈并且建立栈帧后，便会切回用户态。</li>
+<li>JOS中，<code>page_fault_handler</code>是由用户决定的，使用<code>set_pgfault_handler</code>来将用户决定的异常处理机制告知给<code>pfentry.S</code>（这是发生<code>page_fault</code>时的入口，会在用户态下执行<code>page_fault_handler</code>，随后返回出错时的位置继续执行。</li>
+</ul>
+<blockquote>
+<p>那么是怎么做到从异常栈切换到用户栈，并且回到正确的位置继续执行呢？</p>
+</blockquote>
+<ol>
+<li>我们可以先想一想怎么从内核态进用户态的？<br>我们先创建用户环境，并在<code>struct Env</code>结构中保存好了相应的栈帧，使得通过从此栈帧中<strong>恢复</strong>相应的寄存器使得<strong>好像</strong>是之前进入内核态，现在从内核态返回用户态一样（<strong>这就是为什么我们叫他”中断返回“</strong>）  </li>
+<li>用户态怎么进内核态呢？<br>这是凭借中断实现的，通过在IDT表中注册相应的处理函数地址，使之成为现实的。（更具体一点的话可见我的<a href="https://bugeater.space/2024/03/09/MIT6-828-Lab3-%E6%80%BB%E7%BB%93/">Lab3笔记</a>）  </li>
+<li>异常栈怎么切换到用户栈呢？<br>JOS采用了巧妙的方法，下面是异常栈的内容：  <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">//</span>	trap-time esp<br><span class="hljs-string">//</span>	trap-time eflags<br><span class="hljs-string">//</span>	trap-time eip<br><span class="hljs-string">//</span>	utf_regs.reg_eax<br><span class="hljs-string">//</span>	<span class="hljs-string">...</span><br><span class="hljs-string">//</span>	utf_regs.reg_esi<br><span class="hljs-string">//</span>	utf_regs.reg_edi<br><span class="hljs-string">//</span>	utf_err <span class="hljs-params">(error code)</span><br><span class="hljs-string">//</span>	utf_fault_va            &lt;-- %esp<br></code></pre></td></tr></table></figure>
+我们需要将旧的<code>eip</code>的值保存在即将回到的用户栈下，并且需要注意此时<code>esp</code>寄存器的值还没变<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mel">addl $8, %esp			<span class="hljs-comment">// 忽略fault_va和err</span><br>movl <span class="hljs-number">0x20</span>(%esp), %eax	<span class="hljs-comment">// trap-time eip移入eax寄存器</span><br>subl $4, <span class="hljs-number">0x28</span>(%esp)		<span class="hljs-comment">// 将trap-time 栈首下移4字节用于保存eip</span><br>movl <span class="hljs-number">0x28</span>(%esp), %ebx	<span class="hljs-comment">// 将trap-time 栈首地址移入ebx寄存器</span><br>movl %eax, (%ebx)		<span class="hljs-comment">// 将eip存入trap-time的栈中</span><br></code></pre></td></tr></table></figure>
+随后再将相应的值恢复到对应的寄存器中，切换到用户栈后，我们使用<code>ret</code>指令将用户栈顶的<strong>旧eip值</strong>保存到<code>eip</code>寄存器中，这样子就成功解决了<code>page fault</code>并继续执行下去  <figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs mel"><span class="hljs-comment">// Restore the trap-time registers.</span><br>popal<br><span class="hljs-comment">// Restore eflags from the stack.</span><br>add $4, %esp			<span class="hljs-comment">// 忽略eip</span><br>popfl				<span class="hljs-comment">// restore eflags寄存器</span><br><span class="hljs-comment">// Switch back to the adjusted trap-time stack.</span><br>popl %esp<br><span class="hljs-comment">// Return to re-execute the instruction that faulted.</span><br>ret<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>tips：</strong>我认为也不是不能用<code>iret</code>来返回用户栈，可能是因为异常栈帧(UTrapframe)和内核栈帧(Trapframe)不一样导致无法复用<code>env_pop_tf</code>来实现返回用户栈。  </p>
+<h2 id="实现COW"><a href="#实现COW" class="headerlink" title="实现COW"></a>实现COW</h2><p>现在我们已经有了<code>page fault</code>处理机制了，现在只用要封装好<code>fork</code>就实现<code>COW</code>了。  </p>
+<h3 id="在这里一定要讲一下JOS中的另一个巧妙机制"><a href="#在这里一定要讲一下JOS中的另一个巧妙机制" class="headerlink" title="在这里一定要讲一下JOS中的另一个巧妙机制"></a>在这里一定要讲一下JOS中的另一个巧妙机制</h3><blockquote>
+<p>我们需要知道用户态是无法使用内核态的函数去查找虚拟地址对应的page table entry的，但在COW机制中，我们很需要判断某一虚&gt;拟地址的pte的权限，那该怎么办呢？ </p>
+</blockquote>
+<p>在JOS中，我们使用<code>uvpt[va&gt;&gt;12]</code>来获取<code>va</code>对应的<code>pte</code>，<code>uvpt</code>被链接在<code>UVPT</code>处，我们需要知道对于<code>pgdir</code>，它的<code>PDX(UVPT)</code>处存的就是<code>pgdir</code>本身的物理地址，下面是我画的图帮助理解这个trick  </p>
+<img src="/2024/03/24/MIT6-828-Lab4-%E6%80%BB%E7%BB%93/pic2.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="具体步骤："><a href="#具体步骤：" class="headerlink" title="具体步骤："></a>具体步骤：</h3><ul>
+<li>设置<code>pgfault</code>函数，它会判断虚拟地址对应的<code>pte</code>是否有<code>PTE_COW</code>标记并且错误号表示与写操作相关，如果通过检查， 则分配新的页面并将错误页面拷贝至新页面，随后新页面被映射在正确的位置。</li>
+<li>遍历<code>UTEXT</code>至<code>USTACKTOP</code>的内存， 将标记为<code>PTE_W</code>或<code>PTE_COW</code>的页面也映射在子进程中，父子进程中的页面都需要标记为只读。 </li>
+<li>为子进程分配异常栈空间，并也给子进程设置<code>page_fault_handler</code>，最后将子进程设置为<code>RUNNABLE</code> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">envid_t</span><br><span class="hljs-title function_">fork</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>	<span class="hljs-type">envid_t</span> envid;<br>	<span class="hljs-type">int</span> r;<br>	<span class="hljs-type">unsigned</span> pn;<br>        <span class="hljs-comment">// 1. 设置缺页处理函数,这样之后父子进程的实际缺页处理函数就是pgfault了，但是只有在父进程的struct env中存有_pgfault_upcall这个中转站，因此下面还要进一步处理。 对应下面的2.</span><br>	envid = sys_exofork(); <span class="hljs-comment">// 这里分配子进程的pgdir，并建立内核代码的映射</span><br>	set_pgfault_handler(pgfault);<br>	<span class="hljs-keyword">if</span> (envid == <span class="hljs-number">0</span>) &#123;<br>		<span class="hljs-comment">// 子进程</span><br>		<span class="hljs-comment">// 修改thisenv，thisenv是用户态的数据结构，内核不会帮我们修改</span><br>		thisenv = &amp;envs[ENVX(sys_getenvid())];<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	&#125;<br>	<span class="hljs-comment">// 父进程</span><br>	<span class="hljs-comment">// 遍历 utext和ustacktop之间的虚拟内存页，然后对存在的虚实页面映射进行拷贝</span><br>	<span class="hljs-keyword">for</span> (pn=PGNUM(UTEXT); pn&lt;PGNUM(USTACKTOP); pn++)&#123; <br>		<span class="hljs-keyword">if</span> ((uvpd[pn &gt;&gt; <span class="hljs-number">10</span>] &amp; PTE_P) &amp;&amp; (uvpt[pn] &amp; PTE_P))<br>			<span class="hljs-keyword">if</span> ((r =  duppage(envid, pn)) &lt; <span class="hljs-number">0</span>)<br>				<span class="hljs-keyword">return</span> r;<br>	&#125;<br>	<span class="hljs-comment">// 给子进程分配异常栈，父进程的异常栈已经在上面调用set_pgfault_handler时设置好了。</span><br>	<span class="hljs-keyword">if</span> ((r = sys_page_alloc(envid,(<span class="hljs-type">void</span> *) (UXSTACKTOP - PGSIZE), (PTE_U | PTE_P | PTE_W))) &lt; <span class="hljs-number">0</span>) &#123;<br>		 panic(<span class="hljs-string">&quot;fork.c:fork() : sys_page_alloc failed&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">extern</span> <span class="hljs-type">void</span> _pgfault_upcall(<span class="hljs-type">void</span>); <span class="hljs-comment">//缺页处理的汇编函数入口，它会调用pgfault</span><br>	<span class="hljs-comment">// 2. 对应上面的1.</span><br>	<span class="hljs-keyword">if</span>((r = sys_env_set_pgfault_upcall(envid, _pgfault_upcall)) &lt; <span class="hljs-number">0</span>)&#123;<br>			panic(<span class="hljs-string">&quot;fork.c:fork() : sys_set_pgfault_upcall:%e&quot;</span>, r);<br>	&#125;<br>	<span class="hljs-keyword">if</span> ((r = sys_env_set_status(envid, ENV_RUNNABLE)) &lt; <span class="hljs-number">0</span>)<span class="hljs-comment">//设置子进程可运行，在这一行之后，子进程才可能被调度执行！</span><br>            <span class="hljs-keyword">return</span> r;<br><br>	<span class="hljs-comment">// 父进程返回子进程envid</span><br>	<span class="hljs-keyword">return</span> envid; <br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Part-C-Preemptive-Multitasking-and-Inter-Process-communication-IPC"><a href="#Part-C-Preemptive-Multitasking-and-Inter-Process-communication-IPC" class="headerlink" title="Part C: Preemptive Multitasking and Inter-Process communication (IPC)"></a>Part C: Preemptive Multitasking and Inter-Process communication (IPC)</h1><h2 id="抢占式调度实现"><a href="#抢占式调度实现" class="headerlink" title="抢占式调度实现"></a>抢占式调度实现</h2><p>此处非常容易实现，只需检测到和定时器相关的<code>trap_no</code>，便使用<code>lapic_eoi</code>通知<code>LAPIC</code>有中断来临，并使用<code>sched_yield</code>来换另一个任务进行执行。  </p>
+<h2 id="进程内部通信"><a href="#进程内部通信" class="headerlink" title="进程内部通信"></a>进程内部通信</h2><p>JOS中主要实现<code>sys_ipc_try_send</code>和<code>sys_ipc_recv</code>的系统调用，然后将其封装成<code>ipc_send</code>和<code>ipc_recv</code>作为库函数。  </p>
+<ul>
+<li><code>sys_ipc_recv</code>会将自己设置为<code>NOT_RUNNABLE</code>，然后交出CPU使用权，直到被<code>sys_ipc_try_send</code>设置为<code>RUNNABLE</code>才会继续运行下去。  </li>
+<li><code>sys_ipc_try_send</code>在检查一切条件符合后，便会发送相应的信息，并将目标环境设置为<code>RUNNABLE</code>，在这里需要注意的是一定要将<strong>目标环境的栈帧的<code>eax</code>寄存器设置为0</strong>，否则<code>sys_ipc_recv</code>函数会错误返回。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Blog/" class="category-chain-item">Blog</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Blog/MIT6-828/" class="category-chain-item">MIT6.828</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OS/" class="print-no-link">#OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MIT6.828-Lab4-总结</div>
+      <div>http://bugeater.space/2024/03/24/MIT6-828-Lab4-总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>BugEater</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 24, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/10/MIT6-828-Lab4/" title="MIT6.828-Lab4">
+                        <span class="hidden-mobile">MIT6.828-Lab4</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"Eternal579/eternal579.github.io","repo-id":"R_kgDOKK2eLQ","category":"Announcements","category-id":"DIC_kwDOKK2eLc4CaGql","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <div id="music_div" style="position: fixed; bottom: 0px; left: 30px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110  src="//music.163.com/outchain/player?type=0&id=9177521496&auto=1&height=90"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicRibbon.js"></script>
+<script src="/js/snowflake.js"></script>
+<script src="/js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
