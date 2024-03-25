@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://bugeater.space/2024/03/24/MIT6-828-Lab4-%E6%80%BB%E7%BB%93/pic1.png">
 <meta property="og:image" content="http://bugeater.space/2024/03/24/MIT6-828-Lab4-%E6%80%BB%E7%BB%93/pic2.png">
 <meta property="article:published_time" content="2024-03-24T11:12:21.000Z">
-<meta property="article:modified_time" content="2024-03-24T11:23:40.024Z">
+<meta property="article:modified_time" content="2024-03-25T03:45:59.563Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -258,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.3k words
+          4.8k words
         
       </span>
     
@@ -269,7 +269,7 @@
         
         
         
-          36 mins
+          41 mins
         
       </span>
     
@@ -351,7 +351,7 @@
 <p><strong>tips：</strong>我认为也不是不能用<code>iret</code>来返回用户栈，可能是因为异常栈帧(UTrapframe)和内核栈帧(Trapframe)不一样导致无法复用<code>env_pop_tf</code>来实现返回用户栈。  </p>
 <h2 id="实现COW"><a href="#实现COW" class="headerlink" title="实现COW"></a>实现COW</h2><p>现在我们已经有了<code>page fault</code>处理机制了，现在只用要封装好<code>fork</code>就实现<code>COW</code>了。  </p>
 <h3 id="在这里一定要讲一下JOS中的另一个巧妙机制"><a href="#在这里一定要讲一下JOS中的另一个巧妙机制" class="headerlink" title="在这里一定要讲一下JOS中的另一个巧妙机制"></a>在这里一定要讲一下JOS中的另一个巧妙机制</h3><blockquote>
-<p>我们需要知道用户态是无法使用内核态的函数去查找虚拟地址对应的page table entry的，但在COW机制中，我们很需要判断某一虚&gt;拟地址的pte的权限，那该怎么办呢？ </p>
+<p><strong>我们需要知道用户态是无法使用内核态的函数去查找虚拟地址对应的page table entry的，但在COW机制中，我们很需要判断某一虚&gt;拟地址的pte的权限，那该怎么办呢？</strong> </p>
 </blockquote>
 <p>在JOS中，我们使用<code>uvpt[va&gt;&gt;12]</code>来获取<code>va</code>对应的<code>pte</code>，<code>uvpt</code>被链接在<code>UVPT</code>处，我们需要知道对于<code>pgdir</code>，它的<code>PDX(UVPT)</code>处存的就是<code>pgdir</code>本身的物理地址，下面是我画的图帮助理解这个trick  </p>
 <img src="/2024/03/24/MIT6-828-Lab4-%E6%80%BB%E7%BB%93/pic2.png" srcset="/img/loading.gif" lazyload class="">
@@ -362,7 +362,24 @@
 <li>为子进程分配异常栈空间，并也给子进程设置<code>page_fault_handler</code>，最后将子进程设置为<code>RUNNABLE</code> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">envid_t</span><br><span class="hljs-title function_">fork</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>	<span class="hljs-type">envid_t</span> envid;<br>	<span class="hljs-type">int</span> r;<br>	<span class="hljs-type">unsigned</span> pn;<br>        <span class="hljs-comment">// 1. 设置缺页处理函数,这样之后父子进程的实际缺页处理函数就是pgfault了，但是只有在父进程的struct env中存有_pgfault_upcall这个中转站，因此下面还要进一步处理。 对应下面的2.</span><br>	envid = sys_exofork(); <span class="hljs-comment">// 这里分配子进程的pgdir，并建立内核代码的映射</span><br>	set_pgfault_handler(pgfault);<br>	<span class="hljs-keyword">if</span> (envid == <span class="hljs-number">0</span>) &#123;<br>		<span class="hljs-comment">// 子进程</span><br>		<span class="hljs-comment">// 修改thisenv，thisenv是用户态的数据结构，内核不会帮我们修改</span><br>		thisenv = &amp;envs[ENVX(sys_getenvid())];<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	&#125;<br>	<span class="hljs-comment">// 父进程</span><br>	<span class="hljs-comment">// 遍历 utext和ustacktop之间的虚拟内存页，然后对存在的虚实页面映射进行拷贝</span><br>	<span class="hljs-keyword">for</span> (pn=PGNUM(UTEXT); pn&lt;PGNUM(USTACKTOP); pn++)&#123; <br>		<span class="hljs-keyword">if</span> ((uvpd[pn &gt;&gt; <span class="hljs-number">10</span>] &amp; PTE_P) &amp;&amp; (uvpt[pn] &amp; PTE_P))<br>			<span class="hljs-keyword">if</span> ((r =  duppage(envid, pn)) &lt; <span class="hljs-number">0</span>)<br>				<span class="hljs-keyword">return</span> r;<br>	&#125;<br>	<span class="hljs-comment">// 给子进程分配异常栈，父进程的异常栈已经在上面调用set_pgfault_handler时设置好了。</span><br>	<span class="hljs-keyword">if</span> ((r = sys_page_alloc(envid,(<span class="hljs-type">void</span> *) (UXSTACKTOP - PGSIZE), (PTE_U | PTE_P | PTE_W))) &lt; <span class="hljs-number">0</span>) &#123;<br>		 panic(<span class="hljs-string">&quot;fork.c:fork() : sys_page_alloc failed&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">extern</span> <span class="hljs-type">void</span> _pgfault_upcall(<span class="hljs-type">void</span>); <span class="hljs-comment">//缺页处理的汇编函数入口，它会调用pgfault</span><br>	<span class="hljs-comment">// 2. 对应上面的1.</span><br>	<span class="hljs-keyword">if</span>((r = sys_env_set_pgfault_upcall(envid, _pgfault_upcall)) &lt; <span class="hljs-number">0</span>)&#123;<br>			panic(<span class="hljs-string">&quot;fork.c:fork() : sys_set_pgfault_upcall:%e&quot;</span>, r);<br>	&#125;<br>	<span class="hljs-keyword">if</span> ((r = sys_env_set_status(envid, ENV_RUNNABLE)) &lt; <span class="hljs-number">0</span>)<span class="hljs-comment">//设置子进程可运行，在这一行之后，子进程才可能被调度执行！</span><br>            <span class="hljs-keyword">return</span> r;<br><br>	<span class="hljs-comment">// 父进程返回子进程envid</span><br>	<span class="hljs-keyword">return</span> envid; <br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ul>
 <h1 id="Part-C-Preemptive-Multitasking-and-Inter-Process-communication-IPC"><a href="#Part-C-Preemptive-Multitasking-and-Inter-Process-communication-IPC" class="headerlink" title="Part C: Preemptive Multitasking and Inter-Process communication (IPC)"></a>Part C: Preemptive Multitasking and Inter-Process communication (IPC)</h1><h2 id="抢占式调度实现"><a href="#抢占式调度实现" class="headerlink" title="抢占式调度实现"></a>抢占式调度实现</h2><p>此处非常容易实现，只需检测到和定时器相关的<code>trap_no</code>，便使用<code>lapic_eoi</code>通知<code>LAPIC</code>有中断来临，并使用<code>sched_yield</code>来换另一个任务进行执行。  </p>
-<h2 id="进程内部通信"><a href="#进程内部通信" class="headerlink" title="进程内部通信"></a>进程内部通信</h2><p>JOS中主要实现<code>sys_ipc_try_send</code>和<code>sys_ipc_recv</code>的系统调用，然后将其封装成<code>ipc_send</code>和<code>ipc_recv</code>作为库函数。  </p>
+<h2 id="进程内部通信"><a href="#进程内部通信" class="headerlink" title="进程内部通信"></a>进程内部通信</h2><p>JOS通过将传递的信息存放在<code>struct Env</code>结构中，对于<code>envs</code>数组，内核态拥有读写权限，用户态只有读权限。  </p>
+<blockquote>
+<p><strong>那么内核态用户态权限不同是怎么做到的呢？</strong>  </p>
+</blockquote>
+<p>进入用户态的入口位于<code>lib/entry.S</code>，它首先改变<code>envs</code>变量的值为<code>UENVS</code>，而之前我们已经在<code>mem_init</code>中将<code>envs</code>的物理地址映射在<code>kern_pgdir</code>的 <code>UENVS</code>（任意环境的<code>UTOP</code>以上的地址和<code>kern_pgdir</code>是一样的）。所以我们只需要使得两个不同的虚拟地址映射在同一物理地址并赋予不同权限即可。  </p>
+<p>内核态对<code>envs</code>的权限在以下代码被赋值为只有内核可读可写  </p>
+<pre><code class="c">n = (1LL &lt;&lt; 32) - KERNBASE;
+boot_map_region(kern_pgdir, KERNBASE, n, 0, PTE_W);
+</code></pre>
+<p>用户态对<code>envs</code>的权限 在以下代码被赋值为内核用户均只读  </p>
+<pre><code class="c">boot_map_region(kern_pgdir, UENVS, sizeof(struct Env) * NENV, PADDR(envs), PTE_U);
+</code></pre>
+<p><strong>在这里才真正地让我认识到了分页机制的妙处。</strong></p>
+<blockquote>
+<p><strong>修改envs数组的操作为什么不需要上锁的呢？</strong></p>
+</blockquote>
+<p>因为envs数组只有内核可写，而任何想进入内核态的代码都需要获取大内核锁，而JOS中，都是通过中断门进入内核态的，而中断门会清除<code>EFLAGS</code>寄存器，屏蔽所有中断。  </p>
+<p>JOS中主要实现<code>sys_ipc_try_send</code>和<code>sys_ipc_recv</code>的系统调用，然后将其封装成<code>ipc_send</code>和<code>ipc_recv</code>作为库函数。  </p>
 <ul>
 <li><code>sys_ipc_recv</code>会将自己设置为<code>NOT_RUNNABLE</code>，然后交出CPU使用权，直到被<code>sys_ipc_try_send</code>设置为<code>RUNNABLE</code>才会继续运行下去。  </li>
 <li><code>sys_ipc_try_send</code>在检查一切条件符合后，便会发送相应的信息，并将目标环境设置为<code>RUNNABLE</code>，在这里需要注意的是一定要将<strong>目标环境的栈帧的<code>eax</code>寄存器设置为0</strong>，否则<code>sys_ipc_recv</code>函数会错误返回。</li>
@@ -463,6 +480,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/03/25/MIT6-828-Lab5/" title="MIT6.828-Lab5">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MIT6.828-Lab5</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
