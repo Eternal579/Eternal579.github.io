@@ -24,8 +24,10 @@
 <meta property="og:description" content="IntroductionIn this lab, you will implement spawn, a library call that loads and runs on-disk executables. You will then flesh out your kernel and library operating system enough to run a shell on the">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://bugeater.space/2024/03/25/MIT6-828-Lab5/pic1.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/25/MIT6-828-Lab5/pic2.png">
+<meta property="og:image" content="http://bugeater.space/2024/03/25/MIT6-828-Lab5/pic3.png">
 <meta property="article:published_time" content="2024-03-25T02:11:24.000Z">
-<meta property="article:modified_time" content="2024-03-25T08:05:32.107Z">
+<meta property="article:modified_time" content="2024-03-26T08:03:19.643Z">
 <meta property="article:author" content="BugEater">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -257,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.8k words
+          4.4k words
         
       </span>
     
@@ -268,7 +270,7 @@
         
         
         
-          24 mins
+          37 mins
         
       </span>
     
@@ -328,7 +330,16 @@
 <h3 id="File-Meta-data"><a href="#File-Meta-data" class="headerlink" title="File Meta-data"></a>File Meta-data</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">File</span> &#123;</span><br>	<span class="hljs-type">char</span> f_name[MAXNAMELEN];	<span class="hljs-comment">// filename</span><br>	<span class="hljs-type">off_t</span> f_size;			<span class="hljs-comment">// file size in bytes</span><br>	<span class="hljs-type">uint32_t</span> f_type;		<span class="hljs-comment">// file type</span><br><br>	<span class="hljs-comment">// Block pointers.</span><br>	<span class="hljs-comment">// A block is allocated if its value is != 0.</span><br>	<span class="hljs-type">uint32_t</span> f_direct[NDIRECT];	<span class="hljs-comment">// direct blocks</span><br>	<span class="hljs-type">uint32_t</span> f_indirect;		<span class="hljs-comment">// indirect block</span><br><br>	<span class="hljs-comment">// Pad out to 256 bytes; must do arithmetic in case we&#x27;re compiling</span><br>	<span class="hljs-comment">// fsformat on a 64-bit machine.</span><br>	<span class="hljs-type">uint8_t</span> f_pad[<span class="hljs-number">256</span> - MAXNAMELEN - <span class="hljs-number">8</span> - <span class="hljs-number">4</span>*NDIRECT - <span class="hljs-number">4</span>];<br>&#125; __attribute__((packed));	<span class="hljs-comment">// required only on some 64-bit machines</span><br></code></pre></td></tr></table></figure>
 
 <h1 id="The-File-System"><a href="#The-File-System" class="headerlink" title="The File System"></a>The File System</h1><p>The goal for this lab is not to have you implement the entire file system, but for you to implement only certain key components. In particular, you will be responsible for reading blocks into the block cache and flushing them back to disk; allocating disk blocks; mapping file offsets to disk blocks; and implementing read, write, and open in the IPC interface.  </p>
-<h2 id="Disk-Access"><a href="#Disk-Access" class="headerlink" title="Disk Access"></a>Disk Access</h2>
+<h2 id="Disk-Access"><a href="#Disk-Access" class="headerlink" title="Disk Access"></a>Disk Access</h2><p>In JOS, instead of  taking the conventional “monolithic” operating system strategy of adding an IDE disk driver to the kernel along with the necessary system calls to allow the file system to access disk, we instead implement the IDE disk driver as part of the <strong>user-level</strong> file system environment.<br>So we have two strategies to implement disk access in user space, one is relyong on polling, “programmed I&#x2F;O” <code>(PIO)-based</code> disk access and do not use disk interrupts, the other is implementing interrupt-driven device drivers in user mode, it needs the kernel field device interrupts and dispatch them to the correct user-mode environment. JOS chooses the former.<br><strong>The x86 processor uses the <code>IOPL</code> bits in the <code>EFLAGS</code> register to determine whether protected-mode code is allowed to perform special device I&#x2F;O instructions such as the <code>IN</code> and <code>OUT</code> instructions.</strong> Since all of the IDE disk registers we need to access are located in the x86’s <strong>I&#x2F;O space</strong> rather than being <strong>memory-mapped</strong>, giving “I&#x2F;O privilege” to the file system environment is the only thing we need to do in order to allow the file system to access these registers. In effect, the <code>IOPL</code> bits in the <code>EFLAGS</code> register provides the kernel with a simple <strong>“all-or-nothing”</strong> method of controlling whether user-mode code can access I&#x2F;O space. <strong>In our case, we want the file system environment to be able to access I&#x2F;O space, but we do not want any other environments to be able to access I&#x2F;O space at all.</strong>  </p>
+<img src="/2024/03/25/MIT6-828-Lab5/pic2.png" srcset="/img/loading.gif" lazyload class="">  
+
+<h3 id="Details-of-IOPL"><a href="#Details-of-IOPL" class="headerlink" title="Details of IOPL"></a>Details of IOPL</h3><img src="/2024/03/25/MIT6-828-Lab5/pic3.png" srcset="/img/loading.gif" lazyload class="">  
+
+<p>resoluton here:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span><br><span class="hljs-title function_">env_create</span><span class="hljs-params">(<span class="hljs-type">uint8_t</span> *binary, <span class="hljs-keyword">enum</span> EnvType type)</span><br>&#123;<br>	<span class="hljs-comment">// LAB 3: Your code here.</span><br><br>	<span class="hljs-comment">// If this is the file server (type == ENV_TYPE_FS) give it I/O privileges.</span><br>	<span class="hljs-comment">// LAB 5: Your code here.</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Env</span> *<span class="hljs-title">new_e</span>;</span><br>	env_alloc(&amp;new_e, <span class="hljs-number">0</span>);<br>	load_icode(new_e, binary);<br>	new_e-&gt;env_type = type;<br>	<span class="hljs-keyword">if</span> (type == ENV_TYPE_FS) &#123;<br>		new_e-&gt;env_tf.tf_eflags |= FL_IOPL_MASK;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
                 
               </div>
             
