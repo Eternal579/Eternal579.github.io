@@ -54,4 +54,3 @@ http://bugeater.space/categories/Blog/C/
 http://bugeater.space/categories/Blog/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/
 http://bugeater.space/categories/Blog/Linux/
 http://bugeater.space/categories/Blog/webServer/
-http://bugeater.space/categories/Blog/MIT6-828/object-Object/
