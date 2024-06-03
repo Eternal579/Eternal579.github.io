@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://bugeater.space/about/index.html</loc>
+    
+    <lastmod>2024-06-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://bugeater.space/2024/03/25/MIT6-828-Lab5/</loc>
     
     <lastmod>2024-04-09</lastmod>
@@ -146,15 +155,6 @@
   </url>
   
   <url>
-    <loc>http://bugeater.space/about/index.html</loc>
-    
-    <lastmod>2024-01-11</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://bugeater.space/2024/01/08/Git%E6%89%8B%E5%86%8C/</loc>
     
     <lastmod>2024-01-10</lastmod>
@@ -211,7 +211,7 @@
 
   <url>
     <loc>http://bugeater.space/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -219,35 +219,35 @@
   
   <url>
     <loc>http://bugeater.space/tags/Git/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://bugeater.space/tags/Linux/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://bugeater.space/tags/OS/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://bugeater.space/tags/FS/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://bugeater.space/tags/C/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -256,35 +256,35 @@
   
   <url>
     <loc>http://bugeater.space/categories/Blog/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://bugeater.space/categories/Blog/Linux%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://bugeater.space/categories/Blog/MIT6-828/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://bugeater.space/categories/Blog/FS/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://bugeater.space/categories/Blog/webServer/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

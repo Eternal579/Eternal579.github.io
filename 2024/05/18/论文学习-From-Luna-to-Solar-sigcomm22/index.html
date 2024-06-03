@@ -1,0 +1,785 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/StarFlow.png">
+  <link rel="icon" href="/img/StarFlow.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#E58A8A">
+  <meta name="author" content="BugEater">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="From Luna to Solar: The Evolutions of the Compute-to-Storage Networks in Alibaba Cloud  摘要此篇论文主要讲了这五年阿里云的存储网络协议的发展：最开始为了协调网络协议与SSD的速度差异，便有了LUNA，一个用户空间的TCP协议；随后观察到PCIe成为了性能瓶颈，LUNA指出了offload data path">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文学习：From Luna to Solar.sigcomm22">
+<meta property="og:url" content="http://bugeater.space/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/index.html">
+<meta property="og:site_name" content="BugEaterのBlog">
+<meta property="og:description" content="From Luna to Solar: The Evolutions of the Compute-to-Storage Networks in Alibaba Cloud  摘要此篇论文主要讲了这五年阿里云的存储网络协议的发展：最开始为了协调网络协议与SSD的速度差异，便有了LUNA，一个用户空间的TCP协议；随后观察到PCIe成为了性能瓶颈，LUNA指出了offload data path">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bugeater.space/img/luna_to_solar.png">
+<meta property="article:published_time" content="2024-05-18T01:36:06.000Z">
+<meta property="article:modified_time" content="2024-05-18T01:53:56.718Z">
+<meta property="article:author" content="BugEater">
+<meta property="article:tag" content="NetWork">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://bugeater.space/img/luna_to_solar.png">
+  
+  
+  
+  <title>论文学习：From Luna to Solar.sigcomm22 - BugEaterのBlog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/mac.css">
+<link rel="stylesheet" href="/css/mouse.css">
+<link rel="stylesheet" href="/css/scroll.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bugeater.space","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"VmrotYkN0qs7j5EDHJUX5sM1-MdYXbMMI","app_key":"YvoXNeOhIlq2fMZiYJzC9eDy","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>BugEaterのBlog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/redemption2.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="论文学习：From Luna to Solar.sigcomm22"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-18 09:36" pubdate>
+          May 18, 2024 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">论文学习：From Luna to Solar.sigcomm22</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><a target="_blank" rel="noopener" href="https://rmiao.github.io/assets/pdf/solar-sigcomm22.pdf">From Luna to Solar: The Evolutions of the Compute-to-Storage Networks in Alibaba Cloud</a></p>
+</blockquote>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>此篇论文主要讲了这五年阿里云的存储网络协议的发展：最开始为了协调网络协议与SSD的速度差异，便有了LUNA，一个用户空间的TCP协议；随后观察到PCIe成为了性能瓶颈，LUNA指出了offload data path of EBS的重要性，便有了SOLAR，其通过FPGA处理SA的任务，从而将storage processing与packet processing融合，打破了network与storage的界限。</p>
+<h1 id="普遍的EBS架构与traffic-pattern"><a href="#普遍的EBS架构与traffic-pattern" class="headerlink" title="普遍的EBS架构与traffic pattern"></a>普遍的EBS架构与traffic pattern</h1><img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic1.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>上图展示了EBS的架构，普遍采用如上计算与存储分离的架构，因为这样子可以独立的设计存储单元与计算单元，使得他们对目标负载有更好的优化。但因为所有的I&#x2F;O操作均要经过网络传输，所以增加了在网络协议上面的开销。在EBS上有两种网络，一个是连接compute server与storage server的，叫FN；另一个是连接不同storage cluster中的storage server，叫BN。</p>
+<h2 id="Storage-Agent（SA）"><a href="#Storage-Agent（SA）" class="headerlink" title="Storage Agent（SA）"></a>Storage Agent（SA）</h2><img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic2.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>SA处理I&#x2F;O操作，发送RPC请求作为FN端的输入。SA有两个重要的数据表，一个是QoS表，用于进行准入控制来强制执行带宽限制；另一个是Segment Table，用于实现虚拟硬盘(VD)的块地址到物理硬盘段表的地址。  </p>
+<ol>
+<li>写流程：<br>写操作命令传递到SA后，会经过QoS与Block的检查，与此同时，想要写入的数据会通过DMA传递到SA处进行CRC与SEC检查和纠错，从Block得到MetaData会与从SEC处得到的加密数据凑到一起放入SendBuffer，等待RPC请求将其发出给storage server。  </li>
+<li>读流程：<br>读操作命令传递到SA后，经过QoS与Block的检查，生成MetaData通过RPC发送给storage server，最后接收到的response放入receive buffer中，进一步经过SEC和CRC的纠错与检查后将数据通过DMA发送给guest memory。</li>
+</ol>
+<h2 id="Traffic-patterns-of-FN"><a href="#Traffic-patterns-of-FN" class="headerlink" title="Traffic patterns of FN"></a>Traffic patterns of FN</h2><ol>
+<li>Request rate：<img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic3.png" srcset="/img/loading.gif" lazyload class=""></li>
+</ol>
+<p>由上图可知，WRITE请求是READ请求的3-4倍<br>2. I&#x2F;O size：</p>
+<img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic4.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>上图告诉我们，在FN端，RPC大小均小于128KB，这是由于数据库都会采取小I&#x2F;O的request来确保数据完整性。因此，绝大部分I&#x2F;O操作均可以在一次RPC请求完成（这点在后面用得到）</p>
+<h1 id="LUNA：Match-SSD’s-High-Speed"><a href="#LUNA：Match-SSD’s-High-Speed" class="headerlink" title="LUNA：Match SSD’s High-Speed"></a>LUNA：Match SSD’s High-Speed</h1><h2 id="解决此问题的选择"><a href="#解决此问题的选择" class="headerlink" title="解决此问题的选择"></a>解决此问题的选择</h2><ul>
+<li>使用内核旁路技术在软件层面解决，像Intel的DPDK</li>
+<li>在硬件层面解决，像RDMA<br>阿里云认为FN端更应该重视可拓展性(scalability)与内部操作性(interoperability)，所以选择舍弃部分性能，使用软件层面的解决方案。</li>
+</ul>
+<h2 id="Design-of-LUNA"><a href="#Design-of-LUNA" class="headerlink" title="Design of LUNA"></a>Design of LUNA</h2><p>使用像mTCP一样的零拷贝的用户态TCP协议，除此之外，LUNA通过跨层循环共享buffer来实现了SA与RPC上的零拷贝；实现了无锁，无共享的线程安排；也使用NICs提供的部分硬件offloading。  </p>
+<h2 id="lessons-from-LUNA"><a href="#lessons-from-LUNA" class="headerlink" title="lessons from LUNA"></a>lessons from LUNA</h2><img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic5.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>从Figure3可以看出，虽然LUNA解决了FN端的瓶颈，但暴露出了一个新的问题，SA作为了新的瓶颈，这是由于data path of EBS is on SA，并且CPU要执行CRC，crypto，以及查表。  </p>
+<img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic6.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>Figure 4向我们展示了软件层面上是无法解决快速增长的网速，进而说明了PCIe的局限性和offload network into hardware的紧急性。  </p>
+<h1 id="SOLAR：Offload-EBS’s-Data-Path"><a href="#SOLAR：Offload-EBS’s-Data-Path" class="headerlink" title="SOLAR：Offload EBS’s Data Path"></a>SOLAR：Offload EBS’s Data Path</h1><p>SOLAR是基于Bare-metal云的新策略。  </p>
+<h2 id="Bare-Metal-Cloud"><a href="#Bare-Metal-Cloud" class="headerlink" title="Bare-Metal Cloud"></a>Bare-Metal Cloud</h2><img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic7.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>network offloading 激励人们在计算和存储上也进行offload，bare-metal的意思是不进行虚拟化了，一个用户占有一整台机器，这样子没有虚拟化那一层的开销，速度可以更快，虽然对资源利用率没有那么高了。<br>上图的Guest指的是虚拟机，而不是用户的电脑。<br>bare-metal cloud与VM-based cloud最主要的区别在于前者属于独占一个物理服务器，所以不能按量计费，并且由于没有虚拟化，所以可以更加底层的操作硬件，后者通过虚拟化技术，使得多用户使用同一物理服务器的性能。  </p>
+<h2 id="在FN端使用LUNA或RDMA的问题"><a href="#在FN端使用LUNA或RDMA的问题" class="headerlink" title="在FN端使用LUNA或RDMA的问题"></a>在FN端使用LUNA或RDMA的问题</h2><img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic8.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>上图向我们展示两个方面的问题：  </p>
+<ol>
+<li>CPU overhead：<br>在LUNA与RDMA中，写入的数据都需要经过CPU中的SA操作，更甚者，LUNA还有网络协议的开销。  </li>
+<li>Limited throughput：<br>上图a与b均要在内部的PCIe传输数据，而事实上，PCIe发展的速度过慢，所以intergrated PCIe成为了瓶颈。</li>
+</ol>
+<h2 id="Design-of-SOLAR"><a href="#Design-of-SOLAR" class="headerlink" title="Design of SOLAR"></a>Design of SOLAR</h2><p>两个目标：  </p>
+<ol>
+<li>offload network stack and the SA to hardware</li>
+<li>detect and avoid in-network failures with path changing actively<br>为了实现上述第一个目标，简要概括就是SOLAR用FPGA把SA的任务全做了，additionally，SOLAR使用的是UDP协议。<br>好处：  </li>
+<li>low packet buffer：在FPGA中可以处理完packet后就立刻处理storage block，所以不需要buffer来assemble packets into data block</li>
+<li>easy to realize in practice：如前言所提，绝大部分I&#x2F;O操作可以在一个RPC中解决，并且block一般都是4K，而jumbo frame可以达到9K，所以只要支持jumbo packet，就可以很轻松实现”one-block-one-packet”</li>
+<li>zero-touch to CPU：CPU不再需要处理packet了，节省下来了CPU</li>
+</ol>
+<h1 id="Workflow-of-SOLAR"><a href="#Workflow-of-SOLAR" class="headerlink" title="Workflow of SOLAR"></a>Workflow of SOLAR</h1><ol>
+<li>Write request：  <img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic9.png" srcset="/img/loading.gif" lazyload class=""></li>
+</ol>
+<p>当用户在他的云上发起了对云硬盘的写操作后，会以NVMe的格式通知给ALI-DPU，在Solar系统中，SA的工作全盘交给FPGA，首先经过QoS和Block这两个convention，然后ALI-DPU中的CPU开始轮询发起一个RPC来传输数据，并且从block table（我猜应该是存从segment table获取的信息）获取metadata作为EBS header。<br>用户想要写的数据，会从guest memory通过DMA直接传递给FPGA，然后经过CRC和encrypt后填充到packet中。<br>当生成的packet通过UDP协议发送给storage cluster后，CPU in ALI-DPU会受到RPC response，然后了解此data path的情况（例如，timeout，RTT以及拥塞情况）来进行path selection和congestion control<br>2. Read request：</p>
+<img src="/2024/05/18/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0-From-Luna-to-Solar-sigcomm22/pic10.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>为了将packet与guest memory的address对应起来，读操作还需要多一个addr table，当发送一个RPC请求后，会在addr table中记录一下，等到回复抵达ALI-DPU后则将其移除。上图中的CRC指向CPU中的模块表示当硬件已经检查过内容后，还要把packet header和metadata发送给CPU进行最后的数据完成性检查。最后，SA control plane将会通知CPU已读到数据。  </p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6863264864140935175">zero-copy</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/55142557">RDMA</a></li>
+<li><a target="_blank" rel="noopener" href="https://support.huawei.com/enterprise/zh/doc/EDOC1100203347">RoCE、IB和TCP</a></li>
+<li><a target="_blank" rel="noopener" href="https://support.huawei.com/enterprise/zh/doc/EDOC1100203347">mTCP</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/478197010">zero-copy RPC</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/350872333">lock-free</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Blog/" class="category-chain-item">Blog</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/NetWork/" class="print-no-link">#NetWork</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>论文学习：From Luna to Solar.sigcomm22</div>
+      <div>http://bugeater.space/2024/05/18/论文学习-From-Luna-to-Solar-sigcomm22/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>BugEater</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>May 18, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"Eternal579/eternal579.github.io","repo-id":"R_kgDOKK2eLQ","category":"Announcements","category-id":"DIC_kwDOKK2eLc4CaGql","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> <div id="music_div" style="position: fixed; bottom: 0px; left: 30px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110  src="//music.163.com/outchain/player?type=0&id=9177521496&auto=1&height=90"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicRibbon.js"></script>
+<script src="/js/snowflake.js"></script>
+<script src="/js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
